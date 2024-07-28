@@ -110,7 +110,7 @@ importers:
         specifier: ^2.22.6
         version: 2.22.6(ts-node@10.9.2)(typescript@5.5.3)
       harsta:
-        specifier: ^0.1.1
+        specifier: ^0.1.2
         version: link:../../harsta
       typescript:
         specifier: ^5.5.3

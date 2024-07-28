@@ -7,7 +7,7 @@ import { dim } from 'kolorist'
 import { findDepthFilePaths } from '../utils'
 import type { Chain } from '../types'
 import { clientRoot, packRoot, userConf, userRoot } from '../constants'
-import { exec, hardhatBinRoot, ptsupBinRoot } from './utils'
+import { exec, hardhatBinRoot, ptsupBinRoot, resolveUserAddresses } from './utils'
 
 export function registerCompileCommand(cli: Argv) {
   cli.command(
@@ -68,14 +68,10 @@ export function registerCompileCommand(cli: Argv) {
       consola.log(`\n✔ Generated Harsta Client ${dim(`to ${log}`)}\n`)
 
       async function buildAddresses() {
-        const userAddressesPath = path.resolve(userRoot, './config/addresses.ts')
         const packAddressesPath = path.resolve(generateRoot, './addresses/index.ts')
-        if (!fs.existsSync(userAddressesPath)) {
-          await fs.ensureDir(path.dirname(userAddressesPath))
-          await fs.writeFile(userAddressesPath, 'export default {\n\n}\n')
-        }
+        const addresses = await resolveUserAddresses()
         await fs.ensureDir(path.dirname(packAddressesPath))
-        await fs.copy(userAddressesPath, packAddressesPath)
+        await fs.writeFile(packAddressesPath, addresses)
       }
 
       async function buildContractFactories(

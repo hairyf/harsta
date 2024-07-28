@@ -1,7 +1,7 @@
 {
   "name": "@harsta/client",
   "version": "0.1.0",
-  "description": "Basic Hardhat template to get you started with Solidity and TypeScript",
+  "description": "Harsta Client is an automatically generated, type safe library for configuring chains, addresses, and contract instances",
   "author": {
     "name": "Hairyf",
     "url": "https://github.com/hairyf"

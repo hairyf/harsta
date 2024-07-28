@@ -1,7 +1,7 @@
 {
   "name": "harsta",
   "version": "0.1.0",
-  "description": "Create Starter Template for harsta",
+  "description": "Harsta is a contract development tool based on Hardhat, designed to streamline the development, testing, and referencing of contracts, addresses, ABIs, and contract instances.",
   "author": {
     "name": "Hairyf",
     "url": "https://github.com/hairyf"

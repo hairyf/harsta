@@ -1,6 +1,6 @@
 {
   "name": "@harsta/client",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Basic Hardhat template to get you started with Solidity and TypeScript",
   "license": "MIT",
   "exports": {

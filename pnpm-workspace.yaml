@@ -2,4 +2,3 @@ packages:
   - packages/**
   - demo/**
   - docs
-  - '!packages/create-harsta/template'

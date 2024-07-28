@@ -14,7 +14,7 @@
   "devDependencies": {
     "chai": "^4.3.16",
     "hardhat": "^2.22.6",
-    "harsta": "^0.1.0",
+    "harsta": "^0.1.1",
     "typescript": "^5.5.3"
   }
 }

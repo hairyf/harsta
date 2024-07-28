@@ -7,10 +7,10 @@
     "url": "https://github.com/hairyf"
   },
   "funding": "https://github.com/sponsors/hairyf",
-  "homepage": "TODO",
+  "homepage": "https://github.com/hairyf/harsta",
   "repository": {
     "type": "git",
-    "url": "TODO/tree/main/packages/create-harsta"
+    "url": "https://github.com/hairyf/harsta/tree/main/packages/create-harsta"
   },
   "main": "bin/index.cjs",
   "bin": {

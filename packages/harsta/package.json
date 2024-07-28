@@ -7,10 +7,10 @@
     "url": "https://github.com/hairyf"
   },
   "funding": "https://github.com/sponsors/hairyf",
-  "homepage": "TODO",
+  "homepage": "https://github.com/hairyf/harsta",
   "repository": {
     "type": "git",
-    "url": "TODO/tree/main/packages/create-harsta"
+    "url": "https://github.com/hairyf/harsta/tree/main/packages/create-harsta"
   },
   "exports": {
     ".": {
@@ -38,6 +38,16 @@
     "harstac": "./bin/index.cjs",
     "harsta": "./bin/index.cjs"
   },
+  "files": [
+    "bin",
+    "dist",
+    "generated",
+    "global.d.ts",
+    "hardhat.config.ts",
+    "node",
+    "runtime.d.ts",
+    "utils.d.ts"
+  ],
   "engines": {
     "node": "^18.0.0 || >=20.0.0"
   },

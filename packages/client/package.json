@@ -2,7 +2,17 @@
   "name": "@harsta/client",
   "version": "0.1.0",
   "description": "Basic Hardhat template to get you started with Solidity and TypeScript",
+  "author": {
+    "name": "Hairyf",
+    "url": "https://github.com/hairyf"
+  },
   "license": "MIT",
+  "funding": "https://github.com/sponsors/hairyf",
+  "homepage": "https://github.com/hairyf/harsta",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hairyf/harsta/tree/main/packages/create-harsta"
+  },
   "exports": {
     ".": {
       "types": "./build/index.d.ts",

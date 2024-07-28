@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "harsta": "workspace:^",
+    "tsup": "^8.1.0",
     "unbuild": "^2.0.0"
   },
   "devDependencies": {

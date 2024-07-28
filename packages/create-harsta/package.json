@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "defu": "^6.1.4",
-    "execa": "9.0.2",
     "fs-extra": "^11.2.0",
     "kolorist": "^1.8.0",
     "minimist": "^1.2.8",

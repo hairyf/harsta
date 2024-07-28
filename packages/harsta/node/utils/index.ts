@@ -1,5 +1,5 @@
 export * from './file'
-export * from './config'
 export * from './parse'
 export * from './storage'
 export * from './md5'
+export * from './resolve'

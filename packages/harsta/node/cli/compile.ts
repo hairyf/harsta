@@ -4,7 +4,7 @@ import { glob, runTypeChain } from 'typechain'
 import type { Argv } from 'yargs'
 import consola from 'consola'
 import { dim } from 'kolorist'
-import { findDepthFilePaths } from '../utils'
+import { findDepthFilePaths, resolveUserPath } from '../utils'
 import type { Chain } from '../types'
 import { clientRoot, packRoot, userConf, userRoot } from '../constants'
 import { exec, hardhatBinRoot, ptsupBinRoot, resolveUserAddresses } from './utils'
@@ -31,6 +31,11 @@ export function registerCompileCommand(cli: Argv) {
       await fs.remove(path.resolve(packRoot, './contracts'))
       await fs.remove(path.resolve(generateRoot, './contracts'))
       await fs.remove(path.resolve(generateRoot, './fragments'))
+      if (userConf.paths?.fragments) {
+        await fs.remove(path.join(resolveUserPath(userConf.paths.fragments)!, './@openzeppelin'))
+        await fs.remove(path.join(resolveUserPath(userConf.paths.fragments)!, './contracts'))
+      }
+
       await fs.copy(
         path.resolve(userRoot, './contracts'),
         path.resolve(packRoot, './contracts'),
@@ -51,7 +56,7 @@ export function registerCompileCommand(cli: Argv) {
       await Promise.all([
         buildAddresses(),
         buildChains(),
-        buildFragmentsIndex(),
+        buildFragments(),
         buildInterfaces(),
         buildContracts(),
         buildContractsExtends(),
@@ -154,15 +159,23 @@ export function registerCompileCommand(cli: Argv) {
         await fs.writeFile(path.resolve(chainsDir, './index.ts'), indexRows.join('\n'))
       }
 
-      async function buildFragmentsIndex() {
+      async function buildFragments() {
         const indexRows: string[] = []
 
         for (const p of fragmentsPaths) {
           const name = path.basename(p).replace('.json', '')
           indexRows.push(`export { default as ${name}Fragment } from './${p}'`)
         }
+        if (!indexRows.length)
+          indexRows.push('export {}')
         indexRows.push('')
         await fs.ensureDir(presolve('./fragments'))
+        if (userConf.paths?.fragments) {
+          await fs.copy(
+            path.resolve(generateRoot, './fragments'),
+            resolveUserPath(userConf.paths.fragments)!,
+          )
+        }
         await fs.writeFile(path.resolve(presolve('./fragments'), './index.ts'), indexRows.join('\n'))
       }
 

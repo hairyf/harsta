@@ -5,10 +5,10 @@ import 'hardhat-abi-exporter'
 import 'hardhat-deploy'
 import 'dotenv/config'
 
-import { transformUserConfigToHardhat } from './node/utils/config'
+import { transformHarstaConfigToHardhat } from './node/config/transform'
 
 import { userConf } from './node/constants'
 
-const config = transformUserConfigToHardhat(userConf)
+const config = transformHarstaConfigToHardhat(userConf)
 
 export default config

@@ -9,10 +9,10 @@ I have been searching for a way to integrate Hardhat with other frameworks (such
 ![image](./public/flow.png)
 
 - [Address visualization and third-party ABI](#directory)
-- [Harsta Config File](#config)
-- [Automated deployment](#deployments)
-- [Wagmi Support](#wagmi)
-- [Tests based on hardhat / hardhat-deploy](#tests)
+- [Common Harsta Config for Browser and Node.js](#config)
+- [Automatic deployment based on config](#deployments)
+- [Seamless Wagmi support](#wagmi)
+- [Rapid deploy tests based on hardhat-deploy](#tests)
 
 ## Installation
 
@@ -259,6 +259,8 @@ By modifying `.env` to change the default chain and configuration used by the co
 
 ```
 NEXT_PUBLIC_DEFAULT_CHAIN = 'sepolia'
+# OR
+DEFAULT_CHAIN = 'sepolia'
 ```
 
 ## Tests

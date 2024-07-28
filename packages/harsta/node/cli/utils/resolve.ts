@@ -1,6 +1,6 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import { userRoot } from 'node/constants'
+import { userRoot } from '../../constants'
 
 export async function resolveUserAddresses() {
   const userAddressesPath = path.resolve(userRoot, './config/addresses.ts')

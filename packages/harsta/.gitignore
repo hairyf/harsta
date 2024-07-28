@@ -1,0 +1,27 @@
+node_modules
+.env
+
+# Hardhat files
+/cache
+/artifacts
+/contracts
+
+# TypeChain files
+generated/typechains
+generated/typechains-extends
+generated/interfaces
+generated/fragments
+generated/addresses
+generated/chains
+generated/contracts
+generated/contracts-extends
+
+/deploy
+/tmp
+/deployments
+
+/abi
+
+# solidity-coverage files
+/coverage
+/coverage.json

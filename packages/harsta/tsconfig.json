@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "baseUrl": ".",
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
+  }
+}

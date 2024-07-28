@@ -1,0 +1,44 @@
+{
+  "name": "@harsta/client",
+  "version": "0.0.0",
+  "description": "Basic Hardhat template to get you started with Solidity and TypeScript",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "import": "./build/index.js",
+      "require": "./build/index.js"
+    },
+    "./wagmi": {
+      "type": "./build/wagmi/index.d.ts",
+      "import": "./build/wagmi/index.js",
+      "require": "./build/wagmi/index.js"
+    },
+    "./chains": {
+      "type": "./build/chains/index.d.ts",
+      "import": "./build/chains/index.js",
+      "require": "./build/chains/index.js"
+    },
+    "./contracts": {
+      "type": "./build/contracts/index.d.ts",
+      "import": "./build/contracts/index.js",
+      "require": "./build/contracts/index.js"
+    },
+    "./interfaces": {
+      "type": "./build/interfaces/index.d.ts",
+      "import": "./build/interfaces/index.js",
+      "require": "./build/interfaces/index.js"
+    }
+  },
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "dependencies": {
+    "ethers": "^6.8.1",
+    "unstorage": "^1.10.2",
+    "viem": "2.x"
+  },
+  "devDependencies": {
+    "hardhat": "^2.19.0",
+    "typescript": "^5.2.2"
+  }
+}

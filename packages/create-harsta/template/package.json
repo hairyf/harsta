@@ -1,0 +1,20 @@
+{
+  "name": "harsta-project",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "compile": "harsta compile",
+    "deploy": "harsta deploy",
+    "test": "harsta test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts-upgradeable": "^5.0.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.16",
+    "hardhat": "^2.22.6",
+    "harsta": "^0.2.0",
+    "typescript": "^5.5.3"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "create-harsta",
+  "version": "0.0.0",
+  "description": "Create Starter Template for harsta",
+  "author": {
+    "name": "Hairyf",
+    "url": "https://github.com/hairyf"
+  },
+  "funding": "https://github.com/sponsors/hairyf",
+  "homepage": "TODO",
+  "repository": {
+    "type": "git",
+    "url": "TODO/tree/main/packages/create-harsta"
+  },
+  "main": "bin/index.cjs",
+  "bin": {
+    "create-harsta": "bin/index.cjs"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "template"
+  ],
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "prepublishOnly": "npm run build",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "defu": "^6.1.4",
+    "execa": "9.0.2",
+    "fs-extra": "^11.2.0",
+    "kolorist": "^1.8.0",
+    "minimist": "^1.2.8",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/minimist": "^1.2.5",
+    "@types/prompts": "^2.4.9"
+  }
+}

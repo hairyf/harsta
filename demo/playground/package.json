@@ -1,0 +1,18 @@
+{
+  "name": "playground",
+  "version": "0.0.0",
+  "private": true,
+  "license": "ISC",
+  "keywords": [],
+  "scripts": {
+    "build": "harsta compile"
+  },
+  "dependencies": {
+    "@harsta/client": "workspace:^",
+    "ethers": "^6.13.1"
+  },
+  "devDependencies": {
+    "hardhat": "^2.22.6",
+    "harsta": "workspace:^"
+  }
+}

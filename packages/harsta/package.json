@@ -1,0 +1,93 @@
+{
+  "name": "harsta",
+  "version": "0.0.0",
+  "description": "Create Starter Template for harsta",
+  "author": {
+    "name": "Hairyf",
+    "url": "https://github.com/hairyf"
+  },
+  "funding": "https://github.com/sponsors/hairyf",
+  "homepage": "TODO",
+  "repository": {
+    "type": "git",
+    "url": "TODO/tree/main/packages/create-harsta"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./runtime": {
+      "type": "./dist/runtime/index.d.ts",
+      "import": "./dist/runtime/index.mjs",
+      "require": "./dist/runtime/index.js"
+    },
+    "./utils": {
+      "type": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.mjs",
+      "require": "./dist/utils/index.js"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "harstac": "./bin/index.cjs",
+    "harsta": "./bin/index.cjs"
+  },
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsup --splitting",
+    "dev": "tsup --splitting --watch",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.8",
+    "@openzeppelin/contracts": "^5.0.2",
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
+    "@openzeppelin/hardhat-upgrades": "^3.2.0",
+    "consola": "^3.2.3",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.1",
+    "execa": "9.0.2",
+    "fs-extra": "^11.2.0",
+    "got": "11.8.3",
+    "hardhat": "^2.22.6",
+    "hardhat-abi-exporter": "^2.10.1",
+    "harsta": "workspace:^",
+    "is-installed-globally": "0.4.0",
+    "jiti": "^2.0.0-beta.3",
+    "kolorist": "^1.8.0",
+    "magicast": "^0.3.4",
+    "pathe": "^1.1.2",
+    "prompts": "^2.4.2",
+    "ptsup": "^0.3.5",
+    "resolve": "^1.22.8",
+    "resolve-import-path": "^0.3.2",
+    "synckit": "^0.9.0",
+    "typechain": "^8.3.2",
+    "unconfig": "^0.4.5",
+    "unstorage": "^1.10.2",
+    "viem": "2.x",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.2",
+    "@types/resolve": "^1.20.6",
+    "@types/yargs": "^17.0.32",
+    "hardhat": "^2.19.0",
+    "hardhat-deploy": "^0.11.43",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.1.0",
+    "typescript": "^5.2.2"
+  }
+}

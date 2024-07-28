@@ -23,11 +23,11 @@ $ pnpm harsta create
 
 # OR
 
-$ pnpm install harsta @harsta/client
+$ pnpm install hardhat harsta @harsta/client
 
 # OR
 
-$ pnpm install harsta
+$ pnpm install hardhat harsta
 ```
 
 > Note: `@harsta/client` is optional. If installed, `harsta compile` will automatically be bundled into `@harsta/client`.

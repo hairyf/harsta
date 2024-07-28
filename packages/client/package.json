@@ -11,7 +11,7 @@
   "homepage": "https://github.com/hairyf/harsta",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hairyf/harsta/tree/main/packages/create-harsta"
+    "url": "https://github.com/hairyf/harsta/tree/main/packages/client"
   },
   "exports": {
     ".": {

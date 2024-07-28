@@ -12,6 +12,15 @@
     "type": "git",
     "url": "https://github.com/hairyf/harsta/tree/main/packages/create-harsta"
   },
+  "keywords": [
+    "hardhat",
+    "contract",
+    "wagmi",
+    "viem",
+    "hardhat-deploy",
+    "exporter",
+    "builder"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

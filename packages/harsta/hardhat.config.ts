@@ -1,3 +1,4 @@
+/* eslint-disable ts/no-require-imports */
 require('@nomicfoundation/hardhat-toolbox')
 require('@nomicfoundation/hardhat-verify')
 require('@openzeppelin/hardhat-upgrades')

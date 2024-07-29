@@ -52,10 +52,8 @@
     "dist",
     "generated",
     "global.d.ts",
-    "hardhat.config.ts",
-    "node",
-    "runtime.d.ts",
-    "utils.d.ts"
+    "hardhat.config.js",
+    "runtime.d.ts"
   ],
   "engines": {
     "node": "^18.0.0 || >=20.0.0"

@@ -5,7 +5,8 @@ export default defineConfig((options) => {
   return {
     entry: [
       'node/runtime/index.ts',
-      'node/utils/index.ts',
+      'node/transform/index.ts',
+      'node/constants/index.ts',
       'node/types/index.ts',
       'node/cli/index.ts',
       'node/index.ts',

@@ -7,10 +7,10 @@ export interface Options {
   root?: string
 }
 
-export function exec(command: string, env: any = {}) {
+export function exec(command: string, env: any = {}, cwd = packRoot) {
   const options: ExecSyncOptionsWithBufferEncoding = {
     stdio: 'inherit',
-    cwd: packRoot,
+    cwd,
     env: {
       clientRoot,
       packRoot,

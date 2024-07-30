@@ -64,9 +64,12 @@ export function registerCompileCommand(cli: Argv) {
 
       const defaultOutput = clientRoot ? path.resolve(clientRoot, 'build') : path.resolve(userRoot, 'dist')
       const output = args.output ? (path.isAbsolute(args.output) ? args.output : path.resolve(userRoot, args.output)) : undefined
-      exec(`node ${ptsupBinRoot} ${generateRoot} --dts --clean --outdir ${output || defaultOutput}`)
+      const generateTsconfig = path.resolve(generateRoot, './tsconfig.json')
+      const outdir = output || defaultOutput
 
-      const dir = path.resolve(output || defaultOutput, '../')
+      exec(`tsc --declaration --outDir ${outdir} --project ${generateTsconfig}`, generateRoot)
+
+      const dir = path.resolve(outdir, '../')
       const log = dir.endsWith('@harsta/client')
         ? '@harsta/client'
         : path.dirname(dir)

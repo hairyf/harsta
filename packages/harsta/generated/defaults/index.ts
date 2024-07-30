@@ -10,4 +10,4 @@ const envChainAlias = typeof process !== 'undefined'
 export const defaultChain = chains[envChainAlias || firstChainAlias] || chains[firstChainAlias]
 
 // @ts-ignore
-export const defaultAddresses = addresses[defaultChain.id]
+export const defaultAddresses = addresses[defaultChain?.id]

@@ -96,23 +96,39 @@ export function registerCompileCommand(cli: Argv) {
           const name = path.basename(p).replace('.json', '')
           const file = path.resolve(outdir, p).replace('.json', '.ts')
           const dirname = path.dirname(file)
+
+          const type = (() => {
+            if (!p.includes('.sol')) {
+              return p.split('.json')[0]
+            }
+            const file = path.resolve(
+              typechainsPath,
+              `${p.split('.sol')[0]}.sol`,
+            )
+            return fs.existsSync(file)
+              ? p.split('.json')[0]
+              : p.split('.sol')[0]
+          })()
           const fileRows = [
             `import { ${name}__factory } from '${path.relative(dirname, typechainsPath)}'`,
             `import { resolveAddress, resolveRunner } from '${path.relative(dirname, presolve('./utils'))}'`,
             `import type { Runner } from '${path.relative(dirname, presolve('./types'))}'`,
+            `import { ${name}, ${name}Interface } from '${path.relative(dirname, typechainsPath)}/${type}'`,
             '',
-            `export class ${name} {`,
+            `export { ${name}, ${name}Interface }`,
+
+            `export class ${name}Factory {`,
             `  static abi = ${name}__factory.abi`,
             '',
-            '  static interface() {',
+            `  static interface(): ${name}Interface {`,
             `    return ${name}__factory.createInterface()`,
             '  }',
             '',
-            '  static attach(address: string, runner?: Runner) {',
+            `  static attach(address: string, runner?: Runner): ${name} {`,
             `    return ${name}__factory.connect(address, resolveRunner(runner))`,
             '  }',
             '',
-            `  static resolve(runner?: Runner, address?: string) {`,
+            `  static resolve(runner?: Runner, address?: string): ${name} {`,
             `    const resolvedRunner = resolveRunner(runner)`,
             `    const target = address || resolveAddress(this.name, resolvedRunner)`,
             `    return ${name}__factory.connect(target, resolvedRunner)`,
@@ -123,7 +139,7 @@ export function registerCompileCommand(cli: Argv) {
           await fs.writeFile(file, fileRows.join('\n'))
           const exportFile = file.replace('.ts', '')
           const exportPath = path.relative(outdir, exportFile)
-          indexRows.push(`export { ${name} } from './${exportPath.replace(/\\/g, '/')}'`)
+          indexRows.push(`export { ${name}Factory as ${name}, ${name} as ${name}Type } from './${exportPath.replace(/\\/g, '/')}'`)
         }
 
         indexRows.push(...suffixRows)

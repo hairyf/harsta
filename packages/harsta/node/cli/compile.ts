@@ -7,7 +7,7 @@ import { dim } from 'kolorist'
 import { findDepthFilePaths, resolveUserPath } from '../utils'
 import type { Chain } from '../types'
 import { clientRoot, packRoot, userConf, userRoot } from '../constants'
-import { exec, hardhatBinRoot, ptsupBinRoot, resolveUserAddresses } from './utils'
+import { exec, hardhatBinRoot, resolveUserAddresses, tscBinRoot } from './utils'
 
 export function registerCompileCommand(cli: Argv) {
   cli.command(
@@ -67,7 +67,7 @@ export function registerCompileCommand(cli: Argv) {
       const generateTsconfig = path.resolve(generateRoot, './tsconfig.json')
       const outdir = output || defaultOutput
 
-      exec(`tsc --declaration --outDir ${outdir} --project ${generateTsconfig}`, generateRoot)
+      exec(`node ${tscBinRoot} --declaration --outDir ${outdir} --project ${generateTsconfig}`, generateRoot)
 
       const dir = path.resolve(outdir, '../')
       const log = dir.endsWith('@harsta/client')

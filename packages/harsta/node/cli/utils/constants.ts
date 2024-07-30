@@ -9,9 +9,9 @@ export const hardhatBinRoot = (() => {
   return path.join(root, json.bin.hardhat)
 })()
 
-export const ptsupBinRoot = (() => {
-  const packagePath = resolveImport('ptsup/package.json')
+export const tscBinRoot = (() => {
+  const packagePath = resolveImport('typescript/package.json')
   const root = path.dirname(packagePath)
   const json = fs.readJsonSync(packagePath)
-  return path.join(root, json.bin.ptsup)
+  return path.join(root, json.bin.tsc)
 })()

@@ -52,7 +52,7 @@
     "dist",
     "generated",
     "global.d.ts",
-    "hardhat.config.js",
+    "hardhat.config.ts",
     "runtime.d.ts"
   ],
   "engines": {

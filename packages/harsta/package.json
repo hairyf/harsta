@@ -76,6 +76,7 @@
     "fs-extra": "^11.2.0",
     "hardhat": "^2.22.6",
     "hardhat-abi-exporter": "^2.10.1",
+    "hardhat-deploy": "^0.11.43",
     "harsta": "workspace:^",
     "jiti": "^2.0.0-beta.3",
     "kolorist": "^1.8.0",
@@ -94,7 +95,6 @@
     "@types/react": "^18.3.2",
     "@types/yargs": "^17.0.32",
     "hardhat": "^2.19.0",
-    "hardhat-deploy": "^0.11.43",
     "rimraf": "^6.0.1",
     "typescript": "^5.2.2"
   }

@@ -190,26 +190,32 @@ export function registerCompileCommand(cli: Argv) {
       }
 
       async function buildContractsExtends() {
-        if (!fragmentsExtendsPaths.length) {
-          await fs.ensureDir(presolve('./contracts/extends'))
-          await fs.writeFile(presolve('./contracts/extends/index.ts'), 'export {}\n')
-          return
+        consola.log('asndioasdnioasdnioasdnsiaodnioasd')
+        try {
+          if (!fragmentsExtendsPaths.length) {
+            await fs.ensureDir(presolve('./contracts/extends'))
+            await fs.writeFile(presolve('./contracts/extends/index.ts'), 'export {}\n')
+            return
+          }
+
+          const allFiles = glob(userRoot, ['./config/fragments/*.json'])
+          await runTypeChain({
+            cwd: userRoot,
+            allFiles,
+            filesToProcess: allFiles,
+            target: 'ethers-v6',
+            outDir: presolve('./typechains/extends'),
+          })
+
+          await buildContractFactories(
+            fragmentsExtendsPaths,
+            presolve('./contracts/extends'),
+            presolve('./typechains/extends'),
+          )
         }
-
-        const allFiles = glob(userRoot, ['./config/fragments/*.json'])
-        await runTypeChain({
-          cwd: userRoot,
-          allFiles,
-          filesToProcess: allFiles,
-          target: 'ethers-v6',
-          outDir: presolve('./typechains/extends'),
-        })
-
-        await buildContractFactories(
-          fragmentsExtendsPaths,
-          presolve('./contracts/extends'),
-          presolve('./typechains/extends'),
-        )
+        catch (error) {
+          consola.log('-----', error)
+        }
       }
 
       async function buildTypes() {

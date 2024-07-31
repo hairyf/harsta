@@ -7,7 +7,7 @@ import { dim } from 'kolorist'
 import { findDepthFilePaths, resolveUserPath } from '../utils'
 import type { Chain } from '../types'
 import { clientRoot, packRoot, userConf, userRoot } from '../constants'
-import { exec, hardhatBinRoot, resolveUserAddresses, tscBinRoot } from './utils'
+import { exec, hardhatBinRoot, resolveFragmentsPaths, resolveUserAddresses, tscBinRoot } from './utils'
 
 export function registerCompileCommand(cli: Argv) {
   cli.command(
@@ -41,23 +41,20 @@ export function registerCompileCommand(cli: Argv) {
         path.resolve(packRoot, './contracts'),
       )
       args.clean && exec(`node ${hardhatBinRoot} clean`)
-      exec(`node ${hardhatBinRoot} compile`)
+      // exec(`node ${hardhatBinRoot} compile`)
       exec(`node ${hardhatBinRoot} export-abi`)
 
       function presolve(_path: string) {
         return path.resolve(generateRoot, _path)
       }
 
-      const fragmentsExtendsPaths = findDepthFilePaths(path.resolve(userRoot, './config/fragments'))
-      const fragmentsPaths = findDepthFilePaths(presolve('./fragments'))
-        .filter(p => !p.endsWith('index.ts'))
-        .filter(p => !fragmentsExtendsPaths.some(ep => path.basename(p) === path.basename(ep)))
+      const [fragmentsPaths, fragmentsExtendsPaths] = resolveFragmentsPaths()
 
       await Promise.all([
         buildAddresses(),
         buildChains(),
         buildFragments(),
-        buildInterfaces(),
+        buildTypes(),
         buildContracts(),
         buildContractsExtends(),
       ])
@@ -83,7 +80,7 @@ export function registerCompileCommand(cli: Argv) {
       }
 
       async function buildContractFactories(
-        paths: string[],
+        paths: typeof fragmentsExtendsPaths,
         outdir: string,
         typechainsPath: string,
         suffixRows: string[] = [],
@@ -92,28 +89,13 @@ export function registerCompileCommand(cli: Argv) {
 
         const indexRows: string[] = []
 
-        for (const p of paths) {
-          const name = path.basename(p).replace('.json', '')
-          const file = path.resolve(outdir, p).replace('.json', '.ts')
-          const dirname = path.dirname(file)
-
-          const type = (() => {
-            if (!p.includes('.sol')) {
-              return p.split('.json')[0]
-            }
-            const file = path.resolve(
-              typechainsPath,
-              `${p.split('.sol')[0]}.sol`,
-            )
-            return fs.existsSync(file)
-              ? p.split('.json')[0]
-              : p.split('.sol')[0]
-          })()
+        for (const { outfile, input } of paths) {
+          const { name, dirname, file } = outfile
           const fileRows = [
             `import { ${name}__factory } from '${path.relative(dirname, typechainsPath)}'`,
             `import { resolveAddress, resolveRunner } from '${path.relative(dirname, presolve('./utils'))}'`,
             `import type { Runner } from '${path.relative(dirname, presolve('./types'))}'`,
-            `import { ${name}, ${name}Interface } from '${path.relative(dirname, typechainsPath)}/${type}'`,
+            `import { ${name}, ${name}Interface } from '${input.import}'`,
             '',
             `export { ${name}, ${name}Interface }`,
 
@@ -139,7 +121,7 @@ export function registerCompileCommand(cli: Argv) {
           await fs.writeFile(file, fileRows.join('\n'))
           const exportFile = file.replace('.ts', '')
           const exportPath = path.relative(outdir, exportFile)
-          indexRows.push(`export { ${name}Factory as ${name}, ${name} as ${name}Type } from './${exportPath.replace(/\\/g, '/')}'`)
+          indexRows.push(`export { ${name}Factory as ${name} } from './${exportPath.replace(/\\/g, '/')}'`)
         }
 
         indexRows.push(...suffixRows)
@@ -181,9 +163,8 @@ export function registerCompileCommand(cli: Argv) {
       async function buildFragments() {
         const indexRows: string[] = []
 
-        for (const p of fragmentsPaths) {
-          const name = path.basename(p).replace('.json', '')
-          indexRows.push(`export { default as ${name}Fragment } from './${p}'`)
+        for (const { outfile, path } of fragmentsPaths) {
+          indexRows.push(`export { default as ${outfile.name}Fragment } from './${path}'`)
         }
         if (!indexRows.length)
           indexRows.push('export {}')
@@ -230,21 +211,51 @@ export function registerCompileCommand(cli: Argv) {
         )
       }
 
-      async function buildInterfaces() {
-        const rows = [
-          ...fragmentsPaths.map((p) => {
-            const name = path.basename(p).replace('.json', '')
-            return `export type { ${name} } from '../typechains'`
-          }),
-          '',
-          ...fragmentsExtendsPaths.map((p) => {
-            const name = path.basename(p).replace('.json', '')
-            return `export type { ${name} } from '../typechains/extends'`
-          }),
+      async function buildTypes() {
+        const paths = [...fragmentsPaths, ...fragmentsExtendsPaths] as typeof fragmentsPaths
+        const types = [
+          {
+            type: 'events',
+            filter: (mod: string) => mod.endsWith('Event'),
+            outfile: './events/index.ts',
+          },
+          {
+            type: 'interfaces',
+            filter: (mod: string) => mod.endsWith('Interface'),
+            outfile: './interfaces/index.ts',
+          },
+          {
+            type: 'instances',
+            filter: (mod: string, name: string) => mod === name,
+            outfile: './instances/index.ts',
+          },
         ]
 
-        await fs.ensureDir(presolve('./interfaces'))
-        await fs.writeFile(presolve('./interfaces/index.ts'), rows.join('\n'))
+        for (const config of types) {
+          const outfile = path.resolve(generateRoot, config.outfile)
+          const dirname = path.dirname(outfile)
+
+          await fs.ensureDir(dirname)
+
+          function resolve({ input, outfile: { name } }: typeof paths[number]) {
+            const exports = input.exports.filter(mod => config.filter(mod, name)) || []
+            const importPath = `${path.relative(dirname, input.typechains)}/${input.relative}`
+            return `export { ${exports.join(', ')} } from '${importPath}'`
+          }
+          if (config.type !== 'events') {
+            const rows = paths.map(resolve)
+            await fs.writeFile(outfile, rows.join('\n'))
+            continue
+          }
+          for (const p of paths) {
+            const outfile = path.resolve(dirname, `${p.outfile.name}.ts`)
+            await fs.writeFile(outfile, resolve(p))
+          }
+          const indexRows = paths
+            .map(p => p.outfile.name)
+            .map(name => `export * as ${name} from './${name}'`)
+          await fs.writeFile(outfile, indexRows.join('\n'))
+        }
       }
     },
   )

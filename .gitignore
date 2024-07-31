@@ -14,6 +14,8 @@ generated/fragments
 generated/addresses
 generated/chains
 generated/contracts
+packages/harsta/generated/events
+packages/harsta/generated/instances
 
 /deploy
 /tmp

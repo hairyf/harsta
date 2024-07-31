@@ -235,6 +235,7 @@ export function registerCompileCommand(cli: Argv) {
           const outfile = path.resolve(generateRoot, config.outfile)
           const dirname = path.dirname(outfile)
 
+          await fs.remove(dirname)
           await fs.ensureDir(dirname)
 
           function resolve({ input, outfile: { name } }: typeof paths[number]) {

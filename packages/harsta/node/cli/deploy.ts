@@ -1,9 +1,8 @@
-import { execSync } from 'node:child_process'
 import type { Argv } from 'yargs'
 import consola from 'consola'
 import * as utils from '../utils'
-import { packRoot, userConf } from '../constants'
-import { generateDeployDirectory, hardhatBinRoot } from './utils'
+import { packRoot, userConf, userRoot } from '../constants'
+import { exec, generateDeployDirectory, hardhatBinRoot } from './utils'
 
 export function registerDeployCommand(cli: Argv) {
   cli.command(
@@ -50,9 +49,8 @@ export function registerDeployCommand(cli: Argv) {
         return
       }
 
-      const command = `node ${hardhatBinRoot} deploy --tags ${modifiedTags} --network ${network} ${args.reset && '--reset'}`
-      execSync(command, { stdio: 'inherit' })
-      execSync(`node ${packRoot}/bin/index.cjs compile`)
+      exec(`node ${hardhatBinRoot} deploy --tags ${modifiedTags} --network ${network} ${(args.reset && '--reset') || ''}`, { stdio: 'inherit' })
+      exec(`node ${packRoot}/bin/index.cjs compile`, {}, userRoot)
     },
   )
 }

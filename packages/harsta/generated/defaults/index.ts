@@ -4,7 +4,11 @@ import * as chains from '../chains'
 
 const firstChainAlias = Object.keys(chains)[0] as keyof typeof chains
 const envChainAlias = typeof process !== 'undefined'
-  ? (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ALIAS || process.env.DEFAULT_CHAIN_ALIAS) as keyof typeof chains
+  ? (process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ALIAS 
+    || process.env.DEFAULT_CHAIN_ALIAS 
+    || process.env.DEFAULT_CHAIN
+    || process.env.NEXT_PUBLIC_DEFAULT_CHAIN
+  ) as keyof typeof chains
   : undefined
 
 export const defaultChain = chains[envChainAlias || firstChainAlias] || chains[firstChainAlias]

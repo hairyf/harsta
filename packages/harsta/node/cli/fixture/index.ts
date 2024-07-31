@@ -6,6 +6,6 @@ export function fixtureHardhat() {
   if (!fs.existsSync(hardhatFsUtilsFile))
     return
   const fixFsUtilsContent = fs.readFileSync(hardhatFsUtilsFile, 'utf-8')
-    .replace('throw new FileNotFoundError(absolutePath, e)', 'absolutePath')
+    .replace('throw new FileNotFoundError(absolutePath, e)', 'return absolutePath')
   fs.writeFileSync(hardhatFsUtilsFile, fixFsUtilsContent)
 }

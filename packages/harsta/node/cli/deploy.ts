@@ -19,6 +19,10 @@ export function registerDeployCommand(cli: Argv) {
         default: false,
         describe: 'whether to delete deployments files first',
       })
+      .option('contracts', {
+        type: 'array',
+        describe: 'Select the contract you want to deploy, `--contracts all` means all contracts',
+      })
       .help(),
     async (args) => {
       const networks = userConf.networks || {}
@@ -48,8 +52,11 @@ export function registerDeployCommand(cli: Argv) {
         consola.log('There are no contracts that can be updated')
         return
       }
+      const tags = args.contracts?.length
+        ? args.contracts.filter(tag => tag === 'all' || modifiedTags.includes(tag as string))
+        : modifiedTags
 
-      exec(`node ${hardhatBinRoot} deploy --tags ${modifiedTags} --network ${network} ${(args.reset && '--reset') || ''}`, { stdio: 'inherit' })
+      exec(`node ${hardhatBinRoot} deploy --tags ${tags} --network ${network} ${(args.reset && '--reset') || ''}`, { stdio: 'inherit' })
     },
   )
 }

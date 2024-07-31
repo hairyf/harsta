@@ -41,7 +41,7 @@ export function registerCompileCommand(cli: Argv) {
         path.resolve(packRoot, './contracts'),
       )
       args.clean && exec(`node ${hardhatBinRoot} clean`)
-      // exec(`node ${hardhatBinRoot} compile`)
+      exec(`node ${hardhatBinRoot} compile`)
       exec(`node ${hardhatBinRoot} export-abi`)
 
       function presolve(_path: string) {

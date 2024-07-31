@@ -50,10 +50,10 @@ export function registerCompileCommand(cli: Argv) {
         allFiles,
         filesToProcess: allFiles,
         target: 'ethers-v6',
-        outDir: presolve('./typechains/extends'),
+        outDir: resolveGenerate('./typechains/extends'),
       })
 
-      function presolve(_path: string) {
+      function resolveGenerate(_path: string) {
         return path.resolve(generateRoot, _path)
       }
 
@@ -103,8 +103,8 @@ export function registerCompileCommand(cli: Argv) {
           const { name, dirname, file } = outfile
           const fileRows = [
             `import { ${name}__factory } from '${path.relative(dirname, typechainsPath)}'`,
-            `import { resolveAddress, resolveRunner } from '${path.relative(dirname, presolve('./utils'))}'`,
-            `import type { Runner } from '${path.relative(dirname, presolve('./types'))}'`,
+            `import { resolveAddress, resolveRunner } from '${path.relative(dirname, resolveGenerate('./utils'))}'`,
+            `import type { Runner } from '${path.relative(dirname, resolveGenerate('./types'))}'`,
             `import { ${name}, ${name}Interface } from '${input.import}'`,
             '',
             `export type { ${name}, ${name}Interface }`,
@@ -142,7 +142,7 @@ export function registerCompileCommand(cli: Argv) {
       }
 
       async function buildChains() {
-        const chainsDir = presolve('./chains')
+        const chainsDir = resolveGenerate('./chains')
         await fs.ensureDir(chainsDir)
         const indexRows: string[] = []
         for (const alias in userConf.networks) {
@@ -179,36 +179,36 @@ export function registerCompileCommand(cli: Argv) {
         if (!indexRows.length)
           indexRows.push('export {}')
         indexRows.push('')
-        await fs.ensureDir(presolve('./fragments'))
+        await fs.ensureDir(resolveGenerate('./fragments'))
         if (userConf.paths?.fragments) {
           await fs.copy(
             path.resolve(generateRoot, './fragments'),
             resolveUserPath(userConf.paths.fragments)!,
           )
         }
-        await fs.writeFile(path.resolve(presolve('./fragments'), './index.ts'), indexRows.join('\n'))
+        await fs.writeFile(path.resolve(resolveGenerate('./fragments'), './index.ts'), indexRows.join('\n'))
       }
 
       async function buildContracts() {
         await buildContractFactories(
           fragmentsPaths,
-          presolve('./contracts'),
-          presolve('./typechains'),
+          resolveGenerate('./contracts'),
+          resolveGenerate('./typechains'),
           ['', `export * from './extends'`],
         )
       }
 
       async function buildContractsExtends() {
         if (!fragmentsExtendsPaths.length) {
-          await fs.ensureDir(presolve('./contracts/extends'))
-          await fs.writeFile(presolve('./contracts/extends/index.ts'), 'export {}\n')
+          await fs.ensureDir(resolveGenerate('./contracts/extends'))
+          await fs.writeFile(resolveGenerate('./contracts/extends/index.ts'), 'export {}\n')
           return
         }
 
         await buildContractFactories(
           fragmentsExtendsPaths,
-          presolve('./contracts/extends'),
-          presolve('./typechains/extends'),
+          resolveGenerate('./contracts/extends'),
+          resolveGenerate('./typechains/extends'),
         )
       }
 

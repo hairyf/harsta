@@ -76,10 +76,9 @@ export function registerCompileCommand(cli: Argv) {
 
       exec(`node ${tscBinRoot} --declaration --outDir ${outdir} --project ${generateTsconfig}`, generateRoot)
 
-      const dir = path.resolve(outdir, '../')
-      const log = dir.endsWith('@harsta/client')
+      const log = path.resolve(outdir, '../').endsWith('@harsta/client')
         ? '@harsta/client'
-        : path.dirname(dir)
+        : outdir
       consola.log(`\n✔ Generated Harsta Client ${dim(`to ${log}`)}\n`)
 
       async function buildAddresses() {

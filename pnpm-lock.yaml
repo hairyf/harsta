@@ -58,9 +58,6 @@ importers:
       react:
         specifier: ^18.3.1
         version: 18.3.1
-      unstorage:
-        specifier: ^1.10.2
-        version: 1.10.2
       viem:
         specifier: 2.x
         version: 2.18.2(typescript@5.5.3)
@@ -116,7 +113,7 @@ importers:
         specifier: ^2.22.6
         version: 2.22.6(ts-node@10.9.2)(typescript@5.5.3)
       harsta:
-        specifier: ^0.1.2
+        specifier: latest
         version: link:../../harsta
       typescript:
         specifier: ^5.5.3

@@ -12,10 +12,11 @@ export function exec(command: string, env: any = {}, cwd = packRoot) {
     stdio: 'inherit',
     cwd,
     env: {
+      ...process.env,
+      ...env,
       clientRoot,
       packRoot,
       userRoot,
-      ...env,
     },
   }
   execSync(command, options)

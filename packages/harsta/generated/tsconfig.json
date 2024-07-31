@@ -9,5 +9,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["react.d.ts", "**/*.ts"],
+  "include": ["react.d.ts", "**/*.ts"]
 }

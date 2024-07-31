@@ -1,5 +1,6 @@
 import path from 'pathe'
 import fs from 'fs-extra'
+import consola from 'consola'
 import { packRoot, userRoot } from '../../constants'
 import { findDepthFilePaths } from '../../utils'
 
@@ -41,6 +42,7 @@ export function resolveFragmentsPaths() {
     const relativeFile = resolveFile(p, typechainsPath)
     const file = `${path.resolve(typechainsPath, relativeFile)}.ts`
     const importPath = `${path.relative(outfile.dirname, typechainsPath)}/${relativeFile}`
+    consola.log('----------', fs.readdirSync(typechainsPath))
     const content = fs.readFileSync(file, 'utf-8')
     const regExps = [
       /export declare namespace (.*?) \{/gs,

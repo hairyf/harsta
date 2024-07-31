@@ -121,7 +121,7 @@ export function registerCompileCommand(cli: Argv) {
             '',
             `  static resolve(runner?: Runner, address?: string): ${name} {`,
             `    const resolvedRunner = resolveRunner(runner)`,
-            `    const target = address || resolveAddress(this.name, resolvedRunner)`,
+            `    const target = address || resolveAddress(${name}, resolvedRunner)`,
             `    return ${name}__factory.connect(target, resolvedRunner)`,
             `  }`,
             '}',

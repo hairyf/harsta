@@ -1,6 +1,5 @@
 import path from 'pathe'
 import fs from 'fs-extra'
-import consola from 'consola'
 import { packRoot, userRoot } from '../../constants'
 import { findDepthFilePaths } from '../../utils'
 

@@ -4,7 +4,7 @@ import { glob, runTypeChain } from 'typechain'
 import type { Argv } from 'yargs'
 import consola from 'consola'
 import { dim } from 'kolorist'
-import { findDepthFilePaths, resolveUserPath } from '../utils'
+import { resolveUserPath } from '../utils'
 import type { Chain } from '../types'
 import { clientRoot, packRoot, userConf, userRoot } from '../constants'
 import { exec, hardhatBinRoot, resolveFragmentsPaths, resolveUserAddresses, tscBinRoot } from './utils'
@@ -54,9 +54,9 @@ export function registerCompileCommand(cli: Argv) {
         buildAddresses(),
         buildChains(),
         buildFragments(),
-        buildTypes(),
-        buildContracts(),
         buildContractsExtends(),
+        buildContracts(),
+        buildTypes(),
       ])
 
       const defaultOutput = clientRoot ? path.resolve(clientRoot, 'build') : path.resolve(userRoot, 'dist')
@@ -97,8 +97,8 @@ export function registerCompileCommand(cli: Argv) {
             `import type { Runner } from '${path.relative(dirname, presolve('./types'))}'`,
             `import { ${name}, ${name}Interface } from '${input.import}'`,
             '',
-            `export { ${name}, ${name}Interface }`,
-
+            `export type { ${name}, ${name}Interface }`,
+            '',
             `export class ${name}Factory {`,
             `  static abi = ${name}__factory.abi`,
             '',
@@ -241,7 +241,7 @@ export function registerCompileCommand(cli: Argv) {
           function resolve({ input, outfile: { name } }: typeof paths[number]) {
             const exports = input.exports.filter(mod => config.filter(mod, name)) || []
             const importPath = `${path.relative(dirname, input.typechains)}/${input.relative}`
-            return `export { ${exports.join(', ')} } from '${importPath}'`
+            return `export type { ${exports.join(', ')} } from '${importPath}'`
           }
           if (config.type !== 'events') {
             const rows = paths.map(resolve)

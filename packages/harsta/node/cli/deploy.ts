@@ -1,7 +1,7 @@
 import type { Argv } from 'yargs'
 import consola from 'consola'
 import * as utils from '../utils'
-import { packRoot, userConf, userRoot } from '../constants'
+import { userConf } from '../constants'
 import { exec, generateDeployDirectory, hardhatBinRoot } from './utils'
 
 export function registerDeployCommand(cli: Argv) {
@@ -50,7 +50,6 @@ export function registerDeployCommand(cli: Argv) {
       }
 
       exec(`node ${hardhatBinRoot} deploy --tags ${modifiedTags} --network ${network} ${(args.reset && '--reset') || ''}`, { stdio: 'inherit' })
-      exec(`node ${packRoot}/bin/index.cjs compile`, {}, userRoot)
     },
   )
 }

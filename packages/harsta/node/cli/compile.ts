@@ -189,6 +189,7 @@ export function registerCompileCommand(cli: Argv) {
       }
 
       async function buildContractsExtends() {
+        consola.log(fragmentsExtendsPaths)
         if (!fragmentsExtendsPaths.length) {
           await fs.ensureDir(presolve('./contracts/extends'))
           await fs.writeFile(presolve('./contracts/extends/index.ts'), 'export {}\n')
@@ -196,7 +197,7 @@ export function registerCompileCommand(cli: Argv) {
         }
 
         const allFiles = glob(userRoot, ['./config/fragments/*.json'])
-        await runTypeChain({
+        const result = await runTypeChain({
           cwd: userRoot,
           allFiles,
           filesToProcess: allFiles,
@@ -204,6 +205,7 @@ export function registerCompileCommand(cli: Argv) {
           outDir: presolve('./typechains/extends'),
         })
 
+        consola.log('-----------------', result)
         await buildContractFactories(
           fragmentsExtendsPaths,
           presolve('./contracts/extends'),

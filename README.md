@@ -44,7 +44,9 @@ This file contains all contract addresses used in the project. You can customize
 
 ```ts
 export default {
-  [chainIdNumber]: { [contractName]: '0x...' }
+  [chainIdNumber]: { [contractName]: '0x...' },
+  // or the contract address currently used in your project,
+  USDT: '0x...'
 }
 ```
 

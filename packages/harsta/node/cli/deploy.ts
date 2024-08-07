@@ -52,9 +52,9 @@ export function registerDeployCommand(cli: Argv) {
         consola.log('There are no contracts that can be updated')
         return
       }
-      const tags = args.contracts?.length
-        ? args.contracts.filter(tag => tag === 'all' || modifiedTags.includes(tag as string))
-        : modifiedTags
+      const tags = modifiedTags.filter(m => !args.contracts?.length
+        || args.contracts?.includes('all')
+        || args.contracts?.includes(m))
 
       exec(`node ${hardhatBinRoot} deploy --tags ${tags} --network ${network} ${(args.reset && '--reset') || ''}`, { stdio: 'inherit' })
     },

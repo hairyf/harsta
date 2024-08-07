@@ -5,6 +5,7 @@ import { registerCompileCommand } from './compile'
 import { registerDeployCommand } from './deploy'
 import { registerTestCommand } from './test'
 import { fixtureHardhat } from './fixture'
+import { registerVerifyCommand } from './verify'
 
 export const cli = yargs(hideBin(process.argv)).scriptName('harsta')
   .version(version)
@@ -15,6 +16,7 @@ export const cli = yargs(hideBin(process.argv)).scriptName('harsta')
 registerCompileCommand(cli)
 registerTestCommand(cli)
 registerDeployCommand(cli)
+registerVerifyCommand(cli)
 
 export function main() {
   fixtureHardhat()

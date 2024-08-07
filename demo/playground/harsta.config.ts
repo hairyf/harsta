@@ -37,7 +37,7 @@ const config = defineConfig({
         gas: 'auto',
         gasPrice: 'auto',
       },
-      verify: { uri: 'https://geneva-explorer-v1.mxc.com/api' },
+      verify: { uri: 'https://geneva-explorer-v1.mxc.com' },
     },
   },
   deployments: {

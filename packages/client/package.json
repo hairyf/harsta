@@ -38,6 +38,12 @@
       "type": "./build/interfaces/index.d.ts",
       "import": "./build/interfaces/index.js",
       "require": "./build/interfaces/index.js"
+    },
+    "./typechains/*": "./build/typechains/*",
+    "./typechains": {
+      "type": "./build/typechains/index.d.ts",
+      "import": "./build/typechains/index.js",
+      "require": "./build/typechains/index.js"
     }
   },
   "main": "./build/index.js",

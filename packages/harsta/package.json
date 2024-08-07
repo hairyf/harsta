@@ -65,6 +65,9 @@
     "prepublishOnly": "npm run build",
     "typecheck": "tsc --noEmit"
   },
+  "peerDependencies": {
+    "wagmi": "2.x"
+  },
   "dependencies": {
     "@ethersproject/web": "^5.7.1",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
@@ -79,16 +82,13 @@
     "hardhat": "^2.22.6",
     "hardhat-abi-exporter": "^2.10.1",
     "hardhat-deploy": "^0.11.43",
-    "harsta": "workspace:^",
     "jiti": "^2.0.0-beta.3",
     "kolorist": "^1.8.0",
     "magicast": "^0.3.4",
     "pathe": "^1.1.2",
-    "ptsup": "^0.3.5",
     "resolve-import-path": "^0.3.2",
     "typechain": "^8.3.2",
     "unstorage": "^1.10.2",
-    "viem": "2.x",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
@@ -96,6 +96,7 @@
     "@types/node": "^20.0.0",
     "@types/yargs": "^17.0.32",
     "rimraf": "^6.0.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "viem": "2.x"
   }
 }

@@ -15,6 +15,7 @@ export function createDeploy(name: string) {
       args: await args(name),
       from: deployer,
       log: true,
+      skipIfAlreadyDeployed: false,
     })
     if (!process.env.TEST_ENV) {
       await upgradeStorage(name, nextMd5)

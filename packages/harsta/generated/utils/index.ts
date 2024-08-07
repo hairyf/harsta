@@ -1,5 +1,5 @@
 /* eslint-disable ts/ban-ts-comment */
-import type { ContractRunner } from 'ethers'
+import type { ContractRunner as Runner } from 'ethers'
 import { JsonRpcProvider, Network } from 'ethers'
 import { defaultChain } from '../defaults'
 import type { Chain } from '../types'
@@ -40,7 +40,7 @@ export function isChain(value: any): value is Chain {
   return Boolean(value.name || value.rpcUrls || value.id)
 }
 
-export function resolveRunner(chainOrRunner: Chain | ContractRunner | 'signer' | 'provider' = 'provider') {
+export function resolveRunner(chainOrRunner: Chain | Runner | 'signer' | 'provider' = 'provider') {
   if (isChain(chainOrRunner)) {
     const rpc = chainOrRunner.rpcUrls.default.http[0]
     const network = new Network(chainOrRunner.name, chainOrRunner.id)

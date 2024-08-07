@@ -210,17 +210,9 @@ export const config = createConfig({
 App.tsx:
 
 ```tsx
-import { WagmiProvider, useClient, useConnectorClient } from 'wagmi'
-import { subscribeEthersAdapters } from '@harsta/client/wagmi'
+import { WagmiProvider } from 'wagmi'
+import { SubscribeWagmiConfig } from '@harsta/client/wagmi'
 import { config } from './config'
-
-function SubscribeWagmiConfig() {
-  subscribeEthersAdapters({
-    useClient,
-    useConnectorClient,
-  })
-  return null
-}
 
 function App() {
   return (

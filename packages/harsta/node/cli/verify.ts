@@ -1,5 +1,3 @@
-import path from 'node:path'
-
 import type { Argv } from 'yargs'
 import { exec, hardhatBinRoot } from './utils'
 

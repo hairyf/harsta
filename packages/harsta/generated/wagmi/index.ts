@@ -1,11 +1,15 @@
 import { useEffect } from 'react'
-import { useClient, useConnectorClient } from 'wagmi'
 import { updateProvider, updateSigner } from '../ethers'
 import { clientToProvider, clientToSigner } from './adapter'
 
-export function SubscribeWagmiConfig() {
-  const publicClient = useClient()
-  const { data: walletClient } = useConnectorClient()
+export interface SubscribeWagmiConfigProps {
+  useClient: any
+  useConnectorClient: any
+}
+
+export function SubscribeWagmiConfig(props: SubscribeWagmiConfigProps) {
+  const publicClient = props.useClient()
+  const { data: walletClient } = props.useConnectorClient()
   useEffect(() => {
     const signer = clientToSigner(walletClient)
     const provider = clientToProvider(publicClient)

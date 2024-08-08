@@ -210,14 +210,17 @@ export const config = createConfig({
 App.tsx:
 
 ```tsx
-import { WagmiProvider } from 'wagmi'
+import { WagmiProvider, useClient, useConnectorClient } from 'wagmi'
 import { SubscribeWagmiConfig } from '@harsta/client/wagmi'
 import { config } from './config'
 
 function App() {
   return (
     <WagmiProvider config={config}>
-      <SubscribeWagmiConfig />
+      <SubscribeWagmiConfig
+        useConnectorClient={useConnectorClient}
+        useClient={useClient}
+      />
       {/* your page content */}
     </WagmiProvider>
   )

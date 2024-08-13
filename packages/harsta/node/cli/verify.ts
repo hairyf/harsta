@@ -1,4 +1,5 @@
 import type { Argv } from 'yargs'
+import { userConf } from '../constants'
 import { exec, hardhatBinRoot } from './utils'
 
 export function registerVerifyCommand(cli: Argv) {

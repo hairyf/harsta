@@ -1,6 +1,6 @@
 {
   "name": "@harsta/client",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Harsta Client is an automatically generated, type safe library for configuring chains, addresses, and contract instances",
   "author": {
     "name": "Hairyf",

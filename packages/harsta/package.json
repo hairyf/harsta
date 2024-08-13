@@ -1,6 +1,6 @@
 {
   "name": "harsta",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Harsta is a contract development tool based on Hardhat, designed to streamline the development, testing, and referencing of contracts, addresses, ABIs, and contract instances.",
   "author": {
     "name": "Hairyf",

@@ -23,13 +23,22 @@ export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfi
     etherscan.apiKey[alias] = ' '
     networks[alias]!.verify = {
       etherscan: {
-        apiUrl: network.verify.uri,
+        apiUrl: `${network.verify.uri}/api`,
         apiKey: network.verify.key || '',
       },
     }
+    etherscan.customChains.push({
+      chainId: network.id,
+      network: alias,
+      urls: {
+        apiURL: `${network.verify.uri}/api`,
+        browserURL: network.explorer?.url || '',
+      },
+    })
   }
 
   const config: any = {
+    sourcify: { enabled: false },
     ...harstaUserConfig,
     networks,
     paths: {

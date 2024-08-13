@@ -1,6 +1,5 @@
 import type { HardhatRuntimeEnvironment } from 'harsta'
 import { defineConfig } from 'harsta'
-import { Wallet } from 'ethers'
 import 'dotenv/config'
 
 const config = defineConfig({
@@ -29,15 +28,15 @@ const config = defineConfig({
       },
       deploy: {
         accounts: [
-          Wallet.createRandom().privateKey,
-          Wallet.createRandom().privateKey,
+          '0xfc5e8968576e867a8326048aa6c162fbc03efa8f47b8cd1342dbc1d5cddd3c8b',
+          '0xfc5e8968576e867a8326048aa6c162fbc03efa8f47b8cd1342dbc1d5cddd3c8b',
         ],
         saveDeployments: true,
         allowUnlimitedContractSize: true,
         gas: 'auto',
         gasPrice: 'auto',
       },
-      verify: { uri: 'https://geneva-explorer-v1.mxc.com' },
+      verify: { uri: 'https://geneva-explorer-v1.moonchain.com' },
     },
   },
   deployments: {

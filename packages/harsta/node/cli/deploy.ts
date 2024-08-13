@@ -1,7 +1,9 @@
+import path from 'node:path'
 import type { Argv } from 'yargs'
 import consola from 'consola'
+import fs from 'fs-extra'
 import * as utils from '../utils'
-import { userConf, userRoot } from '../constants'
+import { packRoot, userConf, userRoot } from '../constants'
 import { exec, generateDeployDirectory, hardhatBinRoot } from './utils'
 
 export function registerDeployCommand(cli: Argv) {
@@ -39,6 +41,12 @@ export function registerDeployCommand(cli: Argv) {
         return
       }
 
+      await fs.copy(
+        path.resolve(userRoot, './contracts'),
+        path.resolve(packRoot, './contracts'),
+      )
+      exec(`node ${hardhatBinRoot} clean`, { stdio: 'inherit' })
+      exec(`node ${hardhatBinRoot} compile`, { stdio: 'inherit' })
       await generateDeployDirectory(userConf)
 
       const processes = names.map(async (name) => {

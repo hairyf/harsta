@@ -1,7 +1,7 @@
 import type { Argv } from 'yargs'
 import consola from 'consola'
 import * as utils from '../utils'
-import { userConf } from '../constants'
+import { userConf, userRoot } from '../constants'
 import { exec, generateDeployDirectory, hardhatBinRoot } from './utils'
 
 export function registerDeployCommand(cli: Argv) {
@@ -56,7 +56,17 @@ export function registerDeployCommand(cli: Argv) {
         || args.contracts?.includes('all')
         || args.contracts?.includes(m))
 
-      exec(`node ${hardhatBinRoot} deploy --tags ${tags} --network ${network} ${(args.reset && '--reset') || ''}`, { stdio: 'inherit' })
+      for (const tag of tags) {
+        const rows = [
+          `node ${hardhatBinRoot}`,
+          `deploy --tags ${tag}`,
+          `--network ${network}`,
+          args.reset && '--reset',
+        ]
+        const cmd = rows.filter(Boolean).join(' ')
+        exec(cmd, { stdio: 'inherit' })
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
     },
   )
 }

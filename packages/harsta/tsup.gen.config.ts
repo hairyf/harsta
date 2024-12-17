@@ -16,6 +16,5 @@ export default defineConfig((options) => {
       ...Object.keys(pkg.devDependencies || {}),
       ...Object.keys(pkg.dependencies || {}),
     ],
-
   }
 })

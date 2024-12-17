@@ -54,7 +54,8 @@
     "global.d.ts",
     "hardhat.config.ts",
     "runtime.d.ts",
-    "tsconfig.json"
+    "tsconfig.json",
+    "tsup.gen.config.ts"
   ],
   "engines": {
     "node": "^18.0.0 || >=20.0.0"

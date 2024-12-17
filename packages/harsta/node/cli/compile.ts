@@ -37,6 +37,7 @@ export function registerCompileCommand(cli: Argv) {
         await fs.remove(path.join(resolveUserPath(userConf.paths.fragments)!, './contracts'))
       }
 
+      await fs.ensureDir(path.resolve(userRoot, './contracts'))
       await fs.copy(
         path.resolve(userRoot, './contracts'),
         path.resolve(packRoot, './contracts'),
@@ -253,8 +254,12 @@ export function registerCompileCommand(cli: Argv) {
             const importPath = `${path.relative(dirname, input.typechains)}/${input.relative}`
             return `export type { ${exports.join(', ')} } from '${importPath}'`
           }
+          function resolveDefaultRows(rows: string[]) {
+            !rows.length && rows.push('export {}')
+          }
           if (config.type !== 'events') {
             const rows = paths.map(resolve)
+            resolveDefaultRows(rows)
             await fs.writeFile(outfile, rows.join('\n'))
             continue
           }
@@ -265,6 +270,7 @@ export function registerCompileCommand(cli: Argv) {
           const indexRows = paths
             .map(p => p.outfile.name)
             .map(name => `export * as ${name} from './${name}'`)
+          resolveDefaultRows(indexRows)
           await fs.writeFile(outfile, indexRows.join('\n'))
         }
       }

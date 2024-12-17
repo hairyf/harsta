@@ -9,6 +9,6 @@ require('dotenv/config')
 const { userConf } = require('./dist/constants')
 const { transformHarstaConfigToHardhat } = require('./dist/transform')
 
-const config = transformHarstaConfigToHardhat(userConf)
+const config = transformHarstaConfigToHardhat(userConf.default || userConf)
 
 module.exports = config

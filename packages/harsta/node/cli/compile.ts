@@ -7,7 +7,7 @@ import { dim } from 'kolorist'
 import { resolveUserPath } from '../utils'
 import type { Chain } from '../types'
 import { clientRoot, packRoot, userConf, userRoot } from '../constants'
-import { exec, hardhatBinRoot, resolveFragmentsPaths, resolveUserAddresses, tscBinRoot } from './utils'
+import { exec, hardhatBinRoot, resolveFragmentsPaths, resolveUserAddresses, tscBinRoot, tsupBinRoot } from './utils'
 
 export function registerCompileCommand(cli: Argv) {
   cli.command(
@@ -31,6 +31,7 @@ export function registerCompileCommand(cli: Argv) {
       await fs.remove(path.resolve(packRoot, './contracts'))
       await fs.remove(path.resolve(generateRoot, './contracts'))
       await fs.remove(path.resolve(generateRoot, './fragments'))
+
       if (userConf.paths?.fragments) {
         await fs.remove(path.join(resolveUserPath(userConf.paths.fragments)!, './@openzeppelin'))
         await fs.remove(path.join(resolveUserPath(userConf.paths.fragments)!, './contracts'))
@@ -46,11 +47,11 @@ export function registerCompileCommand(cli: Argv) {
 
       const allFiles = glob(userRoot, ['./config/fragments/*.json'])
       await runTypeChain({
+        outDir: resolveGenerate('./typechains/extends'),
         cwd: userRoot,
         allFiles,
         filesToProcess: allFiles,
         target: 'ethers-v6',
-        outDir: resolveGenerate('./typechains/extends'),
       })
 
       function resolveGenerate(_path: string) {
@@ -74,7 +75,16 @@ export function registerCompileCommand(cli: Argv) {
       const generateTsconfig = path.resolve(generateRoot, './tsconfig.json')
       const outdir = output || defaultOutput
 
-      exec(`node ${tscBinRoot} --declaration --outDir ${outdir} --project ${generateTsconfig}`, generateRoot)
+      args.clean && await fs.remove(outdir)
+
+      const tsupFilterEntry = [
+        generateRoot,
+        `!${generateRoot}/mod-react.d.ts`,
+        `!${generateRoot}/mod-wagmi.d.ts`,
+        `!${generateRoot}/tsconfig.json`,
+      ]
+      exec(`node ${tsupBinRoot} ${tsupFilterEntry.join(' ')} --config ${path.join(packRoot, 'tsup.gen.config.ts')} --outDir ${outdir}`, {})
+      exec(`node ${tscBinRoot} --declaration --emitDeclarationOnly --outDir ${outdir} --project ${generateTsconfig}`, generateRoot)
 
       const log = path.resolve(outdir, '../').endsWith('@harsta/client')
         ? '@harsta/client'

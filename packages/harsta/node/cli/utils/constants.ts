@@ -15,3 +15,10 @@ export const tscBinRoot = (() => {
   const json = fs.readJsonSync(packagePath)
   return path.join(root, json.bin.tsc)
 })()
+
+export const tsupBinRoot = (() => {
+  const packagePath = resolveImport('tsup/package.json')
+  const root = path.dirname(packagePath)
+  const json = fs.readJsonSync(packagePath)
+  return path.join(root, json.bin.tsup)
+})()

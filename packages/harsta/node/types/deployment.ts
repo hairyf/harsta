@@ -1,11 +1,38 @@
 import type { HardhatRuntimeEnvironment } from 'hardhat/types'
 
-export { HardhatRuntimeEnvironment }
+export interface HarstaRuntimeEnvironment extends HardhatRuntimeEnvironment {
+  getChainContract: (name: string) => Promise<string>
+}
 
-export type DeploymentArgs = any[] | ((env: HardhatRuntimeEnvironment) => Promise<any[]> | any[])
+export type DeploymentArgs = any[] | ((env: HarstaRuntimeEnvironment) => Promise<any[]> | any[])
 
 export interface DeploymentConfig {
-  update?: 'proxy' | 'uups' | false
+  /**
+   * Specify the chain scope for contract deployment
+   */
+  chains?: number[]
+
+  /**
+   * The deployed target contract name defaults to object key
+   */
+  target?: string
+
+  /**
+   * Contract update mode
+   *
+   * @default false
+   */
+  mode?: 'proxy' | 'uups' | false
+
+  /**
+   * Initialization parameters for deploying contracts
+   *
+   */
   args?: DeploymentArgs
-  type?: 'async' | 'defer' | 'sync'
+
+  /**
+   * The dependent pre contract, once set, will delay deployment
+   *
+   */
+  dependencies?: string[]
 }

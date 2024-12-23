@@ -9,8 +9,8 @@ export async function generateDeployDirectory(userConf: any) {
   await fs.ensureDir(path.resolve(packRoot, './deploy'))
 
   for (const name in deployments) {
-    const isUpdate = typeof deployments[name].update === 'string'
-    const type = isUpdate ? deployments[name].update : undefined
+    const isUpdate = typeof deployments[name].mode === 'string'
+    const type = isUpdate ? deployments[name].mode : undefined
     const code = [
       isUpdate
         ? `const { createUpdate } = require('harsta/runtime')`

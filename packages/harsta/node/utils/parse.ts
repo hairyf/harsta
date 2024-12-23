@@ -1,7 +1,7 @@
-import type { HardhatRuntimeEnvironment } from 'hardhat/types'
 import { userConf } from '../constants'
+import type { HarstaRuntimeEnvironment } from '../types'
 
-export async function parseDeploymentArgs(name: string, env: HardhatRuntimeEnvironment) {
+export async function parseDeploymentArgs(name: string, env: HarstaRuntimeEnvironment) {
   const deployments = userConf.deployments || {}
   if (!deployments[name] || !deployments[name].args)
     return []

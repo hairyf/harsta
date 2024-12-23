@@ -38,15 +38,17 @@ export function createUpdate(name: string, type: 'proxy' | 'uups' | 'beacon' | '
     const { name: next, updated, nextMd5 } = await compare(name, chainId)
 
     if (!updated || !address) {
+      const factory = await env.ethers.getContractFactory(name)
+      const options = {
+        initializer: 'initialize',
+        ...(type !== 'proxy'
+          ? { kind: type }
+          : {}),
+      }
       const contract = await env.upgrades.deployProxy(
-        await env.ethers.getContractFactory(name),
+        factory,
         await args(name),
-        {
-          initializer: 'initialize',
-          ...(type !== 'proxy'
-            ? { kind: type }
-            : {}),
-        },
+        options,
       )
       address = await contract.getAddress()
     }

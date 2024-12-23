@@ -12,7 +12,24 @@ export async function args(name: string) {
     return []
   if (Array.isArray(deployments[name].args))
     return deployments[name].args
-  return deployments[name].args(env)
+  return deployments[name].args({
+    getChainContract: resolveAddress,
+    ...env,
+  })
+}
+
+export async function resolveAddress(name: string) {
+  const addrFile = path.resolve(userRoot, './config/addresses.ts')
+  const jsonFile = path.resolve(userRoot, './config/addresses.json')
+  const chain = await env.getChainId()
+  if (fs.existsSync(addrFile)) {
+    const mod = await loadFile(addrFile)
+    return mod.exports.default?.[chain]?.[name]
+  }
+  if (fs.existsSync(jsonFile)) {
+    const mod = await fs.readJSON(jsonFile)
+    return mod?.[chain]?.[name]
+  }
 }
 
 export async function upgradeAddress(name: string, address: string) {

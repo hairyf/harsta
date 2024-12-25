@@ -1,4 +1,4 @@
-import type { HardhatRuntimeEnvironment } from 'harsta'
+import type { HarstaRuntimeEnvironment } from 'harsta'
 import { defineConfig } from 'harsta'
 import 'dotenv/config'
 
@@ -40,13 +40,13 @@ const config = defineConfig({
     },
   },
   deployments: {
-    Markets: { update: 'uups', args: getOwnableArgs },
-    Savings: { update: 'uups', args: getOwnableArgs },
-    Storage: { update: 'proxy' },
+    Markets: { mode: 'uups', args: getOwnableArgs },
+    Savings: { mode: 'uups', args: getOwnableArgs },
+    Storage: { mode: 'proxy' },
   },
 })
 
-async function getOwnableArgs(env: HardhatRuntimeEnvironment) {
+async function getOwnableArgs(env: HarstaRuntimeEnvironment) {
   return env.getNamedAccounts().then(ns => [ns.owner])
 }
 

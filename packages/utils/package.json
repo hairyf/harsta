@@ -1,0 +1,33 @@
+{
+  "name": "create-harsta",
+  "version": "0.3.9",
+  "description": "Create Template for harsta",
+  "author": {
+    "name": "Hairyf",
+    "url": "https://github.com/hairyf"
+  },
+  "funding": "https://github.com/sponsors/hairyf",
+  "homepage": "https://github.com/hairyf/harsta",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hairyf/harsta/tree/main/packages/create-harsta"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "prepublishOnly": "npm run build",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+  
+  },
+  "devDependencies": {
+  }
+}

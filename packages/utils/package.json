@@ -1,5 +1,5 @@
 {
-  "name": "create-harsta",
+  "name": "@harsta/utils",
   "version": "0.3.10",
   "description": "Create Template for harsta",
   "author": {

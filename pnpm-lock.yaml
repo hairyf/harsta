@@ -218,9 +218,9 @@ importers:
 
   packages/utils:
     dependencies:
-      '@hairy/format':
-        specifier: 0.3.9
-        version: 0.3.9
+      '@hairy/utils':
+        specifier: 0.7.1
+        version: 0.7.1
       ethers:
         specifier: ^6.13.5
         version: 6.13.5(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -1650,8 +1650,8 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
 
-  '@hairy/format@0.3.9':
-    resolution: {integrity: sha512-Qq4zY7SnoQf9lpoSm915bZz6N/eSuWPuqlgS+GeduGzkbFUNP75yfRAw4BgUgOZIwP0CW3IDoWOAUPznz1mW7A==}
+  '@hairy/utils@0.7.1':
+    resolution: {integrity: sha512-L10E+LndIqjOHSsEYL52V/Yr4pgqlvufYmbu9M3m5vlbGfsFi1mu5a5XQXapR/MwEWvE8PIdUVLjzJGZfL21Gw==}
 
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
@@ -5970,6 +5970,10 @@ packages:
     resolution: {integrity: sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==}
     engines: {node: '>=10'}
 
+  p-pipe@4.0.0:
+    resolution: {integrity: sha512-HkPfFklpZQPUKBFXzKFB6ihLriIHxnmuQdK9WmLDwe4hf2PdhhfWT/FJa+pc3bA1ywvKXtedxIRmd4Y7BTXE4w==}
+    engines: {node: '>=12'}
+
   p-try@1.0.0:
     resolution: {integrity: sha512-U1etNYuMJoIz3ZXSrrySFjsXQTWOx2/jdi86L+2pRvph/qMKL6sbcCYdH23fqsbm8TH2Gn0OybpT4eSFlCVHww==}
     engines: {node: '>=4'}
@@ -9490,10 +9494,10 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@hairy/format@0.3.9':
+  '@hairy/utils@0.7.1':
     dependencies:
       bignumber.js: 9.1.2
-      lodash: 4.17.21
+      p-pipe: 4.0.0
 
   '@hapi/hoek@9.3.0': {}
 
@@ -15437,6 +15441,8 @@ snapshots:
   p-map@4.0.0:
     dependencies:
       aggregate-error: 3.1.0
+
+  p-pipe@4.0.0: {}
 
   p-try@1.0.0: {}
 

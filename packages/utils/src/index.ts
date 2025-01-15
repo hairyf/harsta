@@ -1,5 +1,4 @@
 export * from './constants'
 export * from './hash'
 export * from './number'
-export * from './util'
 export * from './wait'

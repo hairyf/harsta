@@ -7,7 +7,7 @@ export default defineBuildConfig({
   declaration: true,
   clean: true,
   failOnWarn: false,
-  externals: ['@hairy/format', 'ethers', 'mitt'],
+  externals: ['@hairy/utils', 'ethers', 'mitt'],
   rollup: {
     emitCJS: true,
   },

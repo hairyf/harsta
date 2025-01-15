@@ -1,6 +1,6 @@
 import { formatEther as _formatEther } from 'ethers'
-import type { Delimiter, Numberish } from '@hairy/format'
-import { Bignumber, formatNumeric, numerfix, unum } from '@hairy/format'
+import type { Delimiter, Numberish } from '@hairy/utils'
+import { Bignumber, formatNumeric, numerfix, unum } from '@hairy/utils'
 
 export interface FormatEtherOptions {
   delimiters?: Delimiter[] | false

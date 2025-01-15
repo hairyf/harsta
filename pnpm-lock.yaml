@@ -219,8 +219,8 @@ importers:
   packages/utils:
     dependencies:
       '@hairy/utils':
-        specifier: 0.7.1
-        version: 0.7.1
+        specifier: 0.7.2
+        version: 0.7.2
       ethers:
         specifier: ^6.13.5
         version: 6.13.5(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -1650,8 +1650,8 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
 
-  '@hairy/utils@0.7.1':
-    resolution: {integrity: sha512-L10E+LndIqjOHSsEYL52V/Yr4pgqlvufYmbu9M3m5vlbGfsFi1mu5a5XQXapR/MwEWvE8PIdUVLjzJGZfL21Gw==}
+  '@hairy/utils@0.7.2':
+    resolution: {integrity: sha512-6rAcmgl1J0IFvLzMJpqAo4HmpX3f+ZxfyojL+v5sp97nzXAZ6ld0k3w9Lx+wwn9LhEyWCjNWYFdlEr2Bt83xBw==}
 
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
@@ -9494,7 +9494,7 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@hairy/utils@0.7.1':
+  '@hairy/utils@0.7.2':
     dependencies:
       bignumber.js: 9.1.2
       p-pipe: 4.0.0

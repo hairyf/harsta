@@ -7,16 +7,18 @@ export interface FormatEtherOptions {
   separator?: boolean
   rounding?: Bignumber.RoundingMode
   decimals?: number
+  format?: Bignumber.Format
 }
 
 export function formatEther(value: Numberish = '0', options: FormatEtherOptions = {}) {
+  const { separator = false, decimals, delimiters, rounding } = options
   const number = _formatEther(unum(numerfix(value)).toFixed(0))
-  const separator = options.separator === false ? '' : undefined
+  const groupSeparator = separator === false ? '' : undefined
   return formatNumeric(number, {
-    format: { groupSeparator: separator },
-    decimals: options.decimals,
-    delimiters: options.delimiters,
-    rounding: options.rounding,
+    format: { groupSeparator, ...options.format },
+    decimals,
+    delimiters,
+    rounding,
   })
 }
 

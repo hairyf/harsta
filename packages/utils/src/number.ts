@@ -1,9 +1,23 @@
 import { formatEther as _formatEther } from 'ethers'
-import type { Numberish } from '@hairy/format'
-import { formatNumeric, numerfix, unum } from '@hairy/format'
-import BigNumber from 'bignumber.js'
+import type { Delimiter, Numberish } from '@hairy/format'
+import { Bignumber, formatNumeric, numerfix, unum } from '@hairy/format'
 
-export function formatEther(value: Numberish = '0', decimalPlaces = 2, roundingMode = BigNumber.ROUND_DOWN) {
-  const num = _formatEther(unum(numerfix(value)).toFixed(0))
-  return formatNumeric(num, { d: decimalPlaces, r: roundingMode })
+export interface FormatEtherOptions {
+  delimiters?: Delimiter[] | false
+  separator?: boolean
+  rounding?: Bignumber.RoundingMode
+  decimals?: number
 }
+
+export function formatEther(value: Numberish = '0', options: FormatEtherOptions = {}) {
+  const number = _formatEther(unum(numerfix(value)).toFixed(0))
+  const separator = options.separator === false ? '' : undefined
+  return formatNumeric(number, {
+    format: { groupSeparator: separator },
+    decimals: options.decimals,
+    delimiters: options.delimiters,
+    rounding: options.rounding,
+  })
+}
+
+export { Bignumber }

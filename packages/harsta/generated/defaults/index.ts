@@ -27,3 +27,8 @@ export const defaults = {
     return addresses[this.chain.id]
   },
 }
+
+export const defaultChain = defaults.chain
+
+// @ts-ignore
+export const defaultAddresses = defaults.addresses

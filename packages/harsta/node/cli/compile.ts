@@ -84,12 +84,10 @@ export function registerCompileCommand(cli: Argv) {
         `!${generateRoot}/mod-wagmi.d.ts`,
         `!${generateRoot}/tsconfig.json`,
       ]
-      exec(`node ${tsupBinRoot} ${tsupFilterEntry.join(' ')} --config ${path.join(packRoot, 'tsup.gen.config.ts')} --outDir ${outdir}`, {})
-      exec(`node ${tscBinRoot} --declaration --emitDeclarationOnly --outDir ${outdir} --project ${generateTsconfig}`, generateRoot)
+      exec(`node ${tsupBinRoot} ${tsupFilterEntry.join(' ')} --config ${path.join(packRoot, 'tsup.gen.config.ts')} --outDir ${outdir}`, { stdio: 'ignore' })
+      exec(`node ${tscBinRoot} --declaration --emitDeclarationOnly --outDir ${outdir} --project ${generateTsconfig}`, { cwd: generateRoot })
 
-      const log = path.resolve(outdir, '../').endsWith('@harsta/client')
-        ? '@harsta/client'
-        : outdir
+      const log = path.resolve(outdir, '../').endsWith('@harsta/client') ? '@harsta/client' : outdir
       consola.log(`\n✔ Generated Harsta Client ${dim(`to ${log}`)}\n`)
 
       async function buildAddresses() {
@@ -111,21 +109,31 @@ export function registerCompileCommand(cli: Argv) {
 
         for (const { outfile, input } of paths) {
           const { name, dirname, file } = outfile
+          const factoryFile = await fs.readFile(input.factory, 'utf-8')
+          const existBytes = factoryFile.includes('_bytecode')
           const fileRows = [
             `import { ${name}__factory } from '${path.relative(dirname, typechainsPath)}'`,
+            `import type { NonPayableOverrides } from '${path.relative(dirname, typechainsPath)}/common'`,
             `import { resolveAddress, resolveRunner } from '${path.relative(dirname, resolveGenerate('./utils'))}'`,
-            `import type { Runner } from '${path.relative(dirname, resolveGenerate('./types'))}'`,
             `import { ${name}, ${name}Interface } from '${input.import}'`,
+            `import type { Runner } from '${path.relative(dirname, resolveGenerate('./types'))}'`,
+            existBytes && `import type { Signer } from 'ethers'`,
             '',
             `export type { ${name}, ${name}Interface }`,
             '',
             `export class ${name}Factory {`,
+            existBytes && `  static bytecode = ${name}__factory.bytecode`,
             `  static abi = ${name}__factory.abi`,
             '',
             `  static interface(): ${name}Interface {`,
             `    return ${name}__factory.createInterface()`,
             '  }',
             '',
+            existBytes && '  static factory(signer?: Signer) {',
+            existBytes && `    const resolvedSigner = signer || resolveRunner('signer')`,
+            existBytes && `    return new ${name}__factory(resolvedSigner as Signer)`,
+            existBytes && '  }',
+            existBytes && '',
             `  static attach(address: string, runner?: Runner): ${name} {`,
             `    return ${name}__factory.connect(address, resolveRunner(runner))`,
             '  }',
@@ -138,7 +146,7 @@ export function registerCompileCommand(cli: Argv) {
             '}',
           ]
           await fs.ensureDir(dirname)
-          await fs.writeFile(file, fileRows.join('\n'))
+          await fs.writeFile(file, fileRows.filter(Boolean).join('\n'))
           const exportFile = file.replace('.ts', '')
           const exportPath = path.relative(outdir, exportFile)
           indexRows.push(`export { ${name}Factory as ${name} } from './${exportPath.replace(/\\/g, '/')}'`)

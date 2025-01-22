@@ -17,7 +17,9 @@ export function registerTestCommand(cli: Argv) {
     async (args) => {
       await generateDeployDirectory(userConf)
       try {
-        exec(`npx hardhat test --network ${args.network}`, { TEST_ENV: true })
+        exec(`npx hardhat test --network ${args.network}`, { env: {
+          TEST_ENV: true as any,
+        } })
       }
       catch {}
     },

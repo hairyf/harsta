@@ -42,6 +42,7 @@ export function resolveFragmentsPaths() {
     const relativeFile = resolveFile(p, typechainsPath)
     const file = `${path.resolve(typechainsPath, relativeFile)}.ts`
     const importPath = `${path.relative(outfile.dirname, typechainsPath)}/${relativeFile}`
+    const factoryPath = `${typechainsPath}/factories/${relativeFile}__factory.ts`
     const content = fs.readFileSync(file, 'utf-8')
     const regExps = [
       /export declare namespace (.*?) \{/gs,
@@ -61,6 +62,7 @@ export function resolveFragmentsPaths() {
       import: importPath,
       relative: relativeFile,
       typechains: typechainsPath,
+      factory: factoryPath,
       exports,
       file,
     }

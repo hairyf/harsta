@@ -7,17 +7,18 @@ export interface Options {
   root?: string
 }
 
-export function exec(command: string, env: any = {}, cwd = packRoot) {
-  const options: ExecSyncOptionsWithBufferEncoding = {
+export function exec(command: string, options?: ExecSyncOptionsWithBufferEncoding) {
+  const _options: ExecSyncOptionsWithBufferEncoding = {
     stdio: 'inherit',
-    cwd,
+    cwd: packRoot,
+    ...options,
     env: {
       ...process.env,
-      ...env,
+      ...options?.env,
       clientRoot,
       packRoot,
       userRoot,
     },
   }
-  execSync(command, options)
+  execSync(command, _options)
 }

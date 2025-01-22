@@ -3,7 +3,7 @@ import { defineConfig } from 'harsta'
 import 'dotenv/config'
 
 const config = defineConfig({
-  solidity: '0.8.20',
+  solidity: '0.8.24',
   defaultNetwork: 'geneva',
   namedAccounts: {
     deployer: { default: 0 },

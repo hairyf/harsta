@@ -38,6 +38,11 @@
       "import": "./dist/utils/index.mjs",
       "require": "./dist/utils/index.js"
     },
+    "./generated": {
+      "type": "./dist/generated/index.d.ts",
+      "import": "./dist/generated/index.mjs",
+      "require": "./dist/generated/index.js"
+    },
     "./*": "./*"
   },
   "main": "dist/index.mjs",

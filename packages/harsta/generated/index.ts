@@ -1,7 +1,7 @@
 export * as Instances from './instances'
 export * as Interfaces from './interfaces'
 export * as Events from './events'
-
+export * as fragments from './fragments'
 export * as contracts from './contracts'
 export * as chains from './chains'
 export * from './defaults'

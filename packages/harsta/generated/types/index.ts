@@ -1,4 +1,4 @@
-import type { ContractRunner } from 'ethers'
+import type { ContractRunner, Signer } from 'ethers'
 import type { Chain as _Chain } from 'viem'
 
 export interface Chain extends _Chain {
@@ -7,3 +7,4 @@ export interface Chain extends _Chain {
 }
 
 export type Runner = ContractRunner | Chain | 'provider' | 'signer'
+export type SignRunner = 'signer' | Signer

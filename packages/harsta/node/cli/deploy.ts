@@ -92,7 +92,7 @@ export function registerDeployCommand(cli: Argv) {
             `--network ${network}`,
             args.reset && '--reset',
           ]
-          exec(rows.filter(Boolean).join(' '))
+          exec(rows.filter(Boolean).join(' '), { env: { NETWORK: network } })
         }
         catch {
           restart && run(target, false)

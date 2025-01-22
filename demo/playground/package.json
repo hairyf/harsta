@@ -9,7 +9,10 @@
     "deploy": "harsta deploy"
   },
   "dependencies": {
+    "@chainlink/contracts": "^1.3.0",
     "@harsta/client": "workspace:^",
+    "@openzeppelin/contracts": "^5.0.2",
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
     "ethers": "^6.13.1"
   },
   "devDependencies": {

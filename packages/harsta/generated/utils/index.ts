@@ -1,7 +1,7 @@
 /* eslint-disable ts/ban-ts-comment */
 import type { ContractRunner as Runner } from 'ethers'
 import { JsonRpcProvider, Network } from 'ethers'
-import { defaultChain } from '../defaults'
+import { defaults } from '../defaults'
 import type { Chain } from '../types'
 import addresses from '../addresses'
 import { provider, runner, signer } from '../ethers'
@@ -72,7 +72,7 @@ export function resolveAddress(name: string, runner: any): string {
 }
 
 export function resolveDefaultProvider() {
-  const chain = defaultChain as any
+  const chain = defaults.chain as any
   if (!chain)
     return
   const defaultNetwork = new Network(chain?.name, chain.id)

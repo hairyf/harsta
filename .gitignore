@@ -1,0 +1,30 @@
+node_modules
+.env
+
+# Hardhat files
+.harsta
+
+build
+dist
+
+# Generate files
+generated/typechains
+generated/interfaces
+generated/fragments
+generated/addresses
+generated/chains
+generated/contracts
+packages/harsta/generated/events
+packages/harsta/generated/instances
+
+/deploy
+/tmp
+/deployments
+
+/abi
+
+# solidity-coverage files
+/coverage
+/coverage.json
+.openzeppelin
+.harsta

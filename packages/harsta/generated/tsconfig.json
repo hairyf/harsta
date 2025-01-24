@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "rootDir": ".",
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "strict": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "mod-wagmi.d.ts",
+    "mod-react.d.ts",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "tsup.config.ts"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "name": "harsta",
+  "version": "0.4.4",
+  "description": "Harsta is a contract development tool based on Hardhat, designed to streamline the development, testing, and referencing of contracts, addresses, ABIs, and contract instances.",
+  "author": {
+    "name": "Hairyf",
+    "url": "https://github.com/hairyf"
+  },
+  "funding": "https://github.com/sponsors/hairyf",
+  "homepage": "https://github.com/hairyf/harsta",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hairyf/harsta/tree/main/packages/create-harsta"
+  },
+  "keywords": [
+    "hardhat",
+    "contract",
+    "wagmi",
+    "viem",
+    "hardhat-deploy",
+    "exporter",
+    "builder"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./runtime": {
+      "type": "./dist/runtime/index.d.ts",
+      "import": "./dist/runtime/index.mjs",
+      "require": "./dist/runtime/index.js"
+    },
+    "./utils": {
+      "type": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.mjs",
+      "require": "./dist/utils/index.js"
+    },
+    "./generated": {
+      "type": "./dist/generated/index.d.ts",
+      "import": "./dist/generated/index.mjs",
+      "require": "./dist/generated/index.js"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "harstac": "./bin/index.cjs",
+    "harsta": "./bin/index.cjs"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "generated",
+    "global.d.ts",
+    "hardhat.config.ts",
+    "runtime.d.ts",
+    "tsconfig.json"
+  ],
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsup --splitting",
+    "dev": "tsup --splitting --watch",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "wagmi": "2.x"
+  },
+  "dependencies": {
+    "@ethersproject/web": "^5.7.1",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.8",
+    "@openzeppelin/contracts": "^5.0.2",
+    "@openzeppelin/contracts-upgradeable": "^5.0.1",
+    "@openzeppelin/hardhat-upgrades": "^3.0.1",
+    "consola": "^3.2.3",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.1",
+    "fs-extra": "^11.2.0",
+    "hardhat": "^2.22.6",
+    "hardhat-abi-exporter": "^2.10.1",
+    "hardhat-deploy": "^0.11.43",
+    "jiti": "^2.0.0-beta.3",
+    "kolorist": "^1.8.0",
+    "magicast": "^0.3.4",
+    "pathe": "^1.1.2",
+    "resolve-import-path": "^0.3.2",
+    "tsup": "^8.1.0",
+    "typechain": "^8.3.2",
+    "unstorage": "^1.10.2",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.0.0",
+    "@types/yargs": "^17.0.32",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.2.2",
+    "viem": "2.x"
+  }
+}

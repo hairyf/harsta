@@ -67,8 +67,10 @@ const config = defineConfig({
         const ns = await env.getNamedAccounts()
         return [ns.owner, 'TestName1', 'TestSymbol1']
       },
+      // chains: [5167004],
     },
-    ERC20WithTransparent: {
+    ERC20Upgradeable: {
+      target: 'ERC20WithUpgradeable',
       kind: 'transparent',
       args: async (env) => {
         const ns = await env.getNamedAccounts()
@@ -76,11 +78,7 @@ const config = defineConfig({
       },
     },
     ERC20WithUUPS: {
-      kind: 'uups',
-      args: async (env) => {
-        const ns = await env.getNamedAccounts()
-        return [ns.owner, 'TestName2', 'TestSymbol2']
-      },
+
     },
   },
 })

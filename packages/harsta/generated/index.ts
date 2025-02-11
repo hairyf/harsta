@@ -4,6 +4,7 @@ export * as Events from './events'
 export * as fragments from './fragments'
 export * as contracts from './contracts'
 export * as chains from './chains'
+export * as typechains from './typechains'
 export * from './defaults'
 export * from './ethers'
 

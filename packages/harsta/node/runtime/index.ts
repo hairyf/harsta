@@ -1,26 +1,69 @@
-import type { HardhatRuntimeEnvironment } from 'hardhat/types'
-import { compare } from '../utils'
-import { args, upgradeAddress, upgradeStorage } from './utils'
+import { JsonRpcApiProvider } from 'ethers'
+import { bold, cyan, dim, gray, green, strikethrough, white, yellow } from 'kolorist'
+import consola from 'consola'
+import { userConf } from '../constants'
+import {
+  deployments,
+  ethers,
+
+  getFactoryOptsInProxy,
+  getInitializerData,
+
+  resolveInDeplJson,
+  resolveInPackFile,
+
+  upgradeToAddress,
+  upgradeToCall,
+  upgradeToDeplJson,
+
+  waitForCallTrans,
+  waitForDeplTrans,
+} from './utils'
+
+userConf.proxy && ethers.applyAgent(userConf.proxy)
+ethers.fixedTaikoPending(JsonRpcApiProvider.prototype)
+
+const generated = resolveInPackFile('./generated/index.ts')
 
 export function createDeploy(name: string) {
-  async function deploy(env: HardhatRuntimeEnvironment) {
-    const chainId = await env.getChainId()
-    const { updated, nextMd5 } = await compare(name, chainId)
-    if (!updated)
-      return
-    const unnamedAccounts = await env.getUnnamedAccounts()
-    const namedAccounts = await env.getNamedAccounts()
-    const deployer = namedAccounts.deployer || unnamedAccounts[0]
-    const { address } = await env.deployments.deploy(name, {
-      args: await args(name),
-      from: deployer,
-      log: true,
-      skipIfAlreadyDeployed: false,
+  async function deploy() {
+    const options = (userConf.deployments || {})[name]
+    const target = options.target || name
+    const network = process.env.NETWORK || ''
+    const chainId = await ethers.getChainId()
+    const deployer = await ethers.getDeployer()
+    const singer = await ethers.getSinger(deployer)
+    const artifact = await deployments.getArtifact(target)
+    const args = await deployments.getArgs(name)
+
+    const { receipt, transaction, address } = await waitForDeplTrans(
+      [new generated.typechains[`${target}__factory`](singer), args],
+      (transaction) => {
+        consola.log('')
+        consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
+        consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(chainId)} ${gray(network)}`)
+        consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}`)
+        consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
+        if (args.length) {
+          consola.log(`${dim(`Args`)}       ${white('>')}     ${gray(args[0])}`)
+          for (const arg of args.slice(1))
+            consola.log(`                `, gray(arg))
+        }
+        consola.log(`---------------------------------------------------------`)
+      },
+      (address) => {
+        consola.log(`${dim('Address')}    ${white('>')}     ${cyan(address)}`)
+      },
+    )
+
+    await upgradeToAddress(name, address)
+    await upgradeToDeplJson(name, {
+      address,
+      hash: transaction.hash,
+      args,
+      receipt,
+      artifact,
     })
-    if (!process.env.TEST_ENV) {
-      await upgradeStorage(name, nextMd5)
-      await upgradeAddress(name, address)
-    }
   }
 
   deploy.tags = ['all', name]
@@ -28,43 +71,125 @@ export function createDeploy(name: string) {
   return deploy
 }
 
-export function createUpdate(name: string, type: 'proxy' | 'uups' | 'beacon' | 'transparent') {
-  async function deploy(env: HardhatRuntimeEnvironment) {
-    let address = await env.deployments.get(name)
-      .then(deployment => deployment.address)
-      .catch(() => Promise.resolve(undefined))
-    const chainId = await env.getChainId()
+export function createDeployInUpdate(name: string, kind: 'uups' | 'beacon' | 'transparent') {
+  async function deploy() {
+    const options = (userConf.deployments || {})[name]
+    const target = options.target || name
+    const network = process.env.NETWORK || ''
+    const chainId = await ethers.getChainId()
+    const deployer = await ethers.getDeployer()
+    const singer = await ethers.getSinger(deployer)
+    const artifact = await deployments.getArtifact(target)
+    const args = await deployments.getArgs(name)
 
-    const { name: next, updated, nextMd5 } = await compare(name, chainId)
+    const { address: implement, receipt: implReceipt } = await waitForDeplTrans(
+      [new generated.typechains[`${target}__factory`](singer)],
+      (transaction) => {
+        consola.log('')
+        consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
+        consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(chainId)} ${gray(network)}`)
+        consola.log(`${green(bold('kIND'))}       ${white('>')}     ${white(kind)}`)
+        consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(implement)')}`)
+        consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
+        consola.log(`---------------------------------------------------------`)
+      },
+    )
 
-    if (!updated || !address) {
-      const factory = await env.ethers.getContractFactory(name)
-      const options = {
-        initializer: 'initialize',
-        ...(type !== 'proxy'
-          ? { kind: type }
-          : {}),
-      }
-      const contract = await env.upgrades.deployProxy(
-        factory,
-        await args(name),
-        options,
-      )
-      address = await contract.getAddress()
-    }
-    else {
-      const factory = await env.ethers.getContractFactory(next)
-      await env.upgrades.upgradeProxy(address, factory)
-    }
+    const inte = generated.typechains[`${target}__factory`].createInterface()
+    const data = getInitializerData(inte, args, options)
 
-    const artifact = await env.deployments.getExtendedArtifact(next)
-    await env.deployments.save(name, { address, ...artifact })
-    if (!process.env.TEST_ENV) {
-      await upgradeStorage(next, nextMd5)
-      await upgradeAddress(name, address)
-    }
+    const { address, receipt: initReceipt } = await waitForDeplTrans(
+      await getFactoryOptsInProxy(kind, implement, data, singer, options),
+      (transaction) => {
+        consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}(${gray(kind)})`)
+        consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
+        if (args.length) {
+          consola.log(`${dim(`Args`)}       ${white('>')}     ${gray(args[0])}`)
+          for (const arg of args.slice(1))
+            consola.log(`                `, gray(arg))
+        }
+        consola.log(`---------------------------------------------------------`)
+      },
+      (address) => {
+        consola.log(`${dim('Implement')}  ${white('>')}     ${cyan(implement)}`)
+        consola.log(`${dim('Proxy')}      ${white('>')}     ${cyan(address)}`)
+      },
+    )
+
+    await upgradeToAddress(name, address)
+    await upgradeToDeplJson(name, {
+      address,
+      impl: implement,
+      hash: initReceipt.hash,
+      kind,
+      args,
+      receipt: initReceipt,
+      history: [
+        {
+          impl: implement,
+          receipts: {
+            impl: implReceipt,
+            init: initReceipt,
+          },
+          artifact,
+        },
+      ],
+    })
   }
 
   deploy.tags = ['all', name]
   return deploy
+}
+
+export function createUpdate(name: string, target: string) {
+  async function update() {
+    const options = await resolveInDeplJson(name)
+    const network = process.env.NETWORK || ''
+    const chainId = await ethers.getChainId()
+    const deployer = await ethers.getDeployer()
+    const singer = await ethers.getSinger(deployer)
+    const artifact = await deployments.getArtifact(target)
+
+    const { address: implement, receipt: implReceipt } = await waitForDeplTrans(
+      [new generated.typechains[`${target}__factory`](singer)],
+      (transaction) => {
+        consola.log('')
+        consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
+        consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(chainId)} ${gray(network)}`)
+        consola.log(`${green(bold('kIND'))}       ${white('>')}     ${white(options.kind)}`)
+        consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(implement)')}`)
+        consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
+        consola.log(`---------------------------------------------------------`)
+      },
+    )
+
+    const { receipt: callReceipt } = await waitForCallTrans(
+      [upgradeToCall, [options.address, implement, singer]],
+      (transaction) => {
+        consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(upgradeTo)')}`)
+        consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
+        consola.log(`---------------------------------------------------------`)
+      },
+      () => {
+        consola.log(`${dim('Implement')}  ${white('>')}     ${strikethrough(gray(options.impl))}`)
+        consola.log(`                 ${cyan(implement)} ←`)
+        consola.log(`${dim('Proxy')}      ${white('>')}     ${cyan(options.address)}`)
+      },
+    )
+
+    options.impl = implement
+    options.history.push({
+      impl: implement,
+      receipts: {
+        impl: implReceipt,
+        call: callReceipt,
+      },
+      artifact,
+
+    })
+
+    await upgradeToDeplJson(name, options)
+  }
+  update.tag = ['all', name]
+  return update
 }

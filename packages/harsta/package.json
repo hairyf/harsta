@@ -38,10 +38,9 @@
       "import": "./dist/utils/index.mjs",
       "require": "./dist/utils/index.js"
     },
-    "./generated": {
-      "type": "./dist/generated/index.d.ts",
-      "import": "./dist/generated/index.mjs",
-      "require": "./dist/generated/index.js"
+    "./client": {
+      "type": "./generated/index.ts",
+      "default": "./generated/index.ts"
     },
     "./*": "./*"
   },
@@ -74,12 +73,14 @@
     "wagmi": "2.x"
   },
   "dependencies": {
+    "@clack/prompts": "^0.10.0",
     "@ethersproject/web": "^5.7.1",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@nomicfoundation/hardhat-verify": "^2.0.8",
     "@openzeppelin/contracts": "^5.0.2",
     "@openzeppelin/contracts-upgradeable": "^5.0.1",
     "@openzeppelin/hardhat-upgrades": "^3.0.1",
+    "@openzeppelin/upgrades-core": "^1.42.1",
     "consola": "^3.2.3",
     "dotenv": "^16.4.5",
     "ethers": "^6.13.1",
@@ -90,9 +91,11 @@
     "jiti": "^2.0.0-beta.3",
     "kolorist": "^1.8.0",
     "magicast": "^0.3.4",
+    "ora": "^5",
     "pathe": "^1.1.2",
     "resolve-import-path": "^0.3.2",
     "tsup": "^8.1.0",
+    "tunnel": "^0.0.6",
     "typechain": "^8.3.2",
     "unstorage": "^1.10.2",
     "yargs": "^17.7.2"
@@ -100,6 +103,7 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.0.0",
+    "@types/tunnel": "^0.0.6",
     "@types/yargs": "^17.0.32",
     "rimraf": "^6.0.1",
     "typescript": "^5.2.2",

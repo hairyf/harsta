@@ -62,6 +62,7 @@ Additional third-party contracts used, which will be compiled into contract inst
   harsta compile  Compile and output the directory
   harsta test     Run integration tests
   harsta deploy   Deploy and save deployments
+  harsta update   Update deployed upgradable contracts
 ```
 
 To compile your contracts in `contracts/`:
@@ -157,9 +158,10 @@ After writing your contracts, you need to define the `deployments` in the config
 ```ts
 const config = defileConfig({
   deployments: {
-    Constant1: { args: [/* args... */] },
-    Constant2: { update: 'proxy', args: async env => [/* args... */] },
-    Constant3: { update: 'uups', args: () => [/* ...args */] }
+    Contract1: { args: [/* args... */] },
+    Contract2: { kind: 'transparent', args: async env => [/* args... */] },
+    Contract3: { kind: 'uups', args: () => [/* ...args */] },
+    Contract4: { target: 'Contract1', args: [/* args... */] }
   }
 })
 ```
@@ -170,23 +172,67 @@ Next, deploy to the desired chain:
 $ pnpm harsta deploy --network [your network]
 ```
 
-After deployment, the `config/addresses.ts` file will be automatically updated and recompiled.
+If successful, output the following info:
+
+```sh
+TARGET     >     <name>:<target>.sol
+NETWORK    >     <id> <network>
+Hash       >     <hash>
+From       >     <address>
+Args       >     <arg[]>
+---------------------------------------------------------
+Address    >     <address>
+```
+
+If it is an upgradable contract, then it is:
+
+```sh
+TARGET     >     <name>:<target>.sol
+NETWORK    >     <id> <network>
+kIND       >     <transparent|uups|beacon>
+Hash       >     <hash>(implement)
+From       >     <address>
+---------------------------------------------------------
+Hash       >     <hash>(<kind>)
+From       >     <address>
+Args       >     <arg[]>
+---------------------------------------------------------
+Implement  >     <address>
+Proxy      >     <address>
+```
+
+After deployment, the `config/addresses.ts` and `config/deployments` file will be automatically updated.
 
 ### Update
 
-If your contract files are updated, rerun the script:
+If your contract files are updated:
 
 - `contracts/Constant1.sol` has been modified
 - `contracts/Constant2.sol` has been modified
 
-Rerunning the `deploy` script will redeploy the `Constant1|Constant2` contracts.
+run `deploy --contracts Constant1, Constant2` script will ask and redeploy `Constant1 | Constant2` contracts.
 
 If your contract is an upgradable contract, create a new file:
 
 - `contracts/Constant1.sol` original contract
 - `contracts/Constant1V1.sol` upgraded contract
 
-Rerunning `deploy` will upgrade the contract.
+run `update Constant1 --target Constant1V1` will upgrade the contract.
+
+```sh
+TARGET     >     <name>:<target>.sol
+NETWORK    >     <id> <network>
+kIND       >     <transparent|uups|beacon>
+Hash       >     <hash>(implement)
+From       >     <address>
+---------------------------------------------------------
+Hash       >     <hash>(upgradeTo)
+From       >     <address>
+---------------------------------------------------------
+Implement  >     <oldAddress>
+                 <newAddress> ←
+Proxy      >     <address>
+```
 
 ## Wagmi
 

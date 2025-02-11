@@ -18,12 +18,25 @@ export interface DeploymentConfig {
   target?: string
 
   /**
-   * Contract update mode
+   * Contract upgradable mode
    *
    * @default false
    */
-  mode?: 'proxy' | 'uups' | false
+  kind?: 'beacon' | 'uups' | 'transparent' | false
 
+  /**
+   * Constructor for upgradable contracts
+   *
+   * @default 'initialize'
+   */
+  initializer?: false | string
+
+  /**
+   * Contract upgradable owner
+   *
+   * @default singer
+   */
+  owner?: string
   /**
    * Initialization parameters for deploying contracts
    *

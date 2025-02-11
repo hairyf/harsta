@@ -6,7 +6,9 @@
   "keywords": [],
   "scripts": {
     "build": "harsta compile --clean",
-    "deploy": "harsta deploy --network moonchain"
+    "deploy": "harsta deploy --network geneva",
+    "update:transparent": "harsta update --network geneva ERC20WithTransparent --target ERC20WithTransparentV2",
+    "update:uups": "harsta update --network geneva ERC20WithUUPS --target ERC20WithUUPSV2"
   },
   "dependencies": {
     "@chainlink/contracts": "^1.3.0",

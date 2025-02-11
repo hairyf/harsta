@@ -136,6 +136,9 @@ importers:
 
   packages/harsta:
     dependencies:
+      '@clack/prompts':
+        specifier: ^0.10.0
+        version: 0.10.0
       '@ethersproject/web':
         specifier: ^5.7.1
         version: 5.7.1
@@ -154,6 +157,9 @@ importers:
       '@openzeppelin/hardhat-upgrades':
         specifier: ^3.0.1
         version: 3.2.0(@nomicfoundation/hardhat-ethers@3.0.6)(@nomicfoundation/hardhat-verify@2.0.8)(ethers@6.13.1)(hardhat@2.22.6)
+      '@openzeppelin/upgrades-core':
+        specifier: ^1.42.1
+        version: 1.42.1
       consola:
         specifier: ^3.2.3
         version: 3.2.3
@@ -184,15 +190,27 @@ importers:
       magicast:
         specifier: ^0.3.4
         version: 0.3.4
+      nanospinner:
+        specifier: ^1.2.2
+        version: 1.2.2
+      ora:
+        specifier: ^5
+        version: 5.4.1
       pathe:
         specifier: ^1.1.2
         version: 1.1.2
+      picocolors:
+        specifier: ^1.1.1
+        version: 1.1.1
       resolve-import-path:
         specifier: ^0.3.2
         version: 0.3.2
       tsup:
         specifier: ^8.1.0
         version: 8.2.3(jiti@2.0.0-beta.3)(postcss@8.4.39)(typescript@5.5.3)
+      tunnel:
+        specifier: ^0.0.6
+        version: 0.0.6
       typechain:
         specifier: ^8.3.2
         version: 8.3.2(typescript@5.5.3)
@@ -212,6 +230,9 @@ importers:
       '@types/node':
         specifier: ^20.0.0
         version: 20.14.10
+      '@types/tunnel':
+        specifier: ^0.0.6
+        version: 0.0.6
       '@types/yargs':
         specifier: ^17.0.32
         version: 17.0.32
@@ -330,7 +351,7 @@ packages:
       jsonc-eslint-parser: 2.4.0
       local-pkg: 0.5.0
       parse-gitignore: 2.0.0
-      picocolors: 1.0.1
+      picocolors: 1.1.1
       toml-eslint-parser: 0.10.0
       vue-eslint-parser: 9.4.3(eslint@9.6.0)
       yaml-eslint-parser: 1.2.3
@@ -371,7 +392,7 @@ packages:
       '@openzeppelin/contracts': 4.8.3
       '@openzeppelin/contracts-upgradeable': 4.8.3
     optionalDependencies:
-      '@openzeppelin/upgrades-core': 1.34.1
+      '@openzeppelin/upgrades-core': 1.42.1
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -411,7 +432,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/highlight': 7.24.7
-      picocolors: 1.0.1
+      picocolors: 1.1.1
 
   /@babel/compat-data@7.25.0:
     resolution: {integrity: sha512-P4fwKI2mjEb3ZU5cnMJzvRsRKGBUcs8jvxIoRmr6ufAY9Xk2Bz7JubRTTivkw55c7WQJfTECeqYVa+HZ0FzREg==}
@@ -687,7 +708,7 @@ packages:
       '@babel/helper-validator-identifier': 7.24.7
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.0.1
+      picocolors: 1.1.1
 
   /@babel/parser@7.24.7:
     resolution: {integrity: sha512-9uUYRm6OqQrCqQdG1iCBwBPZgN8ciDBro2nIOFaiRz1/BCxaI7CNvQbDHvsArAC7Tw9Hda/B3U+6ui9u4HWXPw==}
@@ -2001,6 +2022,10 @@ packages:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
+  /@bytecodealliance/preview2-shim@0.17.0:
+    resolution: {integrity: sha512-JorcEwe4ud0x5BS/Ar2aQWOQoFzjq/7jcnxYXCvSMh0oRm0dQXzOA+hqLDBnOMks1LLBA7dmiLLsEBl09Yd6iQ==}
+    dev: false
+
   /@chainlink/contracts@1.3.0(ethers@6.13.1):
     resolution: {integrity: sha512-Vk93nijTC5iRFW/L6FKUzeMuJy7k5dNzAtqlHpdreqtzL7efO/qXbYCkqjJFNXGurfOXVehHlehFoH4tWvSbfw==}
     engines: {node: '>=18', pnpm: '>=9'}
@@ -2224,15 +2249,30 @@ packages:
   /@clack/core@0.3.4:
     resolution: {integrity: sha512-H4hxZDXgHtWTwV3RAVenqcC4VbJZNegbBjlPvzOzCouXtS2y3sDvlO3IsbrPNWuLWPPlYVYPghQdSF64683Ldw==}
     dependencies:
-      picocolors: 1.0.1
+      picocolors: 1.1.1
       sisteransi: 1.0.5
     dev: true
+
+  /@clack/core@0.4.1:
+    resolution: {integrity: sha512-Pxhij4UXg8KSr7rPek6Zowm+5M22rbd2g1nfojHJkxp5YkFqiZ2+YLEM/XGVIzvGOcM0nqjIFxrpDwWRZYWYjA==}
+    dependencies:
+      picocolors: 1.1.1
+      sisteransi: 1.0.5
+    dev: false
+
+  /@clack/prompts@0.10.0:
+    resolution: {integrity: sha512-H3rCl6CwW1NdQt9rE3n373t7o5cthPv7yUoxF2ytZvyvlJv89C5RYMJu83Hed8ODgys5vpBU0GKxIRG83jd8NQ==}
+    dependencies:
+      '@clack/core': 0.4.1
+      picocolors: 1.1.1
+      sisteransi: 1.0.5
+    dev: false
 
   /@clack/prompts@0.7.0:
     resolution: {integrity: sha512-0MhX9/B4iL6Re04jPrttDm+BsP8y6mS7byuv0BvXgdXhbV5PdlsHt55dvNsuBCPZ7xq1oTAOOuotR9NFbQyMSA==}
     dependencies:
       '@clack/core': 0.3.4
-      picocolors: 1.0.1
+      picocolors: 1.1.1
       sisteransi: 1.0.5
     dev: true
     bundledDependencies:
@@ -4132,6 +4172,12 @@ packages:
     resolution: {integrity: sha512-ZcE4rIn10qKahR4OqS8rl8NM2Fbg2QYiBXgMgj74ZI0++LlCcZgB5HyaBbX+lsnKHjTXtjYD3b+2mtg7jFbAMQ==}
     dev: false
 
+  /@nomicfoundation/slang@0.18.3:
+    resolution: {integrity: sha512-YqAWgckqbHM0/CZxi9Nlf4hjk9wUNLC9ngWCWBiqMxPIZmzsVKYuChdlrfeBPQyvQQBoOhbx+7C1005kLVQDZQ==}
+    dependencies:
+      '@bytecodealliance/preview2-shim': 0.17.0
+    dev: false
+
   /@nomicfoundation/solidity-analyzer-darwin-arm64@0.1.2:
     resolution: {integrity: sha512-JaqcWPDZENCvm++lFFGjrDd8mxtf+CtLd2MiXvMNTBD33dContTZ9TWETwNFwg7JTJT5Q9HEecH7FA+HTSsIUw==}
     engines: {node: '>= 12'}
@@ -4285,7 +4331,7 @@ packages:
       '@openzeppelin/defender-sdk-base-client': 1.13.4
       '@openzeppelin/defender-sdk-deploy-client': 1.13.4(debug@4.3.5)
       '@openzeppelin/defender-sdk-network-client': 1.13.4(debug@4.3.5)
-      '@openzeppelin/upgrades-core': 1.34.1
+      '@openzeppelin/upgrades-core': 1.42.1
       chalk: 4.1.2
       debug: 4.3.5(supports-color@8.1.1)
       ethereumjs-util: 7.1.5
@@ -4298,15 +4344,17 @@ packages:
       - supports-color
     dev: false
 
-  /@openzeppelin/upgrades-core@1.34.1:
-    resolution: {integrity: sha512-LV3hHm60htmP3HJjn2VoGqXNPn1RLFSSInRyXNbm15Z2oWKGxOfAWSC4+okRckum0yVB5g3k4/SEyqjsJRB07A==}
+  /@openzeppelin/upgrades-core@1.42.1:
+    resolution: {integrity: sha512-8qnz2XfQrco8R8u9NjV+KiSLrVn7DnWFd+3BuhTUjhVy0bzCSu2SMKCVpZLtXbxf4f2dpz8jYPQYRa6s23PhLA==}
     hasBin: true
     dependencies:
-      cbor: 9.0.2
+      '@nomicfoundation/slang': 0.18.3
+      cbor: 10.0.3
       chalk: 4.1.2
       compare-versions: 6.1.0
       debug: 4.3.5(supports-color@8.1.1)
       ethereumjs-util: 7.1.5
+      minimatch: 9.0.5
       minimist: 1.2.8
       proper-lockfile: 4.1.2
       solidity-ast: 0.4.56
@@ -5674,6 +5722,12 @@ packages:
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
     dev: false
 
+  /@types/tunnel@0.0.6:
+    resolution: {integrity: sha512-hfaiPQfx9xWwy5x++mdlydyNeV8VJUfOSslxwCtMh9HGjtXysk2oL38TvJhfi+afa2os8sLWW8mZC4Zq5mU50A==}
+    dependencies:
+      '@types/node': 20.14.10
+    dev: true
+
   /@types/unist@2.0.10:
     resolution: {integrity: sha512-IfYcSBWE3hLpBg8+X2SEa8LVkJdJEkT2Ese2aaLs3ptGdVtABxndrMaxuFlQ1qdFf9Q5rDvDpxI3WwgvKFAsQA==}
     dev: true
@@ -6874,7 +6928,7 @@ packages:
       caniuse-lite: 1.0.30001641
       fraction.js: 4.3.7
       normalize-range: 0.1.2
-      picocolors: 1.0.1
+      picocolors: 1.1.1
       postcss: 8.4.39
       postcss-value-parser: 4.2.0
     dev: false
@@ -7273,6 +7327,13 @@ packages:
 
   /caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}
+    dev: false
+
+  /cbor@10.0.3:
+    resolution: {integrity: sha512-72Jnj81xMsqepqdcSdf2+fflz/UDsThOHy5hj2MW5F5xzHL8Oa0KQ6I6V9CwVUPxg5pf+W9xp6W2KilaRXWWtw==}
+    engines: {node: '>=18'}
+    dependencies:
+      nofilter: 3.1.0
     dev: false
 
   /cbor@8.1.0:
@@ -11796,6 +11857,12 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  /nanospinner@1.2.2:
+    resolution: {integrity: sha512-Zt/AmG6qRU3e+WnzGGLuMCEAO/dAu45stNbHY223tUxldaDAeE+FxSPsd9Q+j+paejmm0ZbrNVs5Sraqy3dRxA==}
+    dependencies:
+      picocolors: 1.1.1
+    dev: false
+
   /napi-wasm@1.1.0:
     resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
     dev: false
@@ -12385,12 +12452,8 @@ packages:
     resolution: {integrity: sha512-xCy9V055GLEqoFaHoC1SoLIaLmWctgCUaBaWxDZ7/Zx4CTyX7cJQLJOok/orfjZAh9kEYpjJa4d0KcJmCbctZA==}
     dev: true
 
-  /picocolors@1.0.1:
-    resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
-
   /picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
-    dev: false
 
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
@@ -12816,7 +12879,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.1
+      picocolors: 1.1.1
       source-map-js: 1.2.0
 
   /preact@10.23.1:
@@ -14241,7 +14304,7 @@ packages:
       css-tree: 2.3.1
       css-what: 6.1.0
       csso: 5.0.5
-      picocolors: 1.0.1
+      picocolors: 1.1.1
     dev: false
 
   /sync-request@6.1.0:
@@ -14573,7 +14636,7 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      picocolors: 1.0.1
+      picocolors: 1.1.1
       postcss: 8.4.39
       postcss-load-config: 6.0.1(jiti@2.0.0-beta.3)(postcss@8.4.39)
       resolve-from: 5.0.0
@@ -14587,6 +14650,11 @@ packages:
       - supports-color
       - tsx
       - yaml
+    dev: false
+
+  /tunnel@0.0.6:
+    resolution: {integrity: sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==}
+    engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
     dev: false
 
   /tweetnacl-util@0.15.1:
@@ -14954,7 +15022,7 @@ packages:
     dependencies:
       browserslist: 4.23.2
       escalade: 3.1.2
-      picocolors: 1.0.1
+      picocolors: 1.1.1
 
   /update-browserslist-db@1.1.0(browserslist@4.23.3):
     resolution: {integrity: sha512-EdRAaAyk2cUE1wOf2DkEhzxqOQvFOoRJFNS6NeyJ01Gp2beMRpBAINjM2iDXE3KCuKhwnvHIQCJm6ThL2Z+HzQ==}
@@ -14964,7 +15032,7 @@ packages:
     dependencies:
       browserslist: 4.23.3
       escalade: 3.1.2
-      picocolors: 1.0.1
+      picocolors: 1.1.1
     dev: false
 
   /uqr@0.1.2:
@@ -15636,7 +15704,7 @@ packages:
     dev: false
 
   github.com/matter-labs/era-contracts/446d391d34bdb48255d5f8fef8a8248925fc98b9:
-    resolution: {commit: 446d391d34bdb48255d5f8fef8a8248925fc98b9, repo: git+ssh://git@github.com/matter-labs/era-contracts.git, type: git}
+    resolution: {tarball: https://codeload.github.com/matter-labs/era-contracts/tar.gz/446d391d34bdb48255d5f8fef8a8248925fc98b9}
     name: era-contracts
     version: 0.1.0
     dev: false

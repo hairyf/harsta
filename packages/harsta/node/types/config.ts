@@ -5,8 +5,15 @@ import type { DeploymentConfig } from './deployment'
 export interface HarstaPathsConfig {
   fragments?: string
 }
+
+export interface HarstaProxyConfig {
+  https?: boolean
+  host: string
+  port: number
+}
 export interface HarstaUserConfig extends Omit<HardhatUserConfig, 'networks' | 'etherscan' | 'verify' | 'paths'> {
   deployments?: Record<string, DeploymentConfig>
   networks?: Record<string, NetworkUserConfig>
   paths?: HarstaPathsConfig
+  proxy?: HarstaProxyConfig
 }

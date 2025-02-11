@@ -190,18 +190,12 @@ importers:
       magicast:
         specifier: ^0.3.4
         version: 0.3.4
-      nanospinner:
-        specifier: ^1.2.2
-        version: 1.2.2
       ora:
         specifier: ^5
         version: 5.4.1
       pathe:
         specifier: ^1.1.2
         version: 1.1.2
-      picocolors:
-        specifier: ^1.1.1
-        version: 1.1.1
       resolve-import-path:
         specifier: ^0.3.2
         version: 0.3.2
@@ -3725,7 +3719,7 @@ packages:
       i18next: 23.11.5
       qr-code-styling: 1.6.0-rc.1
       react: 18.3.1
-      react-native: 0.74.5(@babel/core@7.24.9)(@babel/preset-env@7.25.3)(@types/react@18.3.3)(react@18.3.1)
+      react-native: 0.74.5(@babel/core@7.24.9)(@babel/preset-env@7.25.3)(react@18.3.1)
     dev: false
 
   /@metamask/sdk@0.27.0(react-native@0.74.5)(react@18.3.1)(rollup@3.29.4):
@@ -4858,7 +4852,7 @@ packages:
     resolution: {integrity: sha512-Xh7Nyk/MPefkb0Itl5Z+3oOobeG9lfLb7ZOY2DKpFnoCE1TzBmib9vMNdFaLdSxLIP+Ec6icgKtdzYg8QUPYzA==}
     dev: false
 
-  /@react-native/virtualized-lists@0.74.87(@types/react@18.3.3)(react-native@0.74.5)(react@18.3.1):
+  /@react-native/virtualized-lists@0.74.87(react-native@0.74.5)(react@18.3.1):
     resolution: {integrity: sha512-lsGxoFMb0lyK/MiplNKJpD+A1EoEUumkLrCjH4Ht+ZlG8S0BfCxmskLZ6qXn3BiDSkLjfjI/qyZ3pnxNBvkXpQ==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -4869,11 +4863,10 @@ packages:
       '@types/react':
         optional: true
     dependencies:
-      '@types/react': 18.3.3
       invariant: 2.2.4
       nullthrows: 1.1.1
       react: 18.3.1
-      react-native: 0.74.5(@babel/core@7.24.9)(@babel/preset-env@7.25.3)(@types/react@18.3.3)(react@18.3.1)
+      react-native: 0.74.5(@babel/core@7.24.9)(@babel/preset-env@7.25.3)(react@18.3.1)
     dev: false
 
   /@rnx-kit/chromium-edge-launcher@1.0.0:
@@ -11857,12 +11850,6 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  /nanospinner@1.2.2:
-    resolution: {integrity: sha512-Zt/AmG6qRU3e+WnzGGLuMCEAO/dAu45stNbHY223tUxldaDAeE+FxSPsd9Q+j+paejmm0ZbrNVs5Sraqy3dRxA==}
-    dependencies:
-      picocolors: 1.1.1
-    dev: false
-
   /napi-wasm@1.1.0:
     resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
     dev: false
@@ -13093,10 +13080,10 @@ packages:
       escape-string-regexp: 2.0.0
       invariant: 2.2.4
       react: 18.3.1
-      react-native: 0.74.5(@babel/core@7.24.9)(@babel/preset-env@7.25.3)(@types/react@18.3.3)(react@18.3.1)
+      react-native: 0.74.5(@babel/core@7.24.9)(@babel/preset-env@7.25.3)(react@18.3.1)
     dev: false
 
-  /react-native@0.74.5(@babel/core@7.24.9)(@babel/preset-env@7.25.3)(@types/react@18.3.3)(react@18.3.1):
+  /react-native@0.74.5(@babel/core@7.24.9)(@babel/preset-env@7.25.3)(react@18.3.1):
     resolution: {integrity: sha512-Bgg2WvxaGODukJMTZFTZBNMKVaROHLwSb8VAGEdrlvKwfb1hHg/3aXTUICYk7dwgAnb+INbGMwnF8yeAgIUmqw==}
     engines: {node: '>=18'}
     hasBin: true
@@ -13117,8 +13104,7 @@ packages:
       '@react-native/gradle-plugin': 0.74.87
       '@react-native/js-polyfills': 0.74.87
       '@react-native/normalize-colors': 0.74.87
-      '@react-native/virtualized-lists': 0.74.87(@types/react@18.3.3)(react-native@0.74.5)(react@18.3.1)
-      '@types/react': 18.3.3
+      '@react-native/virtualized-lists': 0.74.87(react-native@0.74.5)(react@18.3.1)
       abort-controller: 3.0.0
       anser: 1.4.10
       ansi-regex: 5.0.1
@@ -15704,7 +15690,7 @@ packages:
     dev: false
 
   github.com/matter-labs/era-contracts/446d391d34bdb48255d5f8fef8a8248925fc98b9:
-    resolution: {tarball: https://codeload.github.com/matter-labs/era-contracts/tar.gz/446d391d34bdb48255d5f8fef8a8248925fc98b9}
+    resolution: {commit: 446d391d34bdb48255d5f8fef8a8248925fc98b9, repo: git+ssh://git@github.com/matter-labs/era-contracts.git, type: git}
     name: era-contracts
     version: 0.1.0
     dev: false

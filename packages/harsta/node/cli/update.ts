@@ -35,8 +35,6 @@ export function registerUpdateCommand(cli: Argv) {
       )
       await generateEnsureFiles()
 
-      exec(`node ${hardhatBinRoot} compile`)
-
       const rows = [
         `node ${hardhatBinRoot}`,
         `deploy`,

@@ -39,17 +39,9 @@ export async function generateUpdateDirectory(name: string, target: string) {
 }
 
 export async function generateEnsureFiles() {
-  const generateRoot = path.resolve(packRoot, './generated')
-
   await fs.remove(path.resolve(packRoot, './contracts'))
   await fs.copy(
     path.resolve(userRoot, './contracts'),
     path.resolve(packRoot, './contracts'),
   )
-
-  await fs.ensureDir(path.resolve(generateRoot, './contracts'))
-  await fs.ensureDir(path.resolve(generateRoot, './fragments'))
-
-  await fs.writeFile(path.resolve(generateRoot, './contracts/index.ts'), 'export {}')
-  await fs.writeFile(path.resolve(generateRoot, './fragments/index.ts'), 'export {}')
 }

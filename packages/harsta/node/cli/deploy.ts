@@ -42,8 +42,6 @@ export function registerDeployCommand(cli: Argv) {
       await generateDeployDirectory(userConf)
       await generateEnsureFiles()
 
-      exec(`node ${hardhatBinRoot} compile`)
-
       const tags: string[] = []
 
       const directory = path.resolve(`${userRoot}/config/deployments`, network)

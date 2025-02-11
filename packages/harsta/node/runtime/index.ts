@@ -23,7 +23,7 @@ import {
 userConf.proxy && ethers.applyAgent(userConf.proxy)
 ethers.fixedTaikoPending(JsonRpcApiProvider.prototype)
 
-const generated = resolveInPackFile('./generated/index.ts')
+const factories = resolveInPackFile('./generated/typechains/factories/contracts/index.ts')
 
 export function createDeploy(name: string) {
   async function deploy() {
@@ -37,7 +37,7 @@ export function createDeploy(name: string) {
     const args = await deployments.getArgs(name)
 
     const { receipt, transaction, address } = await waitForDeplTrans(
-      [new generated.typechains[`${target}__factory`](singer), args],
+      [new factories[`${target}__factory`](singer), args],
       (transaction) => {
         consola.log('')
         consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
@@ -83,7 +83,7 @@ export function createDeployInUpdate(name: string, kind: 'uups' | 'beacon' | 'tr
     const args = await deployments.getArgs(name)
 
     const { address: implement, receipt: implReceipt } = await waitForDeplTrans(
-      [new generated.typechains[`${target}__factory`](singer)],
+      [new factories[`${target}__factory`](singer)],
       (transaction) => {
         consola.log('')
         consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
@@ -95,7 +95,7 @@ export function createDeployInUpdate(name: string, kind: 'uups' | 'beacon' | 'tr
       },
     )
 
-    const inte = generated.typechains[`${target}__factory`].createInterface()
+    const inte = factories[`${target}__factory`].createInterface()
     const data = getInitializerData(inte, args, options)
 
     const { address, receipt: initReceipt } = await waitForDeplTrans(
@@ -151,7 +151,7 @@ export function createUpdate(name: string, target: string) {
     const artifact = await deployments.getArtifact(target)
 
     const { address: implement, receipt: implReceipt } = await waitForDeplTrans(
-      [new generated.typechains[`${target}__factory`](singer)],
+      [new factories[`${target}__factory`](singer)],
       (transaction) => {
         consola.log('')
         consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)

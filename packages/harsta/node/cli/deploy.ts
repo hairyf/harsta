@@ -44,8 +44,9 @@ export function registerDeployCommand(cli: Argv) {
 
       const tags: string[] = []
 
+      const directory = path.resolve(`${userRoot}/config/deployments`, network)
+
       for (const deployment of deployments) {
-        const directory = path.resolve(userRoot, '.harsta', 'deploy', network)
         const file = path.resolve(directory, `${deployment.name}.json`)
         const exists = fs.existsSync(file)
 

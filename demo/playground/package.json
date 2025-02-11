@@ -10,6 +10,7 @@
     "update:transparent": "harsta update --network geneva ERC20WithTransparent --target ERC20WithTransparentV2",
     "update:uups": "harsta update --network geneva ERC20WithUUPS --target ERC20WithUUPSV2"
   },
+
   "dependencies": {
     "@chainlink/contracts": "^1.3.0",
     "@harsta/client": "workspace:^",

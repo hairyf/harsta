@@ -9,14 +9,12 @@ export async function resolveAddress(name: string) {
   const addrFile = path.resolve(userRoot, './config/addresses.ts')
   const jsonFile = path.resolve(userRoot, './config/addresses.json')
   const chain = await getChainId()
-  if (fs.existsSync(addrFile)) {
-    const mod = await loadFile(addrFile)
-    return mod.exports.default?.[chain]?.[name]
-  }
-  if (fs.existsSync(jsonFile)) {
-    const mod = await fs.readJSON(jsonFile)
-    return mod?.[chain]?.[name]
-  }
+
+  if (fs.existsSync(addrFile))
+    return loadFile(addrFile).then(mod => mod.exports.default?.[chain]?.[name])
+
+  if (fs.existsSync(jsonFile))
+    return fs.readJSON(jsonFile).then(mod => mod?.[chain]?.[name])
 }
 
 export async function upgradeToAddress(name: string, address: string) {

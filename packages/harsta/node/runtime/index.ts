@@ -23,7 +23,7 @@ import {
 userConf.proxy && ethers.applyAgent(userConf.proxy)
 ethers.fixedTaikoPending(JsonRpcApiProvider.prototype)
 
-const factories = resolveInPackFile('./generated/typechains/factories/contracts/index.ts')
+const factories = resolveInPackFile('./generated/typechains/index.ts')
 
 export function createDeploy(name: string) {
   async function deploy() {

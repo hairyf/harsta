@@ -311,11 +311,13 @@ DEFAULT_CHAIN = 'sepolia'
 You can ensure that deployment scripts are executed in tests by calling `await deployments.fixture(['MyContract'])`. This is optimized so that if multiple tests use the same contract, the deployment will be done once, and each test will start in exactly the same state.
 
 ```ts
-import { contracts, fixture } from '@harsta/tests'
+import { contracts } from 'harsta/runtime'
+import { fixture, initial } from 'harsta/tests'
 import { expect } from 'chai'
 
 describe('storage contract', () => {
   beforeEach(async () => {
+    await initial()
     await fixture(['Storage'])
   })
   it('test', async () => {

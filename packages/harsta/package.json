@@ -62,6 +62,7 @@
     "generated",
     "global.d.ts",
     "hardhat.config.ts",
+    "node",
     "runtime",
     "tests",
     "tsconfig.json"

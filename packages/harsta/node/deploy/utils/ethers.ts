@@ -1,11 +1,8 @@
-import { FetchRequest, JsonRpcProvider, Wallet } from 'ethers'
+import { JsonRpcProvider, Wallet } from 'ethers'
 import env from 'hardhat'
-import type { Provider } from 'ethers'
-import { httpOverHttps, httpsOverHttp } from 'tunnel'
 import type { EthereumProvider } from 'hardhat/types'
 
 import { userConf } from '../../constants'
-import type { HarstaProxyConfig } from '../../types'
 
 let provider: EthereumProvider | undefined
 

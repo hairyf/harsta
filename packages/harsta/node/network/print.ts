@@ -1,8 +1,5 @@
-import { JsonRpcServer } from 'hardhat/internal/hardhat-network/jsonrpc/server'
-import type { EthereumProvider, HardhatConfig, HardhatNetworkConfig } from 'hardhat/types'
-import fs from 'fs-extra'
-import { watchCompilerOutput } from 'hardhat/builtin-tasks/utils/watch'
-import { HARDHAT_NETWORK_NAME as NETWORK_NAME } from 'hardhat/internal/constants'
+import type { HardhatConfig } from 'hardhat/types'
+import { HARDHAT_NETWORK_NAME } from 'hardhat/internal/constants'
 import consola from 'consola'
 import { HARDHAT_NETWORK_MNEMONIC } from 'hardhat/internal/core/config/default-config'
 import { normalizeHardhatNetworkAccountsConfig } from 'hardhat/internal/core/providers/util'
@@ -15,7 +12,7 @@ import {
 import picocolors from 'picocolors'
 
 export function printHardhatNetworkAccounts(config: HardhatConfig) {
-  const networkConfig = config.networks[NETWORK_NAME]
+  const networkConfig = config.networks[HARDHAT_NETWORK_NAME]
   const isDefaultConfig
     = !Array.isArray(networkConfig.accounts)
     && networkConfig.accounts.mnemonic === HARDHAT_NETWORK_MNEMONIC

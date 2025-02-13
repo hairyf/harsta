@@ -1,5 +1,5 @@
 import { Wallet } from 'ethers'
-import { contracts, getNamedAccount, signer } from 'harsta/runtime'
+import { contracts, signer } from 'harsta/runtime'
 import { fixture, initial } from 'harsta/tests'
 import { beforeEach, describe, expect, it } from 'vitest'
 

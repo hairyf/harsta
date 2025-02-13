@@ -68,21 +68,21 @@ const config = defineConfig({
   deployments: {
     ERC20: {
       target: 'ERC20WithOwnable',
-      args: async (env) => {
+      args: async (env: any) => {
         const ns = await env.getNamedAccounts()
         return [ns.owner, 'TestName1', 'TestSymbol1']
       },
     },
     ERC20WithTransparent: {
       kind: 'transparent',
-      args: async (env) => {
+      args: async (env: any) => {
         const ns = await env.getNamedAccounts()
         return [ns.owner, 'TestName2', 'TestSymbol2']
       },
     },
     ERC20WithUUPS: {
       kind: 'uups',
-      args: async (env) => {
+      args: async (env: any) => {
         const ns = await env.getNamedAccounts()
         return [ns.owner, 'TestName2', 'TestSymbol2']
       },
@@ -95,5 +95,6 @@ const config = defineConfig({
 
 // # verify select contract
 // harsta verify contract1
+// harsta verify contract1 --args <args>[]
 
 export default config

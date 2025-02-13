@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import path from 'pathe'
 import { resolveImport } from 'resolve-import-path'
 
 export function fixtureHardhat() {

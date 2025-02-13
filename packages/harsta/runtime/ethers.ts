@@ -1,4 +1,4 @@
-import { provider, updateProvider, updateSigner } from '../generated'
+import { provider, updateSigner } from '../generated'
 import { hardhatConfig } from './config'
 import { getNamedAccount, getSinger, getUnnamedAccount } from './utils'
 

@@ -109,8 +109,7 @@ export function createDeployInUpdate(name: string, kind: 'uups' | 'beacon' | 'tr
 
     const inte = factories[`${target}__factory`].createInterface()
     const data = getInitializerData(inte, args, options)
-
-    const { address, receipt: initReceipt } = await waitForDeplTrans(
+    const { address, receipt: initReceipt, args: deployArgs } = await waitForDeplTrans(
       await getFactoryOptsInProxy(kind, implement, data, singer, options),
       (transaction) => {
         consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}(${gray(kind)})`)
@@ -139,7 +138,8 @@ export function createDeployInUpdate(name: string, kind: 'uups' | 'beacon' | 'tr
       impl: implement,
       hash: initReceipt.hash,
       kind,
-      args,
+      args: deployArgs,
+      initialize: args,
       receipt: initReceipt,
       history: [
         {

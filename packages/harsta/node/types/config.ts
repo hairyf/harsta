@@ -11,9 +11,15 @@ export interface HarstaProxyConfig {
   host: string
   port: number
 }
-export interface HarstaUserConfig extends Omit<HardhatUserConfig, 'networks' | 'etherscan' | 'verify' | 'paths'> {
+export interface HarstaUserConfig extends Omit<HardhatUserConfig, 'namedAccounts' | 'networks' | 'etherscan' | 'verify' | 'paths'> {
   deployments?: Record<string, DeploymentConfig>
   networks?: Record<string, NetworkUserConfig>
   paths?: HarstaPathsConfig
   proxy?: HarstaProxyConfig
+  namedAccounts?: {
+    [name: string]:
+      | string
+      | number
+      | { [network: string]: null | number | string }
+  }
 }

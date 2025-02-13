@@ -9,6 +9,7 @@ import { fixtureHardhat } from './fixture'
 import { registerUpdateCommand } from './update'
 import { registerNodeCommand } from './node'
 import { registerTestCommand } from './test'
+import { registerVerifyCommand } from './verify'
 // import { registerVerifyCommand } from './verify'
 
 export const cli = yargs(hideBin(process.argv)).scriptName('harsta')
@@ -27,8 +28,7 @@ registerDeployCommand(cli)
 registerUpdateCommand(cli)
 registerNodeCommand(cli)
 registerTestCommand(cli)
-
-// registerVerifyCommand(cli)
+registerVerifyCommand(cli)
 
 export function main() {
   fixtureHardhat()

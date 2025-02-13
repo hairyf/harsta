@@ -10,7 +10,7 @@ import { registerUpdateCommand } from './update'
 import { registerNodeCommand } from './node'
 import { registerTestCommand } from './test'
 import { registerVerifyCommand } from './verify'
-// import { registerVerifyCommand } from './verify'
+import { registerRunCommand } from './run'
 
 export const cli = yargs(hideBin(process.argv)).scriptName('harsta')
   .version(version)
@@ -23,6 +23,7 @@ BigInt.prototype.toJSON = function (this) {
   return this.toString()
 }
 
+registerRunCommand(cli)
 registerCompileCommand(cli)
 registerDeployCommand(cli)
 registerUpdateCommand(cli)

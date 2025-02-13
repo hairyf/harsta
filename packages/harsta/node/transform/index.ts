@@ -1,9 +1,10 @@
 import path from 'node:path'
 import type { ChainConfig } from '@nomicfoundation/hardhat-verify/types'
+import type { HardhatUserConfig } from 'hardhat/types'
 import type { HarstaUserConfig } from '../types'
 import { packRoot, userRoot } from '../constants'
 
-export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfig) {
+export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfig): HardhatUserConfig & { harsta: HarstaUserConfig } {
   const networks: any = {}
 
   const etherscan = {

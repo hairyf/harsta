@@ -2,38 +2,35 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import consola from 'consola'
 import { loadFile, writeFile } from 'magicast'
-import { userRoot } from '../../constants'
-import { getChainId } from './ethers'
+import { network, userRoot } from '../../constants'
 
-export async function resolveAddress(name: string) {
+export async function resolveInAddress(name: string) {
   const addrFile = path.resolve(userRoot, './config/addresses.ts')
   const jsonFile = path.resolve(userRoot, './config/addresses.json')
-  const chain = await getChainId()
 
   if (fs.existsSync(addrFile))
-    return loadFile(addrFile).then(mod => mod.exports.default?.[chain]?.[name])
+    return loadFile(addrFile).then(mod => mod.exports.default?.[network.id]?.[name])
 
   if (fs.existsSync(jsonFile))
-    return fs.readJSON(jsonFile).then(mod => mod?.[chain]?.[name])
+    return fs.readJSON(jsonFile).then(mod => mod?.[network.id]?.[name])
 }
 
 export async function upgradeToAddress(name: string, address: string) {
   const addrFile = path.resolve(userRoot, './config/addresses.ts')
   const jsonFile = path.resolve(userRoot, './config/addresses.json')
 
-  const chain = await getChainId()
   if (fs.existsSync(addrFile)) {
     const mod = await loadFile(addrFile)
     mod.exports.default ??= {}
-    mod.exports.default[chain] ??= {}
-    mod.exports.default[chain][name] = address
+    mod.exports.default[network.id] ??= {}
+    mod.exports.default[network.id][name] = address
     await writeFile(mod, addrFile)
   }
 
   if (fs.existsSync(jsonFile)) {
     const mod = await fs.readJSON(jsonFile)
-    mod[chain] ??= {}
-    mod[chain][name] = address
+    mod[network.id] ??= {}
+    mod[network.id][name] = address
     await fs.writeJson(jsonFile, mod, { spaces: 2 })
   }
 }

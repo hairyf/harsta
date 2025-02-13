@@ -1,58 +1,35 @@
-/* eslint-disable ts/ban-ts-comment */
-import { Wallet } from 'ethers'
 import { provider } from '../generated'
-import { hardhatConfig, privateKeys } from './config'
+import { createDeploymentsManager } from '../node/features/deploy'
+import { lazyEthereumProvider } from './network'
 
-const _accounts = new Map<string, number>([])
-let index = 0
+export const manager = createDeploymentsManager(lazyEthereumProvider, process.env.NETWORK!)
 
-export function getSingers() {
-  return getUnnamedAccounts().map(getSinger)
+export async function getSingers() {
+  return manager.getUnnamedAccounts().then(accounts => accounts.map(getSinger))
 }
 
-export function getSinger(address: string) {
-  return new Wallet(privateKeys[address], provider)
+export async function getSinger(address: string) {
+  return manager.deploymentsExtension.getSigner(address)
 }
 
-export function getNamedAccounts(): Record<string, string> {
-  if (process.env.NETWORK === 'hardhat') {
-    const proxy = new Proxy<any>({}, {
-      get: (_, name: string) => {
-        if (!_accounts.has(name))
-          _accounts.set(name, index++)
-        return getUnnamedAccounts()[_accounts.get(name)!]
-      },
-    })
-    return proxy as any
-  }
-  const addresses = getUnnamedAccounts()
-  const namedAccounts = hardhatConfig.namedAccounts
-  const accounts: Record<string, string> = {}
-  const network = process.env.NETWORK!
-  const chainId = hardhatConfig.networks[network].chainId!
-  for (const name in namedAccounts) {
-    // @ts-ignore
-    const index = namedAccounts[name][chainId] || namedAccounts[name].default
-    accounts[name] = addresses[index]
-  }
-  return accounts
+export async function getNamedAccounts() {
+  return manager.getNamedAccounts()
+}
+export async function getUnnamedAccounts() {
+  return manager.getUnnamedAccounts()
 }
 
-export function getNamedAccount(name: string): string {
-  return getNamedAccounts()[name]
+export async function getNamedAccount(name: string) {
+  return getNamedAccounts().then(accounts => accounts[name])
 }
-export function getUnnamedAccount() {
-  return getUnnamedAccounts()[0]
-}
-
-export function getNamedSinger(name: string) {
-  return getSinger(getNamedAccount(name))
+export async function getUnnamedAccount() {
+  return getUnnamedAccounts().then(accounts => accounts[0])
 }
 
-export function getUnnamedAccounts() {
-  return Object.values(privateKeys).map(account => new Wallet(account).address)
+export async function getNamedSinger(name: string) {
+  return getNamedAccount(name).then(getSinger)
 }
 
-export function getChainId() {
-  return hardhatConfig.networks[process.env.NETWORK!].chainId!
+export async function getChainId() {
+  return manager.getChainId()
 }

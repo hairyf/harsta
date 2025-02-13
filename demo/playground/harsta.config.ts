@@ -75,7 +75,7 @@ const config = defineConfig({
     },
     ERC20WithTransparent: {
       kind: 'transparent',
-      args: async (env: any) => {
+      args: async (env) => {
         const ns = await env.getNamedAccounts()
         return [ns.owner, 'TestName2', 'TestSymbol2']
       },

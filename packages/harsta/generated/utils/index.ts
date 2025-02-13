@@ -1,10 +1,8 @@
 /* eslint-disable ts/ban-ts-comment */
-import type { ContractRunner as Runner } from 'ethers'
 import { JsonRpcProvider, Network } from 'ethers'
-import { defaults } from '../defaults'
+import { defaultChain, defaults } from '../defaults'
 import type { Chain } from '../types'
 import addresses from '../addresses'
-import { provider, runner, signer } from '../ethers'
 
 export function proxy<T extends object>(initObject?: T) {
   if (initObject) {
@@ -40,27 +38,11 @@ export function isChain(value: any): value is Chain {
   return Boolean(value.name || value.rpcUrls || value.id)
 }
 
-export function resolveRunner(chainOrRunner: Chain | Runner | 'signer' | 'provider' = 'provider') {
-  if (isChain(chainOrRunner)) {
-    const rpc = chainOrRunner.rpcUrls.default.http[0]
-    const network = new Network(chainOrRunner.name, chainOrRunner.id)
-    const provider = new JsonRpcProvider(rpc, network)
-    Reflect.set(provider, 'chainId', chainOrRunner.id)
-    return provider
-  }
-  if (!chainOrRunner)
-    return proxy.resolve(runner)! || proxy.resolve(provider)!
-  if (chainOrRunner === 'signer')
-    return proxy.resolve(signer)!
-  if (chainOrRunner === 'provider')
-    return proxy.resolve(provider)!
-  return chainOrRunner
-}
-
 export function resolveAddress(name: string, runner: any): string {
   if (!runner)
     return undefined as any
   let chainId: number
+
   try {
     chainId = Number(runner.provider._network.chainId)
   }

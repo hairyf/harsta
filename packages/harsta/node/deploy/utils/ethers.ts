@@ -44,18 +44,3 @@ export async function getChainId() {
   const network = userConf.networks?.[process.env.NETWORK || '']
   return network?.id || await env.getChainId()
 }
-
-export async function applyAgent(proxy: HarstaProxyConfig) {
-  const agent = proxy.https ? httpOverHttps({ proxy }) : httpsOverHttp({ proxy })
-  const fetchRequest = env.ethers.FetchRequest.createGetUrlFunc({ agent })
-  env.ethers.FetchRequest.registerGetUrl(fetchRequest)
-  FetchRequest.registerGetUrl(fetchRequest)
-}
-
-export function fixedTaikoPending(provider: Provider) {
-  const source = provider.getBlock
-  provider.getBlock = function (block, prefetchTxs) {
-    block === 'pending' && (block = 'latest')
-    return source.call(this, block, prefetchTxs)
-  }
-}

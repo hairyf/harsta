@@ -24,7 +24,8 @@ export const defaults = {
     return chains[this.alias] || chains[firstChainAlias]
   },
   get addresses() {
-    return addresses[this.chain.id]
+    // @ts-ignore
+    return addresses[process.env.CHAIN_ID!] || addresses[this.chain.id]
   },
 }
 

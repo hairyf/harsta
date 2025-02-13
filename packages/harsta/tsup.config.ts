@@ -4,7 +4,7 @@ import pkg from '../../demo/playground/package.json'
 export default defineConfig((options) => {
   return {
     entry: [
-      'node/runtime/index.ts',
+      'node/deploy/index.ts',
       'node/transform/index.ts',
       'node/constants/index.ts',
       'node/types/index.ts',

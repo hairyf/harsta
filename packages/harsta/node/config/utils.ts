@@ -1,6 +1,6 @@
+import consola from 'consola'
 import { createJiti } from 'jiti'
 import { resolve } from 'pathe'
-import consola from 'consola'
 
 export type UserInputConfig = Record<string, any>
 export interface ResolvedConfig<
@@ -9,7 +9,6 @@ export interface ResolvedConfig<
   config: T
   configFile: string
 }
-
 export function loadConfig<T extends UserInputConfig = UserInputConfig>(options: {
   name: string
   cwd: string

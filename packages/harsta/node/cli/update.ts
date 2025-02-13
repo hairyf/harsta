@@ -16,6 +16,10 @@ export function registerUpdateCommand(cli: Argv) {
         demandOption: true,
         deprecate: 'next contract',
       })
+      .option('compile', {
+        type: 'boolean',
+        default: true,
+      })
       .option('network', {
         alias: 'n',
         type: 'string',
@@ -35,7 +39,7 @@ export function registerUpdateCommand(cli: Argv) {
       )
       await generateEnsureFiles()
 
-      exec(`node ${hardhatBinRoot} compile`)
+      args.compile && exec(`node ${hardhatBinRoot} compile`)
 
       const rows = [
         `node ${hardhatBinRoot}`,

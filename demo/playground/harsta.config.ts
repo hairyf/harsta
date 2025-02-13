@@ -20,7 +20,12 @@ const currency = {
 }
 
 const config = defineConfig({
-  solidity: '0.8.24',
+  solidity: {
+    version: '0.8.24',
+    settings: {
+      evmVersion: 'shanghai',
+    },
+  },
   defaultNetwork: 'geneva',
   namedAccounts: {
     deployer: { default: 0 },

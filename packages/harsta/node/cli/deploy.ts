@@ -20,6 +20,10 @@ export function registerDeployCommand(cli: Argv) {
         type: 'array',
         describe: 'Select the contract you want to deploy, `--contracts all` means all contracts',
       })
+      .option('compile', {
+        type: 'boolean',
+        default: true,
+      })
       .help(),
     async (args) => {
       const networks = userConf.networks || {}
@@ -42,7 +46,7 @@ export function registerDeployCommand(cli: Argv) {
       await generateDeployDirectory(userConf)
       await generateEnsureFiles()
 
-      exec(`node ${hardhatBinRoot} compile`)
+      args.compile && exec(`node ${hardhatBinRoot} compile`)
 
       const tags: string[] = []
 

@@ -13,8 +13,8 @@ export async function generateDeployDirectory(userConf: any) {
     const type = isUpdate ? deployments[name].kind : undefined
     const code = [
       isUpdate
-        ? `const { createDeployInUpdate } = require('harsta/runtime')`
-        : `const { createDeploy } = require('harsta/runtime')`,
+        ? `const { createDeployInUpdate } = require('harsta/deploy')`
+        : `const { createDeploy } = require('harsta/deploy')`,
       '',
       isUpdate
         ? `module.exports = createDeployInUpdate('${name}', '${type}')`
@@ -32,7 +32,7 @@ export async function generateUpdateDirectory(name: string, target: string) {
   await fs.ensureDir(path.resolve(packRoot, './deploy'))
   const filepath = path.resolve(packRoot, './deploy', `${name}.js`)
   const code = [
-    `const { createUpdate } = require('harsta/runtime')`,
+    `const { createUpdate } = require('harsta/deploy')`,
     `module.exports = createUpdate('${name}', '${target}')`,
   ]
   await fs.writeFile(filepath, code.join('\n'))

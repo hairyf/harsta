@@ -5,8 +5,9 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "build": "harsta compile --clean",
+    "build": "harsta compile --clean --output ONLY_COMPILE",
     "deploy": "harsta deploy --network hardhat",
+    "test": "harsta test --network hardhat --fork moonchain",
     "update:transparent": "harsta update --network hardhat ERC20WithTransparent --target ERC20WithTransparentV2",
     "update:uups": "harsta update --network hardhat ERC20WithUUPS --target ERC20WithUUPSV2"
   },
@@ -18,7 +19,6 @@
     "ethers": "^6.13.1"
   },
   "devDependencies": {
-    "hardhat": "^2.22.6",
     "harsta": "workspace:^"
   }
 }

@@ -1,7 +1,9 @@
+import consola from 'consola'
+import type { Signer } from 'ethers'
 import { JsonRpcApiProvider } from 'ethers'
 import { bold, cyan, dim, gray, green, strikethrough, white, yellow } from 'kolorist'
-import consola from 'consola'
 import { userConf } from '../constants'
+import { applyAgent, applyFixed } from '../utils'
 import {
   deployments,
   ethers,
@@ -20,20 +22,25 @@ import {
   waitForDeplTrans,
 } from './utils'
 
-userConf.proxy && ethers.applyAgent(userConf.proxy)
-ethers.fixedTaikoPending(JsonRpcApiProvider.prototype)
+userConf.proxy && applyAgent(userConf.proxy)
+applyFixed(JsonRpcApiProvider.prototype)
 
-const factories = resolveInPackFile('./generated/typechains/index.ts')
+const defaultFactories = resolveInPackFile('./generated/typechains/index.ts')
 
-export function createDeploy(name: string) {
-  async function deploy() {
+export interface DeployOptions {
+  chainId?: number
+  singer?: Signer
+  logger?: boolean
+}
+
+export function createDeploy(name: string, factories = defaultFactories) {
+  async function deploy(deplOptions: DeployOptions = {}) {
     const options = (userConf.deployments || {})[name]
     const target = options.target || name
     const network = process.env.NETWORK || ''
-    const chainId = await ethers.getChainId()
-    const deployer = await ethers.getDeployer()
-    const singer = await ethers.getSinger(deployer)
-    const artifact = await deployments.getArtifact(target)
+    const chainId = deplOptions.chainId || await ethers.getChainId()
+    const singer = deplOptions.singer || await ethers.getDeployer().then(ethers.getSinger)
+
     const args = await deployments.getArgs(name)
 
     const { receipt, transaction, address } = await waitForDeplTrans(
@@ -56,6 +63,11 @@ export function createDeploy(name: string) {
       },
     )
 
+    if (network === 'hardhat')
+      return address
+
+    const artifact = await deployments.getArtifact(target)
+
     await upgradeToAddress(name, address)
     await upgradeToDeplJson(name, {
       address,
@@ -64,6 +76,7 @@ export function createDeploy(name: string) {
       receipt,
       artifact,
     })
+    return address
   }
 
   deploy.tags = ['all', name]
@@ -71,15 +84,14 @@ export function createDeploy(name: string) {
   return deploy
 }
 
-export function createDeployInUpdate(name: string, kind: 'uups' | 'beacon' | 'transparent') {
-  async function deploy() {
+export function createDeployInUpdate(name: string, kind: 'uups' | 'beacon' | 'transparent', factories = defaultFactories) {
+  async function deploy(deplOptions: DeployOptions = {}) {
     const options = (userConf.deployments || {})[name]
     const target = options.target || name
     const network = process.env.NETWORK || ''
-    const chainId = await ethers.getChainId()
-    const deployer = await ethers.getDeployer()
-    const singer = await ethers.getSinger(deployer)
-    const artifact = await deployments.getArtifact(target)
+    const chainId = deplOptions.chainId || await ethers.getChainId()
+    const singer = deplOptions.singer || await ethers.getDeployer().then(ethers.getSinger)
+
     const args = await deployments.getArgs(name)
 
     const { address: implement, receipt: implReceipt } = await waitForDeplTrans(
@@ -116,6 +128,11 @@ export function createDeployInUpdate(name: string, kind: 'uups' | 'beacon' | 'tr
       },
     )
 
+    if (network === 'hardhat')
+      return address
+
+    const artifact = await deployments.getArtifact(target)
+
     await upgradeToAddress(name, address)
     await upgradeToDeplJson(name, {
       address,
@@ -135,19 +152,20 @@ export function createDeployInUpdate(name: string, kind: 'uups' | 'beacon' | 'tr
         },
       ],
     })
+
+    return address
   }
 
   deploy.tags = ['all', name]
   return deploy
 }
 
-export function createUpdate(name: string, target: string) {
-  async function update() {
+export function createUpdate(name: string, target: string, factories = defaultFactories) {
+  async function update(deplOptions: DeployOptions = {}) {
     const options = await resolveInDeplJson(name)
     const network = process.env.NETWORK || ''
-    const chainId = await ethers.getChainId()
-    const deployer = await ethers.getDeployer()
-    const singer = await ethers.getSinger(deployer)
+    const chainId = deplOptions.chainId || await ethers.getChainId()
+    const singer = deplOptions.singer || await ethers.getDeployer().then(ethers.getSinger)
     const artifact = await deployments.getArtifact(target)
 
     const { address: implement, receipt: implReceipt } = await waitForDeplTrans(
@@ -188,6 +206,8 @@ export function createUpdate(name: string, target: string) {
 
     })
 
+    if (network === 'hardhat')
+      return
     await upgradeToDeplJson(name, options)
   }
   update.tag = ['all', name]

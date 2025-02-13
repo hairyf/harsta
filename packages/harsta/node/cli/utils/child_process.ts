@@ -7,7 +7,7 @@ export interface Options {
   root?: string
 }
 
-export function exec(command: string, options?: ExecSyncOptionsWithBufferEncoding) {
+export function exec(command: string | (string | boolean | undefined)[], options?: ExecSyncOptionsWithBufferEncoding) {
   const _options: ExecSyncOptionsWithBufferEncoding = {
     stdio: 'inherit',
     cwd: packRoot,
@@ -20,5 +20,7 @@ export function exec(command: string, options?: ExecSyncOptionsWithBufferEncodin
       userRoot,
     },
   }
-  execSync(command, _options)
+  execSync(Array.isArray(command)
+    ? command.filter(Boolean).join(' ')
+    : command, _options)
 }

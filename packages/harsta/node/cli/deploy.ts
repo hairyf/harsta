@@ -1,10 +1,7 @@
-import path from 'node:path'
 import type { Argv } from 'yargs'
 import consola from 'consola'
-import fs from 'fs-extra'
 import { confirm } from '@clack/prompts'
-import { userConf, userRoot } from '../constants'
-import { exec, generateDeployDirectory, generateEnsureFiles, hardhatBinRoot } from './utils'
+import { deployer, environment } from '../features'
 
 export function registerDeployCommand(cli: Argv) {
   cli.command(
@@ -26,15 +23,10 @@ export function registerDeployCommand(cli: Argv) {
       })
       .help(),
     async (args) => {
-      const networks = userConf.networks || {}
-      const network = args.network
-        || userConf.defaultNetwork
-        || Object.keys(networks || {})[0]
+      await environment.initial(args.network!)
+      await environment.env.run('compile')
 
-      process.env.NETWORK = network
-
-      const deployments = resolveInDeployments(
-        networks[network]?.id,
+      const deployments = deployer.parseDeployConfigs(
         args.contracts as string[],
       )
 
@@ -43,48 +35,20 @@ export function registerDeployCommand(cli: Argv) {
         return
       }
 
-      await generateDeployDirectory(userConf)
-      await generateEnsureFiles()
-
-      args.compile && exec(`node ${hardhatBinRoot} compile`)
-
-      const tags: string[] = []
-
-      const directory = path.resolve(`${userRoot}/config/deployments`, network)
-
       for (const deployment of deployments) {
-        const file = path.resolve(directory, `${deployment.name}.json`)
-        const exists = fs.existsSync(file)
-
-        if (!args.contracts && exists)
+        if (!args.contracts && deployer.exists(deployment.name))
           continue
 
-        if (exists) {
+        if (deployer.exists(deployment.name)) {
           const message = `${deployment.name} been deployed, are sure to overwrite the deployment?`
-          const confirmed = await confirm({ message })
-          if (!confirmed)
+          if (!await confirm({ message }))
             continue
         }
-        tags.push(deployment.name)
-      }
 
-      tags.length && exec(`node ${hardhatBinRoot} deploy --tags ${tags} --network ${network}`, { env: { NETWORK: network } })
+        deployment.kind
+          ? await deployer.deployInUpgrade(deployment.name)
+          : await deployer.deploy(deployment.name)
+      }
     },
   )
-}
-
-function resolveInDeployments(chainId?: number, filter?: string[]) {
-  const deployments = userConf.deployments || {}
-  const array = Object
-    .keys(deployments).map((name) => {
-      return { name, target: name, ...deployments[name] }
-    })
-    .filter(item => (item.chains && chainId)
-      ? item.chains.includes(chainId)
-      : true)
-    .filter(item => filter
-      ? filter.includes(item.name)
-      : true,
-    )
-  return array
 }

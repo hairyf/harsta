@@ -3,16 +3,12 @@ import { createJiti } from 'jiti'
 import { resolve } from 'pathe'
 
 export type UserInputConfig = Record<string, any>
-export interface ResolvedConfig<
-  T extends UserInputConfig = UserInputConfig,
-> {
+export interface ResolvedConfig<T extends UserInputConfig = UserInputConfig> {
   config: T
   configFile: string
 }
-export function loadConfig<T extends UserInputConfig = UserInputConfig>(options: {
-  name: string
-  cwd: string
-}): ResolvedConfig<T> {
+
+export function loadConfig<T extends UserInputConfig = UserInputConfig>(options: { name: string, cwd: string }): ResolvedConfig<T> {
   const { name, cwd } = options
   const filePath = resolve(cwd, `${name}.config.ts`)
 

@@ -31,7 +31,7 @@ export function resolveFragmentsPaths() {
     }
     const file = path.resolve(
       typechainsPath,
-        `${p.split('.sol')[0]}.sol`,
+      `${p.split('.sol')[0]}.sol`,
     )
     return fs.existsSync(file)
       ? p.split('.json')[0]

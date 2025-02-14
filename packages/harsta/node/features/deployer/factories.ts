@@ -5,7 +5,7 @@ import BeaconProxy from '@openzeppelin/upgrades-core/artifacts/@openzeppelin/con
 import UpgradeableBeacon from '@openzeppelin/upgrades-core/artifacts/@openzeppelin/contracts-v5/proxy/beacon/UpgradeableBeacon.sol/UpgradeableBeacon.json'
 import TransparentUpgradeableProxy from '@openzeppelin/upgrades-core/artifacts/@openzeppelin/contracts-v5/proxy/transparent/TransparentUpgradeableProxy.sol/TransparentUpgradeableProxy.json'
 
-export async function getProxyFactory(signer?: Signer): Promise<ContractFactory> {
+export async function getERC1967Proxy(signer?: Signer): Promise<ContractFactory> {
   return new ContractFactory(ERC1967Proxy.abi, ERC1967Proxy.bytecode, signer)
 }
 

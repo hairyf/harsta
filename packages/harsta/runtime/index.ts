@@ -19,17 +19,6 @@ import {
   updateSigner,
 } from '../generated'
 
-import {
-  getChainId,
-  getNamedAccount,
-  getNamedAccounts,
-  getNamedSinger,
-  getSinger,
-  getSingers,
-  getUnnamedAccount,
-  getUnnamedAccounts,
-} from './utils'
-
 export const addresses = _addresses as
   typeof _addresses &
   { 31337: Record<string, string> } &
@@ -56,7 +45,10 @@ export {
 }
 
 export {
+  getExtendedArtifact,
+  getArtifact,
   getChainId,
+  network,
   getNamedAccount,
   getNamedAccounts,
   getNamedSinger,
@@ -64,4 +56,6 @@ export {
   getSingers,
   getUnnamedAccount,
   getUnnamedAccounts,
-}
+  manager,
+  env,
+} from '../node/features/environment'

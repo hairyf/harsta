@@ -1,8 +1,6 @@
-import type { HardhatRuntimeEnvironment } from 'hardhat/types'
+import type { environment } from '../features/imports'
 
-export interface HarstaRuntimeEnvironment extends HardhatRuntimeEnvironment {
-  getChainContract: (name: string) => Promise<string>
-}
+export type HarstaRuntimeEnvironment = { addresses: Record<string, Record<string, string>> } & typeof environment
 
 export type DeploymentArgs = any[] | ((env: HarstaRuntimeEnvironment) => Promise<any[]> | any[])
 

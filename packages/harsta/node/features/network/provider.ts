@@ -6,8 +6,8 @@ import type { HardhatConfig } from 'hardhat/types'
 
 import { ERRORS } from 'hardhat/internal/core/errors-list'
 import { JsonRpcApiProvider } from 'ethers'
-import { applyAgent, applyFixed } from '../utils'
-import type { HarstaProxyConfig } from '../types'
+import { applyAgent, applyFixed } from '../../utils'
+import type { HarstaProxyConfig } from '../../types'
 
 applyFixed(JsonRpcApiProvider.prototype)
 

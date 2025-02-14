@@ -1,5 +1,5 @@
 import { httpOverHttps, httpsOverHttp } from 'tunnel'
-import type { Provider } from 'ethers'
+import type { ContractTransactionResponse, Provider, TransactionResponse } from 'ethers'
 import { FetchRequest } from 'ethers'
 import type { HarstaProxyConfig } from '../types'
 
@@ -15,4 +15,8 @@ export function applyFixed(provider: Provider) {
     block === 'pending' && (block = 'latest')
     return source.call(this, block, prefetchTxs)
   }
+}
+
+export function waitForTrans(trans: ContractTransactionResponse | TransactionResponse) {
+  return trans.getTransaction().then(trans => trans?.wait())
 }

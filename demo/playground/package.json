@@ -5,15 +5,14 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "build": "harsta compile --clean",
+    "build": "harsta compile ",
     "deploy": "harsta deploy --network geneva",
-    "test": "harsta test --network hardhat --fork moonchain",
+    "test": "harsta test --network hardhat",
     "verify": "harsta verify --network geneva --target ERC20WithTransparent",
     "update:transparent": "harsta update --network geneva ERC20WithTransparent --target ERC20WithTransparentV2",
     "update:uups": "harsta update --network geneva ERC20WithUUPS --target ERC20WithUUPSV2"
   },
   "dependencies": {
-    "@chainlink/contracts": "^1.3.0",
     "@harsta/client": "workspace:^",
     "@openzeppelin/contracts": "^5.0.2",
     "@openzeppelin/contracts-upgradeable": "^5.0.2",

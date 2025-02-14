@@ -3,12 +3,12 @@ import { watchCompilerOutput } from 'hardhat/builtin-tasks/utils/watch'
 import { Reporter } from 'hardhat/internal/sentry/reporter'
 import type { EthereumProvider, HardhatConfig } from 'hardhat/types'
 import picocolors from 'picocolors'
-import type { FSWatcher } from 'chokidar'
+import type { FSWatcher as Watcher } from 'chokidar'
 
 export async function createWatcher(config: HardhatConfig, provider: EthereumProvider) {
-  let watcher: FSWatcher | undefined
+  let watcher: Watcher | undefined
   try {
-    watcher = await watchCompilerOutput(provider, config.paths)
+    watcher = await watchCompilerOutput(provider, config.paths) as any
   }
   catch (error) {
     console.warn(

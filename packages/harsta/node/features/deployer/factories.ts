@@ -20,6 +20,3 @@ export async function getBeaconProxyFactory(signer?: Signer) {
 export async function getUpgradeableBeaconFactory(signer?: Signer) {
   return new ContractFactory(UpgradeableBeacon.abi, UpgradeableBeacon.bytecode, signer)
 }
-
-// TODO
-export async function getUserContractFactory(name: string, signer?: Signer) {}

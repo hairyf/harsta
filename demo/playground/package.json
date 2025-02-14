@@ -6,8 +6,8 @@
   "keywords": [],
   "scripts": {
     "build": "harsta compile ",
-    "deploy": "harsta deploy --network geneva",
-    "test": "harsta test --network hardhat --fork moonchain",
+    "deploy": "harsta deploy --network hardhat",
+    "test": "harsta test --network hardhat",
     "verify": "harsta verify --network geneva --target ERC20WithTransparent",
     "update:transparent": "harsta update --network geneva ERC20WithTransparent --target ERC20WithTransparentV2",
     "update:uups": "harsta update --network geneva ERC20WithUUPS --target ERC20WithUUPSV2"

@@ -2,7 +2,7 @@ import { BeaconProxyUnsupportedError, InitialOwnerUnsupportedKindError, getAdmin
 import type { ContractFactory, Signer, TransactionResponse } from 'ethers'
 import consola from 'consola'
 import type { DeploymentConfig } from '../../types'
-import { provider } from '../ethers'
+import { ethereumProvider } from '../environment'
 import { getERC1967Proxy, getTransparentUpgradeableProxyFactory } from './factories'
 
 import {
@@ -66,15 +66,15 @@ export async function getUpgradeFactoryArgs(
 }
 
 export async function upgrade(address: string, implement: string, signer: Signer, call?: string) {
-  const adminAddress = await getAdminAddress(provider, address)
-  const adminBytecode = await getCode(provider, adminAddress)
+  const adminAddress = await getAdminAddress(ethereumProvider, address)
+  const adminBytecode = await getCode(ethereumProvider, adminAddress)
 
   const overrides = [] as any[]
   let callback: (implement: string, call?: string) => Promise<TransactionResponse>
 
   if (isEmptySlot(adminAddress) || adminBytecode === '0x') {
     // No admin contract: use ITransparentUpgradeableProxy to get proxiable interface
-    const upgradeInterfaceVersion = await getUpgradeInterfaceVersion(provider, address)
+    const upgradeInterfaceVersion = await getUpgradeInterfaceVersion(ethereumProvider, address)
     switch (upgradeInterfaceVersion) {
       case '5.0.0': {
         const proxy = await attachITransparentUpgradeableProxyV5(address, signer)
@@ -98,7 +98,7 @@ export async function upgrade(address: string, implement: string, signer: Signer
   }
   else {
     // Admin contract: redirect upgrade call through it
-    const upgradeInterfaceVersion = await getUpgradeInterfaceVersion(provider, adminAddress)
+    const upgradeInterfaceVersion = await getUpgradeInterfaceVersion(ethereumProvider, adminAddress)
     switch (upgradeInterfaceVersion) {
       case '5.0.0': {
         const admin = await attachProxyAdminV5(adminAddress, signer)

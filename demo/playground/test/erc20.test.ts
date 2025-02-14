@@ -1,16 +1,10 @@
 import { Wallet } from 'ethers'
 import { contracts, signer } from 'harsta/runtime'
 import { fixture, initial, waitForTrans } from 'harsta/tests'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
-beforeEach(async () => {
-  await initial()
-  await fixture([
-    'ERC20WithOwnable',
-    'ERC20WithTransparent',
-    'ERC20WithUUPS',
-  ])
-}, 5000000)
+await initial()
+await fixture(['ERC20WithOwnable', 'ERC20WithTransparent', 'ERC20WithUUPS'])
 
 describe('erc20 transparent and erc20 uups', () => {
   it('mint to random account and', async () => {

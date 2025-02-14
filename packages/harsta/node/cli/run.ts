@@ -1,6 +1,5 @@
 import type { Argv } from 'yargs'
-import { createDeploymentsManager } from '../features/deploy/manager'
-import { createLazyProvider } from '../features/ethers'
+import { environment } from '../features/imports'
 
 export function registerRunCommand(cli: Argv) {
   cli.command(
@@ -13,12 +12,14 @@ export function registerRunCommand(cli: Argv) {
         describe: 'The hardhat network used (default use of hardhat network)',
         default: 'hardhat',
       })
+      .option('clean', {
+        deprecate: 'Clears the cache and deletes all artifacts',
+        alias: 'c',
+        type: 'boolean',
+      })
       .help(),
     async (args) => {
-      const provider = createLazyProvider(args.network)
-      const deployments = createDeploymentsManager(provider, args.network)
-      const accounts = await deployments.getUnnamedAccounts()
-      console.log(accounts)
+      await environment.initial(args.network)
     },
   )
 }

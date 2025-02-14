@@ -3,12 +3,7 @@ import { resolveConfig } from 'hardhat/internal/core/config/config-resolution'
 import type { Argv } from 'yargs'
 import { packRoot, userConf } from '../constants'
 import { transformHarstaConfigToHardhat } from '../transform'
-import {
-  createProvider,
-  createServer,
-  createWatcher,
-  printHardhatNetworkAccounts,
-} from '../network'
+import { network } from '../features'
 
 export function registerNodeCommand(cli: Argv) {
   cli.command(
@@ -39,13 +34,14 @@ export function registerNodeCommand(cli: Argv) {
         path.resolve(packRoot, 'hardhat.config.ts'),
         transformHarstaConfigToHardhat(userConf),
       )
+
       if (args.fork && !args.fork.startsWith('http'))
         args.fork = userConf.networks?.[args.fork].rpc
-      const adapterProvider = await createProvider(config, 'hardhat', args, userConf.proxy)
-      const server = await createServer(adapterProvider, args)
-      const watcher = await createWatcher(config, adapterProvider)
+      const adapterProvider = await network.createProvider(config, 'hardhat', args, userConf.proxy)
+      const server = await network.createServer(adapterProvider, args)
+      const watcher = await network.createWatcher(config, adapterProvider)
 
-      printHardhatNetworkAccounts(config)
+      network.printHardhatNetworkAccounts(config)
 
       await server.waitUntilClosed()
       await watcher?.close()

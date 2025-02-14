@@ -1,6 +1,5 @@
 import type { Argv } from 'yargs'
-import { userConf } from '../constants'
-import { exec, generateEnsureFiles, generateUpdateDirectory, hardhatBinRoot } from './utils'
+import { deployer, environment } from '../features'
 
 export function registerUpdateCommand(cli: Argv) {
   cli.command(
@@ -27,26 +26,10 @@ export function registerUpdateCommand(cli: Argv) {
       })
       .help(),
     async (args) => {
-      const networks = userConf.networks || {}
-      const network = args.network
-        || userConf.defaultNetwork
-        || Object.keys(networks || {})[0]
-      process.env.NETWORK = network
+      await environment.initial(args.network!)
+      await environment.env.run('compile')
 
-      await generateUpdateDirectory(
-        args.name!,
-        args.target,
-      )
-      await generateEnsureFiles()
-
-      args.compile && exec(`node ${hardhatBinRoot} compile`)
-
-      const rows = [
-        `node ${hardhatBinRoot}`,
-        `deploy`,
-        `--network ${network}`,
-      ]
-      exec(rows.join(' '), { env: { NETWORK: network } })
+      await deployer.upgradeInDeploy(args.name!, args.target)
     },
   )
 }

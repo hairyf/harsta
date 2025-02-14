@@ -1,7 +1,7 @@
 import type { Argv } from 'yargs'
 import { userRoot } from '../constants'
+import features from '../features'
 import { exec, vitestBinRoot } from './utils'
-import { compile } from './compile'
 
 export function registerTestCommand(cli: Argv) {
   cli.command(
@@ -28,8 +28,6 @@ export function registerTestCommand(cli: Argv) {
       })
       .help(),
     async (args) => {
-      await compile({ output: 'ONLY_COMPILE' })
-
       if (process.env.NETWORK !== 'hardhat' && process.env.FORK)
         throw new Error(`${process.env.NETWORK} Not Support fork`)
 

@@ -1,9 +1,9 @@
 /* eslint-disable ts/ban-ts-comment */
 import { HardhatEthersProvider } from '@nomicfoundation/hardhat-ethers/internal/hardhat-ethers-provider'
-import type { Signer } from 'ethers'
+import { JsonRpcApiProvider, type Signer } from 'ethers'
 import { userConf } from '../../constants'
 import type { ProviderForkingConfig } from '../network/provider'
-import { applyAgent } from '../../utils'
+import { applyAgent, applyFixed } from '../../utils'
 import { DEFAULT_HARDHAT_NETWORK_CONFIG } from './config'
 import {
   updateEnv,
@@ -21,6 +21,7 @@ export async function initial(network: string, forking?: ProviderForkingConfig) 
     ? DEFAULT_HARDHAT_NETWORK_CONFIG
     : userConf.networks![network]
 
+  applyFixed(JsonRpcApiProvider.prototype)
   userConf.proxy && applyAgent(userConf.proxy)
 
   const environment = createEnvironment(network, forking)
@@ -35,7 +36,7 @@ export async function initial(network: string, forking?: ProviderForkingConfig) 
 
   Reflect.set(provider, 'chainId', config.id)
 
-  updateNetwork(config)
+  updateNetwork({ ...config, alias: network })
   updateProvider(provider)
   updateEthereumProvider(ethereumProvider)
 

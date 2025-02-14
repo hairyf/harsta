@@ -13,7 +13,7 @@ export const { proxy: runner, update: updateRunner } = proxy<Runner>()
 
 export const { proxy: signer, update: updateSigner } = proxy<Signer>()
 
-export const { proxy: network, update: updateNetwork } = proxy<NetworkUserConfig>()
+export const { proxy: network, update: updateNetwork } = proxy<NetworkUserConfig & { alias: string }>()
 
 export const { proxy: manager, update: updateManager } = proxy<DeploymentsManager>()
 

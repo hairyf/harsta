@@ -9,9 +9,8 @@ import { resolveInDeplJson, upgradeToAddress, upgradeToDeplJson } from './storag
 import { getInitializerData } from './initializer'
 import { getUpgradeFactoryArgs, getUpgradeFactoryInstance, upgrade } from './upgrade'
 
-const factories = resolvePackageFile('./generated/typechains/index.ts')
-
 export async function deploy(name: string) {
+  const factories = resolvePackageFile('./generated/typechains/index.ts')
   const config = userConf.deployments?.[name]
   if (!config)
     throw new Error(`Not found ${name} Deployment Config`)
@@ -24,7 +23,7 @@ export async function deploy(name: string) {
     (transaction) => {
       consola.log('')
       consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
-      consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.name)}`)
+      consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)
       consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}`)
       consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
       if (args.length) {
@@ -41,7 +40,7 @@ export async function deploy(name: string) {
 
   const artifact = await environment.getExtendedArtifact(target)
 
-  if (environment.network.name === 'hardhat')
+  if (environment.network.alias === 'hardhat')
     return address
 
   await upgradeToAddress(name, address)
@@ -57,6 +56,8 @@ export async function deploy(name: string) {
 }
 
 export async function deployInUpgrade(name: string) {
+  const factories = resolvePackageFile('./generated/typechains/index.ts')
+
   const config = userConf.deployments?.[name]
   const kind = config?.kind as string
   if (!config)
@@ -69,7 +70,7 @@ export async function deployInUpgrade(name: string) {
     (transaction) => {
       consola.log('')
       consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
-      consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.name)}`)
+      consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)
       consola.log(`${green(bold('kIND'))}       ${white('>')}     ${white(kind)}`)
       consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(implement)')}`)
       consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
@@ -102,7 +103,7 @@ export async function deployInUpgrade(name: string) {
     },
   )
 
-  if (environment.network.name === 'hardhat')
+  if (environment.network.alias === 'hardhat')
     return proxy.address
 
   const artifact = await environment.getExtendedArtifact(target)
@@ -132,6 +133,8 @@ export async function deployInUpgrade(name: string) {
 }
 
 export async function upgradeInDeploy(name: string, target: string) {
+  const factories = resolvePackageFile('./generated/typechains/index.ts')
+
   const options = await resolveInDeplJson(name)
 
   const implement = await waitForDeplTrans(
@@ -139,7 +142,7 @@ export async function upgradeInDeploy(name: string, target: string) {
     (transaction) => {
       consola.log('')
       consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
-      consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.name)}`)
+      consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)
       consola.log(`${green(bold('kIND'))}       ${white('>')}     ${white(options.kind)}`)
       consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(implement)')}`)
       consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)

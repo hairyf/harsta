@@ -37,7 +37,7 @@ export async function upgradeToAddress(name: string, address: string) {
 }
 
 export async function resolveInDeplJson(name: string) {
-  const dirPath = path.resolve(`${userRoot}/config/deployments`, network.name)
+  const dirPath = path.resolve(`${userRoot}/config/deployments`, network.alias)
   const filePath = path.resolve(dirPath, `${name}.json`)
   if (!fs.existsSync(filePath)) {
     consola.warn(`${name} not been deployed, please deploy first`)
@@ -48,7 +48,7 @@ export async function resolveInDeplJson(name: string) {
 }
 
 export async function upgradeToDeplJson(name: string, deployed: any) {
-  const dirPath = path.resolve(`${userRoot}/config/deployments`, network.name)
+  const dirPath = path.resolve(`${userRoot}/config/deployments`, network.alias)
   const filePath = path.resolve(dirPath, `${name}.json`)
   await fs.ensureDir(dirPath)
   await fs.writeJSON(filePath, deployed, { spaces: 2 })

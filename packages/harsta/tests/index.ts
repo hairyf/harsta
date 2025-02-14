@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import type { ContractTransactionResponse, TransactionResponse } from 'ethers'
 import { addresses, updateProvider, updateSigner } from '../runtime'
 import { deployer, environment } from '../node/features'
 import { forking } from './config'
@@ -34,6 +33,4 @@ export async function fixture(contracts: string[]) {
   }
 }
 
-export async function waitForTrans(trans: ContractTransactionResponse | TransactionResponse) {
-  return trans.getTransaction().then(trans => trans?.wait())
-}
+export { waitForTrans } from '../node/utils/ethers'

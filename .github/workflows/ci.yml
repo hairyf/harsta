@@ -14,10 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Make sure the @v0.9.0 matches the current version of the action
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v3
         with:
@@ -34,10 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Make sure the @v0.9.0 matches the current version of the action
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v3
         with:
@@ -65,10 +61,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      # Make sure the @v0.9.0 matches the current version of the action
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2

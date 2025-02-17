@@ -56,17 +56,23 @@ export async function deploy(name: string) {
 }
 
 export async function deployUpgrade(name: string) {
-  const factories = resolvePackageFile('./generated/typechains/index.ts')
-
   const config = userConf.deployments?.[name]
   const kind = config?.kind as string
+
   if (!config)
     throw new Error(`Not found ${name} deployment configure`)
 
   const target = config.target || name
 
+  const factories = resolvePackageFile('./generated/typechains/index.ts')
+
+  const Factory = factories[`${target}__factory`]
+
+  if (!Factory)
+    throw new Error(`Not found ${name}:${target}.sol factory please create ${target}.sol or recompile`)
+
   const implement = await waitForDeplTrans(
-    [new factories[`${target}__factory`](environment.signer)],
+    [new Factory(environment.signer)],
     (transaction) => {
       consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
       consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)

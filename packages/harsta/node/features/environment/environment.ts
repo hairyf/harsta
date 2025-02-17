@@ -1,4 +1,3 @@
-/* eslint-disable unused-imports/no-unused-vars */
 import { Environment } from 'hardhat/internal/core/runtime-environment'
 import type { ProviderForkingConfig } from '../network'
 import { loadConfigAndTasks, loadEnvArguments, loadEnvContext } from './internal'
@@ -14,8 +13,8 @@ export function createEnvironment(network?: string, forking?: ProviderForkingCon
     ctxs.tasksDSL.getTaskDefinitions(),
     ctxs.tasksDSL.getScopesDefinitions(),
     ctxs.environmentExtenders,
-    [async (environment) => {}],
+    [],
     configs.user,
-    [async provider => provider],
+    [],
   )
 }

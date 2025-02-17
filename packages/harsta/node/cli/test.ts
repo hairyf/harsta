@@ -41,7 +41,9 @@ export function registerTestCommand(cli: Argv) {
         `-r ${userRoot}`,
       ]
 
-      try { exec(command) }
+      try {
+        exec(command)
+      }
       catch {}
     },
   )

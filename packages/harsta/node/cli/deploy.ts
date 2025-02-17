@@ -2,7 +2,6 @@ import type { Argv } from 'yargs'
 import consola from 'consola'
 import { confirm } from '@clack/prompts'
 import { deployer, environment, verifier } from '../features'
-import { noop } from './utils'
 
 export function registerDeployCommand(cli: Argv) {
   cli.command(
@@ -63,7 +62,7 @@ export function registerDeployCommand(cli: Argv) {
 
         const deployed = await deployer.getDeployed(deployment.name)
         const options: verifier.VerifyOptions = {
-          arguments: !deployed.kind && deployed.args || undefined,
+          arguments: (!deployed.kind && deployed.args) || undefined,
           force: true,
         }
         await verifier.verify(address, options)

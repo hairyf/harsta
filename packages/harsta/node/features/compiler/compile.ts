@@ -2,7 +2,6 @@ import path from 'node:path'
 import { glob, runTypeChain } from 'typechain'
 import type { Environment } from 'hardhat/internal/core/runtime-environment'
 import { generatedRoot, userConf, userRoot } from '../../constants'
-import { createEnvironment } from '../environment'
 import { ensureDirectories } from './ensures'
 import { resolveFragmentsPaths } from './resolve'
 import {

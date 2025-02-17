@@ -27,7 +27,7 @@ export function registerVerifyCommand(cli: Argv) {
       const address = await resolveTargetAddress(args.target)
       const deployed = await deployer.getDeployed(args.target)
       await verifier.verify(address, {
-        arguments: args.force && !deployed.kind && deployed.args || undefined,
+        arguments: (args.force && !deployed.kind && deployed.args) || undefined,
         force: args.force,
       })
     },

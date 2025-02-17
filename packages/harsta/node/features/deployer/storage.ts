@@ -1,6 +1,5 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import consola from 'consola'
 import { loadFile, writeFile } from 'magicast'
 import { userRoot } from '../../constants'
 import { network } from '../environment'
@@ -16,9 +15,8 @@ export async function getAddresses() {
     return fs.readJSON(jsonFile).then(mod => mod)
 }
 
-export async function getAddress(name: string) {
-  const addresses = await getAddresses()
-  return addresses?.[network.id]?.[name] as string | undefined
+export async function getAddress(name: string): Promise<string | undefined> {
+  return getAddresses().then(mod => mod?.[network.id]?.[name])
 }
 
 export async function setAddress(name: string, address: string) {

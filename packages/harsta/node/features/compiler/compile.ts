@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { glob, runTypeChain } from 'typechain'
+import type { Environment } from 'hardhat/internal/core/runtime-environment'
 import { generatedRoot, userConf, userRoot } from '../../constants'
 import { createEnvironment } from '../environment'
 import { ensureDirectories } from './ensures'
@@ -14,12 +15,15 @@ import {
 } from './generator'
 import { buildDistributed } from './builder'
 
-export async function compile(args: any) {
-  const env = createEnvironment()
+export interface CompileOptions {
+  clean?: boolean
+  output?: string
+}
 
+export async function compile(env: Environment, options: CompileOptions = {}) {
   await ensureDirectories(userConf)
 
-  if (args.clean)
+  if (options.clean)
     await env.run('clean')
 
   await env.run('export-abi')
@@ -47,5 +51,5 @@ export async function compile(args: any) {
     generateTypes([...fragments.sources, ...fragments.extends]),
   ])
 
-  await buildDistributed(args)
+  await buildDistributed(options)
 }

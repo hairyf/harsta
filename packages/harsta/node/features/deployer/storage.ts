@@ -5,7 +5,7 @@ import { loadFile, writeFile } from 'magicast'
 import { userRoot } from '../../constants'
 import { network } from '../environment'
 
-export async function resolveInAddresses() {
+export async function getAddresses() {
   const addrFile = path.resolve(userRoot, './config/addresses.ts')
   const jsonFile = path.resolve(userRoot, './config/addresses.json')
 
@@ -16,7 +16,12 @@ export async function resolveInAddresses() {
     return fs.readJSON(jsonFile).then(mod => mod)
 }
 
-export async function upgradeToAddress(name: string, address: string) {
+export async function getAddress(name: string) {
+  const addresses = await getAddresses()
+  return addresses?.[network.id]?.[name] as string | undefined
+}
+
+export async function setAddress(name: string, address: string) {
   const addrFile = path.resolve(userRoot, './config/addresses.ts')
   const jsonFile = path.resolve(userRoot, './config/addresses.json')
 
@@ -36,18 +41,17 @@ export async function upgradeToAddress(name: string, address: string) {
   }
 }
 
-export async function resolveInDeplJson(name: string) {
+export async function getDeployed(name: string) {
   const dirPath = path.resolve(`${userRoot}/config/deployments`, network.alias)
   const filePath = path.resolve(dirPath, `${name}.json`)
   if (!fs.existsSync(filePath)) {
-    consola.warn(`${name} not been deployed, please deploy first`)
     return
   }
-  await fs.ensureDir(dirPath)
+
   return fs.readJSON(filePath)
 }
 
-export async function upgradeToDeplJson(name: string, deployed: any) {
+export async function setDeployed(name: string, deployed: any) {
   const dirPath = path.resolve(`${userRoot}/config/deployments`, network.alias)
   const filePath = path.resolve(dirPath, `${name}.json`)
   await fs.ensureDir(dirPath)

@@ -9,7 +9,7 @@ export function registerRunCommand(cli: Argv) {
       .option('network', {
         alias: 'n',
         type: 'string',
-        describe: 'The hardhat network used (default use of hardhat network)',
+        describe: 'The harsta network used (default use of hardhat network)',
         default: 'hardhat',
       })
       .option('clean', {

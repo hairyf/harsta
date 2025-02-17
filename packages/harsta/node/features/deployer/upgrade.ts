@@ -65,7 +65,7 @@ export async function getUpgradeFactoryArgs(
   return args
 }
 
-export async function upgrade(address: string, implement: string, signer: Signer, call?: string) {
+export async function callUpgrade(address: string, implement: string, signer: Signer, call?: string) {
   const adminAddress = await getAdminAddress(ethereumProvider, address)
   const adminBytecode = await getCode(ethereumProvider, adminAddress)
 

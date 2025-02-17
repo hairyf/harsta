@@ -8,6 +8,7 @@ export interface NetworkUserConfig {
   icon?: string
 
   currency: Currency
+
   verify?: Verify
 
   deploy?: Deploy
@@ -30,6 +31,7 @@ export interface Currency {
 
 export interface Verify {
   uri?: string
+  api?: string
   key?: string
 }
 

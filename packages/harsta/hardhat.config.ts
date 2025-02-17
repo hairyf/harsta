@@ -1,5 +1,6 @@
 /* eslint-disable ts/no-require-imports */
 require('@nomicfoundation/hardhat-toolbox')
+// require('@nomicfoundation/hardhat-verify')
 require('@openzeppelin/hardhat-upgrades')
 require('hardhat-abi-exporter')
 require('hardhat-deploy')

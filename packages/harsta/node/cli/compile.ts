@@ -1,5 +1,5 @@
 import type { Argv } from 'yargs'
-import features from '../features'
+import features, { environment } from '../features'
 
 export function registerCompileCommand(cli: Argv) {
   cli.command(
@@ -17,6 +17,9 @@ export function registerCompileCommand(cli: Argv) {
         type: 'boolean',
       })
       .help(),
-    features.compiler.compile,
+    async (args) => {
+      const env = environment.createEnvironment()
+      await features.compiler.compile(env, args)
+    },
   )
 }

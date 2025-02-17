@@ -4,7 +4,7 @@ import { fixture, initial, waitForTrans } from 'harsta/tests'
 import { describe, expect, it } from 'vitest'
 
 await initial()
-await fixture(['ERC20WithOwnable', 'ERC20WithTransparent', 'ERC20WithUUPS'])
+await fixture(['ERC20', 'ERC20WithTransparent', 'ERC20WithUUPS'])
 
 describe('erc20 transparent and erc20 uups', () => {
   it('mint to random account and', async () => {

@@ -1,4 +1,5 @@
 export * as network from './network'
 export * as compiler from './compiler'
 export * as deployer from './deployer'
+export * as verifier from './verifier'
 export * as environment from './environment'

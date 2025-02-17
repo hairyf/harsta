@@ -1,6 +1,5 @@
 import type { Argv } from 'yargs'
 import { userRoot } from '../constants'
-import features from '../features'
 import { exec, vitestBinRoot } from './utils'
 
 export function registerTestCommand(cli: Argv) {
@@ -11,7 +10,7 @@ export function registerTestCommand(cli: Argv) {
       .option('network', {
         alias: 'n',
         type: 'string',
-        describe: 'The hardhat network used (default use of hardhat network)',
+        describe: 'The harsta network used (default use of hardhat network)',
         default: 'hardhat',
       })
       .option('fork', {
@@ -35,12 +34,15 @@ export function registerTestCommand(cli: Argv) {
       process.env.FORK = `${args.fork || ''}`
       process.env.FORK_BLOCK_NUMBER = `${args.forkBlockNumber || ''}`
 
-      exec([
+      const command = [
         `node ${vitestBinRoot}`,
         args.watch ? 'watch' : 'run',
         `--environment=node`,
         `-r ${userRoot}`,
-      ])
+      ]
+
+      try { exec(command) }
+      catch {}
     },
   )
 }

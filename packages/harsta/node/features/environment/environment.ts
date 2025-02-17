@@ -1,38 +1,21 @@
-import { getEnvHardhatArguments } from 'hardhat/internal/core/params/env-variables'
-import { HARDHAT_PARAM_DEFINITIONS } from 'hardhat/internal/core/params/hardhat-params'
+/* eslint-disable unused-imports/no-unused-vars */
 import { Environment } from 'hardhat/internal/core/runtime-environment'
-import { loadConfigAndTasks } from 'hardhat/internal/core/config/config-loading'
-import { HardhatContext } from 'hardhat/internal/context'
-import path from 'pathe'
-import { packRoot } from '../../constants'
 import type { ProviderForkingConfig } from '../network'
+import { loadConfigAndTasks, loadEnvArguments, loadEnvContext } from './internal'
 
 export function createEnvironment(network?: string, forking?: ProviderForkingConfig) {
-  const context = HardhatContext.isCreated()
-    ? HardhatContext.getHardhatContext()
-    : HardhatContext.createHardhatContext()
-
-  const args = {
-    ...getEnvHardhatArguments(HARDHAT_PARAM_DEFINITIONS, process.env),
-    config: path.resolve(packRoot, 'hardhat.config.ts'),
-  }
-
-  const { resolvedConfig, userConfig } = loadConfigAndTasks(args)
-  if (forking && !resolvedConfig.networks.hardhat.forking) {
-    resolvedConfig.networks.hardhat.forking = {
-      url: forking.fork!,
-      enabled: true,
-      blockNumber: forking.forkBlockNumber,
-    }
-  }
+  const ctxs = loadEnvContext()
+  const args = loadEnvArguments(network)
+  const configs = loadConfigAndTasks(args, { forking })
 
   return new Environment(
-    resolvedConfig,
-    { ...args, network },
-    context.tasksDSL.getTaskDefinitions(),
-    context.tasksDSL.getScopesDefinitions(),
-    context.environmentExtenders,
-    userConfig,
+    configs.resolved,
+    args,
+    ctxs.tasksDSL.getTaskDefinitions(),
+    ctxs.tasksDSL.getScopesDefinitions(),
+    ctxs.environmentExtenders,
+    [async (environment) => {}],
+    configs.user,
     [async provider => provider],
   )
 }

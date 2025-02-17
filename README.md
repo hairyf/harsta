@@ -157,19 +157,23 @@ After writing your contracts, you need to define the `deployments` in the config
 
 ```ts
 const config = defileConfig({
+  // ...
   deployments: {
     Contract1: { args: [/* args... */] },
     Contract2: { kind: 'transparent', args: async env => [/* args... */] },
     Contract3: { kind: 'uups', args: () => [/* ...args */] },
-    Contract4: { target: 'Contract1', args: [/* args... */] }
+    Contract4: { target: 'Contract1', args: [/* args... */] },
+    Contract5: { target: 'Contract1', chains: [/* chainIds */] },
   }
 })
 ```
 
+Additionally, we can tell `harsta` to verify our contract on Etherscan, Sourcify or Blockscout, if the network is supported, by passing `--verify`.
+
 Next, deploy to the desired chain:
 
 ```sh
-$ pnpm harsta deploy --network [your network]
+$ pnpm harsta deploy --network [your network] --verify
 ```
 
 If successful, output the following info:
@@ -203,7 +207,31 @@ Proxy      >     <address>
 
 After deployment, the `config/addresses.ts` and `config/deployments` file will be automatically updated.
 
-### Update
+## Verify
+
+It is recommended to use the `--verify` flag with `harsta deploy` to automatically verify the contract on explorer after a deployment.
+
+If you are verifying an already deployed contract, read on.
+
+Before this, you need to set the `verify` field for the corresponding network:
+
+```ts
+import { defineConfig } from 'harsta'
+
+const config = defineConfig({
+  // ...
+  networks: {
+    ethereum: {
+      //  ...
+      verify: { uri: '...', key: '...' }
+    }
+  },
+})
+```
+
+And you can verify a contract on Etherscan, Sourcify, oklink or Blockscout with the `harsta verify [target]` command.
+
+## Update
 
 If your contract files are updated:
 

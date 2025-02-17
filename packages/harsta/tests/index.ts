@@ -13,23 +13,37 @@ export async function initial() {
   updateProvider(environment.provider)
 }
 
-export async function fixture(contracts: string[]) {
-  const deployments = deployer.parseDeployConfigs(contracts)
+export async function fixture(tags: string[]) {
+  const configs = tags.map((tag) => {
+    const [name, target] = tag.split(':')
+    return {
+      ...deployer.parseConfig(name),
+      update: !!target,
+    }
+  })
   await environment.env.run('compile')
 
   addresses[environment.network.id] = addresses[environment.network.id] ?? {}
 
-  for (const deployment of deployments) {
-    if (addresses[environment.network.id][deployment.name])
+  for (const config of configs) {
+    if (addresses[environment.network.id][config.name])
       return
 
-    const address = deployment.kind
-      ? await deployer.deployInUpgrade(deployment.name)
-      : await deployer.deploy(deployment.name)
+    if (config.update) {
+      await deployer.upgradeDeploy(config.name, config.target)
+      const deployed = await deployer.getDeployed(config.name)
+      console.log(``)
+      console.log(`fixture deployed ${config.name} - ${deployed.address}`)
+      return
+    }
 
-    addresses[environment.network.id][deployment.name] = address
+    const address = config.kind
+      ? await deployer.deployUpgrade(config.name)
+      : await deployer.deploy(config.name)
+
+    addresses[environment.network.id][config.name] = address
     console.log(``)
-    console.log(`fixture deployed ${deployment.name} - ${address}`)
+    console.log(`fixture deployed ${config.name} - ${address}`)
   }
 }
 

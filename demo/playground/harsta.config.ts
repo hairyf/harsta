@@ -1,8 +1,10 @@
+import type { Deploy } from 'harsta'
 import { defineConfig } from 'harsta'
 import { Wallet } from 'ethers'
+
 import 'dotenv/config'
 
-const deploy = {
+const deploy: Deploy = {
   accounts: [
     process.env.OWNER_PRIVATE_KEY || Wallet.createRandom().privateKey,
     process.env.VERIFIER_PRIVATE_KEY || Wallet.createRandom().privateKey,
@@ -48,8 +50,10 @@ const config = defineConfig({
         name: 'etherscan',
         url: 'https://geneva-explorer.moonchain.com',
       },
-      deploy: deploy as any,
-      verify: { uri: 'https://geneva-explorer-v1.moonchain.com' },
+      deploy,
+      verify: {
+        uri: 'https://geneva-explorer-v1.moonchain.com',
+      },
     },
     moonchain: {
       name: 'Moonchain',
@@ -61,8 +65,10 @@ const config = defineConfig({
         name: 'etherscan',
         url: 'https://explorer.moonchain.com',
       },
-      deploy: deploy as any,
-      verify: { uri: 'https://explorer-v1.moonchain.com' },
+      deploy,
+      verify: {
+        uri: 'https://explorer-v1.moonchain.com',
+      },
     },
   },
   deployments: {
@@ -86,12 +92,5 @@ const config = defineConfig({
     },
   },
 })
-
-// # deploy and verify all contracts
-// harsta deploy --verify
-
-// # verify select contract
-// harsta verify contract1
-// harsta verify contract1 --args <args>[]
 
 export default config

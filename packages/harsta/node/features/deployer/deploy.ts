@@ -4,24 +4,24 @@ import { userConf } from '../../constants'
 import { environment } from '../imports'
 import { resolvePackageFile } from './util'
 import { waitForCallTrans, waitForDeplTrans } from './wait'
-import { parseDeployArgs } from './parse'
-import { resolveInDeplJson, upgradeToAddress, upgradeToDeplJson } from './storage'
+import { parseArgs } from './parse'
+import { getDeployed, setAddress, setDeployed } from './storage'
 import { getInitializerData } from './initializer'
-import { getUpgradeFactoryArgs, getUpgradeFactoryInstance, upgrade } from './upgrade'
+import { callUpgrade, getUpgradeFactoryArgs, getUpgradeFactoryInstance } from './upgrade'
 
 export async function deploy(name: string) {
   const factories = resolvePackageFile('./generated/typechains/index.ts')
   const config = userConf.deployments?.[name]
-  if (!config)
-    throw new Error(`Not found ${name} Deployment Config`)
 
-  const args = await parseDeployArgs(config)
+  if (!config)
+    throw new Error(`Not found ${name} deployment configure`)
+
+  const args = await parseArgs(config)
   const target = config.target || name
 
   const { receipt, transaction, address } = await waitForDeplTrans(
     [new factories[`${target}__factory`](environment.signer), args],
     (transaction) => {
-      consola.log('')
       consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
       consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)
       consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}`)
@@ -43,8 +43,8 @@ export async function deploy(name: string) {
   if (environment.network.alias === 'hardhat')
     return address
 
-  await upgradeToAddress(name, address)
-  await upgradeToDeplJson(name, {
+  await setAddress(name, address)
+  await setDeployed(name, {
     address,
     hash: transaction.hash,
     args,
@@ -55,20 +55,19 @@ export async function deploy(name: string) {
   return address
 }
 
-export async function deployInUpgrade(name: string) {
+export async function deployUpgrade(name: string) {
   const factories = resolvePackageFile('./generated/typechains/index.ts')
 
   const config = userConf.deployments?.[name]
   const kind = config?.kind as string
   if (!config)
-    throw new Error(`Not found ${name} Deployment Config`)
+    throw new Error(`Not found ${name} deployment configure`)
 
   const target = config.target || name
 
   const implement = await waitForDeplTrans(
     [new factories[`${target}__factory`](environment.signer)],
     (transaction) => {
-      consola.log('')
       consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
       consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)
       consola.log(`${green(bold('kIND'))}       ${white('>')}     ${white(kind)}`)
@@ -79,7 +78,7 @@ export async function deployInUpgrade(name: string) {
   )
 
   const inter = factories[`${target}__factory`].createInterface()
-  const initializeArgs = await parseDeployArgs(config)
+  const initializeArgs = await parseArgs(config)
   const data = getInitializerData(inter, initializeArgs, config)
 
   const proxy = await waitForDeplTrans(
@@ -108,8 +107,8 @@ export async function deployInUpgrade(name: string) {
 
   const artifact = await environment.getExtendedArtifact(target)
 
-  await upgradeToAddress(name, proxy.address)
-  await upgradeToDeplJson(name, {
+  await setAddress(name, proxy.address)
+  await setDeployed(name, {
     address: proxy.address,
     impl: implement,
     hash: proxy.receipt.hash,
@@ -132,15 +131,17 @@ export async function deployInUpgrade(name: string) {
   return proxy.address
 }
 
-export async function upgradeInDeploy(name: string, target: string) {
+export async function upgradeDeploy(name: string, target: string) {
   const factories = resolvePackageFile('./generated/typechains/index.ts')
 
-  const options = await resolveInDeplJson(name)
+  const options = await getDeployed(name)
+
+  if (!options)
+    throw new Error(`${name} not been deployed, please deploy first`)
 
   const implement = await waitForDeplTrans(
     [new factories[`${target}__factory`](environment.signer)],
     (transaction) => {
-      consola.log('')
       consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
       consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)
       consola.log(`${green(bold('kIND'))}       ${white('>')}     ${white(options.kind)}`)
@@ -151,7 +152,7 @@ export async function upgradeInDeploy(name: string, target: string) {
   )
 
   const updated = await waitForCallTrans(
-    [upgrade, [options.address, implement, environment.signer]],
+    [callUpgrade, [options.address, implement, environment.signer]],
     (transaction) => {
       consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(upgradeTo)')}`)
       consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
@@ -176,5 +177,5 @@ export async function upgradeInDeploy(name: string, target: string) {
     artifact,
   })
 
-  await upgradeToDeplJson(name, options)
+  await setDeployed(name, options)
 }

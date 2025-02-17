@@ -12,7 +12,7 @@ export function registerUpdateCommand(cli: Argv) {
       })
       .option('target', {
         type: 'string',
-        demandOption: true,
+        required: true,
         deprecate: 'next contract',
       })
       .option('compile', {
@@ -22,14 +22,15 @@ export function registerUpdateCommand(cli: Argv) {
       .option('network', {
         alias: 'n',
         type: 'string',
-        describe: 'the hardhat network used',
+        describe: 'The harsta network used',
+        required: true,
       })
       .help(),
     async (args) => {
       await environment.initial(args.network!)
       await environment.env.run('compile')
 
-      await deployer.upgradeInDeploy(args.name!, args.target)
+      await deployer.upgradeDeploy(args.name!, args.target)
     },
   )
 }

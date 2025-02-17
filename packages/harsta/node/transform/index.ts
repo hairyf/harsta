@@ -1,11 +1,11 @@
 import path from 'node:path'
 import type { ChainConfig } from '@nomicfoundation/hardhat-verify/types'
-import type { HardhatUserConfig } from 'hardhat/types'
+import type { HardhatUserConfig, NetworkUserConfig } from 'hardhat/types'
 import type { HarstaUserConfig } from '../types'
 import { packRoot, userRoot } from '../constants'
 
 export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfig): HardhatUserConfig & { harsta: HarstaUserConfig } {
-  const networks: any = {}
+  const networks: Record<string, NetworkUserConfig> = {}
 
   const etherscan = {
     apiKey: {} as Record<string, string>,
@@ -19,12 +19,15 @@ export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfi
       chainId: network.id,
       ...network.deploy,
     }
+
     if (!network.verify)
       continue
-    etherscan.apiKey[alias] = ' '
+
+    etherscan.apiKey[alias] = network.verify.key || ' '
+
     networks[alias]!.verify = {
       etherscan: {
-        apiUrl: `${network.verify.uri}/api`,
+        apiUrl: network.verify.api || `${network.verify.uri}/api`,
         apiKey: network.verify.key || '',
       },
     }
@@ -32,8 +35,8 @@ export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfi
       chainId: network.id,
       network: alias,
       urls: {
-        apiURL: `${network.verify.uri}/api`,
-        browserURL: network.explorer?.url || '',
+        apiURL: network.verify.api || `${network.verify.uri}/api`,
+        browserURL: network.explorer?.url || network.verify.uri || '',
       },
     })
   }

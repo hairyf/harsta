@@ -110,7 +110,7 @@ export async function deployUpgrade(name: string) {
   await setAddress(name, proxy.address)
   await setDeployed(name, {
     address: proxy.address,
-    impl: implement,
+    impl: implement.address,
     hash: proxy.receipt.hash,
     kind,
     args: proxy.args,

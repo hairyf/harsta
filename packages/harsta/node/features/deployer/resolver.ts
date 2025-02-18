@@ -1,6 +1,5 @@
 /* eslint-disable ts/no-require-imports */
 import path from 'pathe'
-import type { ContractFactory } from 'ethers'
 import { packRoot } from '../../constants'
 
 export function resolveGeneratedFactory(name: string, target: string) {

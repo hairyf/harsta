@@ -2,15 +2,14 @@ import { bold, cyan, dim, gray, green, strikethrough, white, yellow } from 'kolo
 import consola from 'consola'
 import { userConf } from '../../constants'
 import { environment } from '../imports'
-import { resolvePackageFile } from './util'
 import { waitForCallTrans, waitForDeplTrans } from './wait'
 import { parseArgs } from './parse'
 import { getDeployed, setAddress, setDeployed } from './storage'
 import { getInitializerData } from './initializer'
 import { callUpgrade, getUpgradeFactoryArgs, getUpgradeFactoryInstance } from './upgrade'
+import { resolveGeneratedFactory } from './resolver'
 
 export async function deploy(name: string) {
-  const factories = resolvePackageFile('./generated/typechains/index.ts')
   const config = userConf.deployments?.[name]
 
   if (!config)
@@ -19,8 +18,10 @@ export async function deploy(name: string) {
   const args = await parseArgs(config)
   const target = config.target || name
 
+  const Factory = resolveGeneratedFactory(name, target)
+
   const { receipt, transaction, address } = await waitForDeplTrans(
-    [new factories[`${target}__factory`](environment.signer), args],
+    [new Factory(environment.signer), args],
     (transaction) => {
       consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
       consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)
@@ -64,12 +65,7 @@ export async function deployUpgrade(name: string) {
 
   const target = config.target || name
 
-  const factories = resolvePackageFile('./generated/typechains/index.ts')
-
-  const Factory = factories[`${target}__factory`]
-
-  if (!Factory)
-    throw new Error(`Not found ${name}:${target}.sol factory please create ${target}.sol or recompile`)
+  const Factory = resolveGeneratedFactory(name, target)
 
   const implement = await waitForDeplTrans(
     [new Factory(environment.signer)],
@@ -83,7 +79,7 @@ export async function deployUpgrade(name: string) {
     },
   )
 
-  const inter = factories[`${target}__factory`].createInterface()
+  const inter = Factory.createInterface()
   const initializeArgs = await parseArgs(config)
   const data = getInitializerData(inter, initializeArgs, config)
 
@@ -138,15 +134,15 @@ export async function deployUpgrade(name: string) {
 }
 
 export async function upgradeDeploy(name: string, target: string) {
-  const factories = resolvePackageFile('./generated/typechains/index.ts')
-
   const options = await getDeployed(name)
 
   if (!options)
     throw new Error(`${name} not been deployed, please deploy first`)
 
+  const Factory = resolveGeneratedFactory(name, target)
+
   const implement = await waitForDeplTrans(
-    [new factories[`${target}__factory`](environment.signer)],
+    [new Factory(environment.signer)],
     (transaction) => {
       consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
       consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)

@@ -78,7 +78,7 @@ importers:
         specifier: ^5.2.2
         version: 5.5.3
 
-  packages/create-harsta:
+  packages/create:
     dependencies:
       defu:
         specifier: ^6.1.4
@@ -106,14 +106,14 @@ importers:
         specifier: ^2.4.9
         version: 2.4.9
 
-  packages/create-harsta/template:
+  packages/create/template:
     dependencies:
       '@openzeppelin/contracts-upgradeable':
         specifier: ^5.0.2
         version: 5.0.2(@openzeppelin/contracts@5.0.2)
       ethers:
         specifier: ^6.13.1
-        version: 6.13.1
+        version: 6.13.5
     devDependencies:
       chai:
         specifier: ^4.3.16

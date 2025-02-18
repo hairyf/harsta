@@ -44,7 +44,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm run build && pnpm run build:demo
+        run: pnpm run build && pnpm run build:demos
 
       - name: Typecheck
         run: pnpm run typecheck

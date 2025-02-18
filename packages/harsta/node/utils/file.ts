@@ -1,5 +1,5 @@
-import path from 'pathe'
 import fs from 'node:fs'
+import path from 'pathe'
 
 export function findDepthFilePaths(directory: string) {
   function _findDepthFilePaths(directory: string, paths: string[] = []) {

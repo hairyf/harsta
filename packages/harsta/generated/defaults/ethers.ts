@@ -6,7 +6,7 @@ import { chain } from './chain'
 function resolveDefaultProvider() {
   if (!proxy.resolve(chain))
     return
-  // @ts-expect-error
+  // @ts-ignore
   return new JsonRpcProvider(chain.rpcUrls.default.http[0], new Network(chain.name, chain.id),
   )
 }

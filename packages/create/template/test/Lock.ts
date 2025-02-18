@@ -1,7 +1,7 @@
 import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers'
 import { contracts, getSigners, provider } from 'harsta/runtime'
 import { initial } from 'harsta/tests'
-import { describe, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 await initial()
 

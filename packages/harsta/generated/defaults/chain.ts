@@ -12,5 +12,5 @@ export const updateChain = _p_chain.update as (chain: Chain) => void
 /**
  * @deprecated please use `chain.addresses`
  */
-// @ts-expect-error
+// @ts-ignore
 export const defaultAddresses = getter(() => _p_chain.proxy.addresses)

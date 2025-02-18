@@ -1,10 +1,11 @@
 import { contracts } from 'harsta/runtime'
-import { fixture } from 'harsta/tests'
+import { fixture, initial } from 'harsta/tests'
+import { describe, expect, it } from 'vitest'
+
+await initial()
+await fixture(['Storage'])
 
 describe('Storage', () => {
-  beforeEach(async () => {
-    await fixture(['Storage'])
-  })
   it('setStorage', async () => {
 
   })

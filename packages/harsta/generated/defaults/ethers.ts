@@ -1,3 +1,4 @@
+/* eslint-disable ts/ban-ts-comment */
 import { JsonRpcProvider, Network, type Provider, type ContractRunner as Runner, type Signer } from 'ethers'
 import { proxy } from '../utils'
 import { chain } from './chain'
@@ -5,9 +6,8 @@ import { chain } from './chain'
 function resolveDefaultProvider() {
   if (!proxy.resolve(chain))
     return
-  return new JsonRpcProvider(
-    chain.rpcUrls.default.http[0],
-    new Network(chain.name, chain.id),
+  // @ts-expect-error
+  return new JsonRpcProvider(chain.rpcUrls.default.http[0], new Network(chain.name, chain.id),
   )
 }
 

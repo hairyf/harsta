@@ -13,9 +13,8 @@
     "ethers": "^6.13.1"
   },
   "devDependencies": {
-    "chai": "^4.3.16",
-    "hardhat": "^2.22.6",
     "harsta": "latest",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.4"
   }
 }

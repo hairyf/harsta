@@ -1,11 +1,11 @@
 import type { Signer } from 'ethers'
 import { manager } from '.'
 
-export async function getSingers() {
-  return manager.getUnnamedAccounts().then(accounts => accounts.map(getSinger)) as Promise<Signer[]>
+export async function getSigners() {
+  return manager.getUnnamedAccounts().then(accounts => accounts.map(getSigner)) as Promise<Signer[]>
 }
 
-export async function getSinger(address: string) {
+export async function getSigner(address: string) {
   return manager.deploymentsExtension.getSigner(address) as unknown as Promise<Signer>
 }
 
@@ -24,7 +24,7 @@ export async function getUnnamedAccount() {
 }
 
 export async function getNamedSinger(name: string) {
-  return getNamedAccount(name).then(getSinger) as unknown as Promise<Signer>
+  return getNamedAccount(name).then(getSigner) as unknown as Promise<Signer>
 }
 
 export async function getChainId() {

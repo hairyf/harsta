@@ -1,3 +1,4 @@
+/* eslint-disable ts/ban-ts-comment */
 import * as chains from '../chains'
 import type { Chain } from '../types'
 import { getter, proxy } from '../utils'
@@ -11,4 +12,5 @@ export const updateChain = _p_chain.update as (chain: Chain) => void
 /**
  * @deprecated please use `chain.addresses`
  */
+// @ts-expect-error
 export const defaultAddresses = getter(() => _p_chain.proxy.addresses)

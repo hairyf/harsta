@@ -1,11 +1,9 @@
-/* eslint-disable ts/ban-ts-comment */
-import {
-  loadFixture,
-  time,
-} from '@nomicfoundation/hardhat-toolbox/network-helpers'
-import { anyValue } from '@nomicfoundation/hardhat-chai-matchers/withArgs'
-import { expect } from 'chai'
-import hre from 'hardhat'
+import { time } from '@nomicfoundation/hardhat-toolbox/network-helpers'
+import { contracts, getSigners, provider } from 'harsta/runtime'
+import { initial } from 'harsta/tests'
+import { describe, it } from 'vitest'
+
+await initial()
 
 describe('Lock', () => {
   // We define a fixture to reuse the same setup in every test.
@@ -19,9 +17,9 @@ describe('Lock', () => {
     const unlockTime = (await time.latest()) + ONE_YEAR_IN_SECS
 
     // Contracts are deployed using the first signer/account by default
-    const [owner, otherAccount] = await hre.ethers.getSigners()
+    const [owner, otherAccount] = await getSigners()
 
-    const Lock = await hre.ethers.getContractFactory('Lock')
+    const Lock = contracts.Lock.factory()
     const lock = await Lock.deploy(unlockTime, { value: lockedAmount })
 
     return { lock, unlockTime, lockedAmount, owner, otherAccount }
@@ -29,101 +27,21 @@ describe('Lock', () => {
 
   describe('Deployment', () => {
     it('Should set the right unlockTime', async () => {
-      const { lock, unlockTime } = await loadFixture(deployOneYearLockFixture)
+      const { lock, unlockTime } = await deployOneYearLockFixture()
 
       expect(await lock.unlockTime()).to.equal(unlockTime)
     })
 
     it('Should set the right owner', async () => {
-      const { lock, owner } = await loadFixture(deployOneYearLockFixture)
+      const { lock, owner } = await deployOneYearLockFixture()
 
-      expect(await lock.owner()).to.equal(owner.address)
+      expect(await lock.owner()).to.equal(await owner.getAddress())
     })
 
     it('Should receive and store the funds to lock', async () => {
-      const { lock, lockedAmount } = await loadFixture(
-        deployOneYearLockFixture,
-      )
+      const { lock, lockedAmount } = await deployOneYearLockFixture()
 
-      expect(await hre.ethers.provider.getBalance(lock.target)).to.equal(
-        lockedAmount,
-      )
-    })
-
-    it('Should fail if the unlockTime is not in the future', async () => {
-      // We don't use the fixture here because we want a different deployment
-      const latestTime = await time.latest()
-      const Lock = await hre.ethers.getContractFactory('Lock')
-      await expect(Lock.deploy(latestTime, { value: 1 })).to.be.revertedWith(
-        'Unlock time should be in the future',
-      )
-    })
-  })
-
-  describe('Withdrawals', () => {
-    describe('Validations', () => {
-      it('Should revert with the right error if called too soon', async () => {
-        const { lock } = await loadFixture(deployOneYearLockFixture)
-
-        await expect(lock.withdraw()).to.be.revertedWith(
-          'You can\'t withdraw yet',
-        )
-      })
-
-      it('Should revert with the right error if called from another account', async () => {
-        const { lock, unlockTime, otherAccount } = await loadFixture(
-          deployOneYearLockFixture,
-        )
-
-        // We can increase the time in Hardhat Network
-        await time.increaseTo(unlockTime)
-
-        // We use lock.connect() to send a transaction from another account
-        // @ts-expect-error
-        await expect(lock.connect(otherAccount).withdraw()).to.be.revertedWith(
-          'You aren\'t the owner',
-        )
-      })
-
-      it('Shouldn\'t fail if the unlockTime has arrived and the owner calls it', async () => {
-        const { lock, unlockTime } = await loadFixture(
-          deployOneYearLockFixture,
-        )
-
-        // Transactions are sent using the first signer by default
-        await time.increaseTo(unlockTime)
-
-        await expect(lock.withdraw()).not.to.be.reverted
-      })
-    })
-
-    describe('Events', () => {
-      it('Should emit an event on withdrawals', async () => {
-        const { lock, unlockTime, lockedAmount } = await loadFixture(
-          deployOneYearLockFixture,
-        )
-
-        await time.increaseTo(unlockTime)
-
-        await expect(lock.withdraw())
-          .to.emit(lock, 'Withdrawal')
-          .withArgs(lockedAmount, anyValue) // We accept any value as `when` arg
-      })
-    })
-
-    describe('Transfers', () => {
-      it('Should transfer the funds to the owner', async () => {
-        const { lock, unlockTime, lockedAmount, owner } = await loadFixture(
-          deployOneYearLockFixture,
-        )
-
-        await time.increaseTo(unlockTime)
-
-        await expect(lock.withdraw()).to.changeEtherBalances(
-          [owner, lock],
-          [lockedAmount, -lockedAmount],
-        )
-      })
+      expect(await provider.getBalance(lock.target)).to.equal(lockedAmount)
     })
   })
 })

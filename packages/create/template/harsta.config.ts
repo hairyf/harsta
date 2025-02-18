@@ -5,7 +5,7 @@ import 'dotenv/config'
 const config = defineConfig({
   solidity: '0.8.24',
   deployments: {
-    Storage: { update: 'proxy' },
+    Storage: { kind: 'transparent' },
     Lock: {},
   },
 })

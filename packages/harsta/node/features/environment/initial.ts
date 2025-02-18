@@ -45,8 +45,8 @@ export async function initial(network: string, forking?: ProviderForkingConfig) 
 
   const namedAccount = await manager.getNamedAccounts().then(accounts => accounts.deployer)
   const unnamedAccount = await manager.getUnnamedAccounts().then(accounts => accounts[0])
-  const singer = await manager.deploymentsExtension.getSigner(namedAccount || unnamedAccount)
-  Reflect.set(singer, 'chainId', config.id)
+  const signer = await manager.deploymentsExtension.getSigner(namedAccount || unnamedAccount)
+  Reflect.set(signer, 'chainId', config.id)
 
-  updateSigner(singer as unknown as Signer)
+  updateSigner(signer as unknown as Signer)
 }

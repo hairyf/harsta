@@ -12,7 +12,7 @@ import {
   attachProxyAdminV5,
 } from './attach'
 
-export async function getUpgradeFactoryInstance(kind: string, singer: Signer) {
+export async function getUpgradeFactoryInstance(kind: string, signer: Signer) {
   let factory: ContractFactory | undefined
 
   switch (kind) {
@@ -20,11 +20,11 @@ export async function getUpgradeFactoryInstance(kind: string, singer: Signer) {
       throw new BeaconProxyUnsupportedError()
     }
     case 'uups': {
-      factory = await getERC1967Proxy(singer)
+      factory = await getERC1967Proxy(signer)
       break
     }
     case 'transparent': {
-      factory = await getTransparentUpgradeableProxyFactory(singer)
+      factory = await getTransparentUpgradeableProxyFactory(signer)
       break
     }
   }
@@ -39,10 +39,10 @@ export async function getUpgradeFactoryArgs(
   kind: string,
   implement: string,
   data: string,
-  singer: Signer,
+  signer: Signer,
   options: DeploymentConfig = {},
 ) {
-  const deployer = await singer.getAddress()
+  const deployer = await signer.getAddress()
   const owner = options.owner || deployer
 
   let args: string[] = []

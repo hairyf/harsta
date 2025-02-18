@@ -49,7 +49,7 @@ export {
   network,
   getNamedAccount,
   getNamedAccounts,
-  getNamedSinger,
+  getNamedSigner,
   getSigner,
   getSigners,
   getUnnamedAccount,

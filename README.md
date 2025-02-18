@@ -99,7 +99,7 @@ Send and write contract:
 
 ```ts
 import { contracts, updateRunner } from '@harsta/client'
-// Update the default runner (singer) to support transactions
+// Update the default runner (signer) to support transactions
 import { Wallet } from 'ethers'
 
 const wallet = new Wallet('...')
@@ -310,7 +310,7 @@ import { useAccount } from 'wagmi'
 function Page() {
   const { isConnected } = useAccount()
   async function withdraw() {
-    const lock = contracts.Lock.resolve('singer')
+    const lock = contracts.Lock.resolve('signer')
     const transaction = await lock.withdraw()
   }
   return (

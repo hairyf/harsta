@@ -23,7 +23,7 @@ export async function getUnnamedAccount() {
   return getUnnamedAccounts().then(accounts => accounts[0])
 }
 
-export async function getNamedSinger(name: string) {
+export async function getNamedSigner(name: string) {
   return getNamedAccount(name).then(getSigner) as unknown as Promise<Signer>
 }
 

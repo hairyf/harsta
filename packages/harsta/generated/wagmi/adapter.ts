@@ -42,9 +42,9 @@ export function clientToSigner(client?: Client<Transport, Chain, Account>) {
     ensAddress: chain.contracts?.ensRegistry?.address,
   }
   const provider = new BrowserProvider(transport, network)
-  const singer = new JsonRpcSigner(provider, account.address)
+  const signer = new JsonRpcSigner(provider, account.address)
 
-  Reflect.set(singer, 'chainId', chain.id)
+  Reflect.set(signer, 'chainId', chain.id)
 
-  return singer
+  return signer
 }

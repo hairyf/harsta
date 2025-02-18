@@ -32,7 +32,7 @@ export interface DeploymentConfig {
   /**
    * Contract upgradable owner
    *
-   * @default singer
+   * @default signer
    */
   owner?: string
   /**

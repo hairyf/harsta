@@ -1,4 +1,4 @@
-import path from 'node:path'
+import path from 'pathe'
 import { createStorage } from 'unstorage'
 import fsDriver from 'unstorage/drivers/fs'
 import { userRoot } from '../constants/root'

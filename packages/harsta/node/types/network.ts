@@ -2,9 +2,13 @@ import type { HardhatNetworkUserConfig } from 'hardhat/types'
 
 export interface NetworkUserConfig {
   rpc: string
+
   id: number
+
   name: string
+
   testnet?: boolean
+
   icon?: string
 
   currency: Currency

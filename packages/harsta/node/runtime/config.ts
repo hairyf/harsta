@@ -1,7 +1,7 @@
 /* eslint-disable ts/ban-ts-comment */
-import type { ProviderForkingConfig } from '../node/features/network'
-import { hardhatConf, userConf } from '../node/constants'
-import { addresses } from '../generated'
+import type { ProviderForkingConfig } from '../features/network'
+import { hardhatConf, userConf } from '../constants'
+import { addresses } from '../../generated'
 
 export const forking: ProviderForkingConfig = {}
 

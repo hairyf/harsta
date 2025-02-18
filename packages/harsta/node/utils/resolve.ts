@@ -1,4 +1,4 @@
-import path from 'node:path'
+import path from 'pathe'
 import { userRoot } from '../constants'
 
 export function resolveUserPath(targetPath?: string, defaultPath?: string): string | undefined

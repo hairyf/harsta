@@ -1,10 +1,9 @@
 import { defineConfig } from 'tsup'
-import pkg from '../../demo/playground/package.json'
+import pkg from './package.json'
 
 export default defineConfig((options) => {
   return {
     entry: [
-      'node/deploy/index.ts',
       'node/transform/index.ts',
       'node/constants/index.ts',
       'node/types/index.ts',

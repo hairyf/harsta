@@ -5,7 +5,7 @@ export * as fragments from './fragments'
 export * as contracts from './contracts'
 export * as chains from './chains'
 export * as typechains from './typechains'
+export * as resolver from './resolver'
 export * from './defaults'
-export * from './ethers'
 
 export { default as addresses } from './addresses'

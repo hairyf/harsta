@@ -1,11 +1,11 @@
-import path from 'node:path'
+import path from 'pathe'
 import type { ChainConfig } from '@nomicfoundation/hardhat-verify/types'
-import type { HardhatUserConfig, NetworkUserConfig } from 'hardhat/types'
-import type { HarstaUserConfig } from '../types'
+import type { NetworkUserConfig as HardhatNetworkUserConfig, HardhatUserConfig } from 'hardhat/types'
+import type { Chain, HarstaUserConfig, NetworkUserConfig } from '../types'
 import { packRoot, userRoot } from '../constants'
 
 export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfig): HardhatUserConfig & { harsta: HarstaUserConfig } {
-  const networks: Record<string, NetworkUserConfig> = {}
+  const networks: Record<string, HardhatNetworkUserConfig> = {}
 
   const etherscan = {
     apiKey: {} as Record<string, string>,
@@ -61,4 +61,24 @@ export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfi
   config.harsta = harstaUserConfig
 
   return config
+}
+
+export function transformNetworkToChain(network: NetworkUserConfig, addresses?: Record<string, string>) {
+  const chain: Chain = {
+    id: network.id,
+    name: network.name,
+    nativeCurrency: network.currency,
+    rpcUrls: {
+      default: { http: [network.rpc].filter(Boolean) },
+      public: { http: [network.rpc].filter(Boolean) },
+    },
+    ...(network.explorer
+      ? { blockExplorers: { default: network.explorer } }
+      : {}),
+    iconUrl: network?.icon,
+    testnet: network.testnet,
+    addresses: addresses || {},
+  }
+
+  return chain
 }

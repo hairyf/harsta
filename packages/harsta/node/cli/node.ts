@@ -1,4 +1,4 @@
-import path from 'node:path'
+import path from 'pathe'
 import { resolveConfig } from 'hardhat/internal/core/config/config-resolution'
 import type { Argv } from 'yargs'
 import { packRoot, userConf } from '../constants'

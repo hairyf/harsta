@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { updateProvider, updateSigner } from '../ethers'
+import { updateProvider, updateSigner } from '../defaults'
 import { clientToProvider, clientToSigner } from './adapter'
 
 export interface SubscribeWagmiConfigProps {

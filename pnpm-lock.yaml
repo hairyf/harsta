@@ -34,7 +34,7 @@ importers:
         specifier: ^2.0.4
         version: 2.0.4(@types/node@20.14.10)
 
-  demo/playground:
+  demos/upgrade:
     dependencies:
       '@harsta/client':
         specifier: workspace:^
@@ -47,7 +47,7 @@ importers:
         version: 5.0.2(@openzeppelin/contracts@5.0.2)
       ethers:
         specifier: ^6.13.1
-        version: 6.13.1
+        version: 6.13.5
     devDependencies:
       harsta:
         specifier: workspace:^
@@ -133,27 +133,15 @@ importers:
       '@clack/prompts':
         specifier: ^0.10.0
         version: 0.10.0
-      '@ethersproject/web':
-        specifier: ^5.7.1
-        version: 5.7.1
       '@nomicfoundation/hardhat-ethers':
         specifier: ^3.0.8
         version: 3.0.8(ethers@6.13.1)(hardhat@2.22.6)
-      '@nomicfoundation/hardhat-network-helpers':
-        specifier: ^1.0.12
-        version: 1.0.12(hardhat@2.22.6)
       '@nomicfoundation/hardhat-toolbox':
         specifier: ^5.0.0
         version: 5.0.0(@nomicfoundation/hardhat-chai-matchers@2.0.7)(@nomicfoundation/hardhat-ethers@3.0.8)(@nomicfoundation/hardhat-ignition-ethers@0.15.5)(@nomicfoundation/hardhat-network-helpers@1.0.12)(@nomicfoundation/hardhat-verify@2.0.8)(@typechain/ethers-v6@0.5.1)(@typechain/hardhat@9.1.0)(@types/chai@4.3.16)(@types/mocha@10.0.7)(@types/node@20.14.10)(chai@4.4.1)(ethers@6.13.1)(hardhat-gas-reporter@1.0.10)(hardhat@2.22.6)(solidity-coverage@0.8.12)(ts-node@10.9.2)(typechain@8.3.2)(typescript@5.5.3)
       '@nomicfoundation/hardhat-verify':
         specifier: ^2.0.8
         version: 2.0.8(hardhat@2.22.6)
-      '@openzeppelin/contracts':
-        specifier: ^5.0.2
-        version: 5.0.2
-      '@openzeppelin/contracts-upgradeable':
-        specifier: ^5.0.1
-        version: 5.0.2(@openzeppelin/contracts@5.0.2)
       '@openzeppelin/hardhat-upgrades':
         specifier: ^3.0.1
         version: 3.2.0(@nomicfoundation/hardhat-ethers@3.0.8)(@nomicfoundation/hardhat-verify@2.0.8)(ethers@6.13.1)(hardhat@2.22.6)
@@ -190,9 +178,6 @@ importers:
       magicast:
         specifier: ^0.3.4
         version: 0.3.4
-      ora:
-        specifier: ^5
-        version: 5.4.1
       pathe:
         specifier: ^1.1.2
         version: 1.1.2
@@ -392,13 +377,13 @@ packages:
     engines: {node: '>=16.0.0'}
     dependencies:
       '@smithy/types': 3.3.0
-      tslib: 2.6.3
+      tslib: 2.7.0
     dev: false
 
   /@aws-sdk/util-utf8-browser@3.259.0:
     resolution: {integrity: sha512-UvFa/vR+e19XookZF8RzFZBrw2EUkQWxiBW0yYQAhvk3C+QVGl0H3ouca8LDBlBfQKXwmW3huo/59H8rwb1wJw==}
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.7.0
     dev: false
 
   /@babel/code-frame@7.24.7:
@@ -4882,7 +4867,7 @@ packages:
     resolution: {integrity: sha512-IxvBBCTFDHbVoK7zIxqA1ZOdc4QfM5HM7rGleCuHi7L1wnKv5Pn69xXJQ9hgxH60ZVygH9/JG0jRgtUncE3QUA==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.7.0
     dev: false
 
   /@socket.io/component-emitter@3.1.2:
@@ -8258,7 +8243,7 @@ packages:
       minimatch: 9.0.5
       semver: 7.6.3
       stable-hash: 0.0.4
-      tslib: 2.6.3
+      tslib: 2.7.0
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -13736,7 +13721,7 @@ packages:
     resolution: {integrity: sha512-Vhf+bUa//YSTYKseDiiEuQmhGCoIF3CVBhunm3r/DQnYiGT4JssmnKQc44BIyOZRK2pKjXXAgbhfmbeoC9CJpA==}
     engines: {node: '>=12.20'}
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.7.0
     dev: true
 
   /synckit@0.9.1:
@@ -13744,7 +13729,7 @@ packages:
     engines: {node: ^14.18.0 || >=16.0.0}
     dependencies:
       '@pkgr/core': 0.1.1
-      tslib: 2.6.3
+      tslib: 2.7.0
     dev: true
 
   /system-architecture@0.1.0:
@@ -13999,12 +13984,8 @@ packages:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: false
 
-  /tslib@2.6.3:
-    resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
-
   /tslib@2.7.0:
     resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
-    dev: false
 
   /tsort@0.0.1:
     resolution: {integrity: sha512-Tyrf5mxF8Ofs1tNoxA13lFeZ2Zrbd6cKbuH3V+MQ5sb6DtBj5FjrXVsRWT8YvNAQTqNoz66dz1WsbigI22aEnw==}

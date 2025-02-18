@@ -1,6 +1,6 @@
 import { Wallet } from 'ethers'
 import { contracts, signer } from 'harsta/runtime'
-import { fixture, initial, waitForTrans } from 'harsta/tests'
+import { fixture, initial, wait } from 'harsta/tests'
 import { describe, expect, it } from 'vitest'
 
 await initial()
@@ -11,7 +11,7 @@ describe('erc20 transparent and erc20 uups', () => {
     const account = Wallet.createRandom()
 
     const erc20 = contracts.ERC20WithTransparent.resolve('signer')
-    await erc20.mint(account.address, 100).then(waitForTrans)
+    await erc20.mint(account.address, 100).then(wait)
 
     const balance = await erc20.balanceOf(account.address)
     expect(balance).toBe(BigInt(100))
@@ -23,9 +23,9 @@ describe('erc20 transparent and erc20 uups', () => {
 
     const erc20 = contracts.ERC20WithUUPS.resolve('signer')
 
-    await erc20.mint(owner, 100).then(waitForTrans)
+    await erc20.mint(owner, 100).then(wait)
 
-    await erc20.transfer(account, 100).then(waitForTrans)
+    await erc20.transfer(account, 100).then(wait)
 
     const balance = await erc20.balanceOf(account.address)
     expect(balance).toBe(BigInt(100))

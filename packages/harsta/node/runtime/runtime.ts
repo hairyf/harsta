@@ -3,21 +3,20 @@ import {
   Instances,
   Interfaces,
   addresses as _addresses,
+  chain,
   chains,
   contracts,
-  defaultAddresses,
-  defaultChain,
-  defaults,
   fragments,
   provider,
-  resolveRunner,
+  resolver,
   runner,
   signer,
   typechains,
+  updateChain,
   updateProvider,
   updateRunner,
   updateSigner,
-} from '../generated'
+} from '../../generated'
 
 export const addresses = _addresses as
   typeof _addresses &
@@ -30,16 +29,15 @@ export {
   Interfaces,
   chains,
   contracts,
-  defaultAddresses,
-  defaultChain,
-  defaults,
+  chain,
   fragments,
   provider,
-  resolveRunner,
+  resolver,
   runner,
   signer,
   typechains,
   updateProvider,
+  updateChain,
   updateRunner,
   updateSigner,
 }
@@ -58,4 +56,4 @@ export {
   getUnnamedAccounts,
   manager,
   env,
-} from '../node/features/environment'
+} from '../features/environment'

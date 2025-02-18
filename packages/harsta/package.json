@@ -39,12 +39,12 @@
       "require": "./dist/utils/index.js"
     },
     "./runtime": {
-      "type": "./runtime/index.ts",
-      "default": "./runtime/index.ts"
+      "type": "./node/runtime/runtime.ts",
+      "default": "./node/runtime/runtime.ts"
     },
     "./tests": {
-      "type": "./tests/index.ts",
-      "default": "./tests/index.ts"
+      "type": "./node/runtime/tests.ts",
+      "default": "./node/runtime/tests.ts"
     },
     "./*": "./*"
   },
@@ -81,13 +81,9 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.10.0",
-    "@ethersproject/web": "^5.7.1",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
-    "@nomicfoundation/hardhat-network-helpers": "^1.0.12",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@nomicfoundation/hardhat-verify": "^2.0.8",
-    "@openzeppelin/contracts": "^5.0.2",
-    "@openzeppelin/contracts-upgradeable": "^5.0.1",
     "@openzeppelin/hardhat-upgrades": "^3.0.1",
     "@openzeppelin/upgrades-core": "^1.42.1",
     "consola": "^3.2.3",
@@ -100,7 +96,6 @@
     "jiti": "^2.4.2",
     "kolorist": "^1.8.0",
     "magicast": "^0.3.4",
-    "ora": "^5",
     "pathe": "^1.1.2",
     "resolve-import-path": "^0.3.2",
     "tsup": "^8.1.0",

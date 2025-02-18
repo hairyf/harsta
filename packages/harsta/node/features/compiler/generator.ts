@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import { generatedRoot, userConf } from '../../constants'
 import type { Chain } from '../../types'
 import { resolveUserPath } from '../../utils'
+import { transformNetworkToChain } from '../../transform'
 import type { ContractFragment } from './resolve'
 import { resolveUserAddresses } from './resolve'
 
@@ -17,25 +18,11 @@ export async function generateChains() {
   const chainsDir = path.resolve(generatedRoot, './chains')
   await fs.ensureDir(chainsDir)
   const indexRows: string[] = []
+  indexRows.push(`import addresses from '../addresses'\n`)
   for (const alias in userConf.networks) {
     const network = userConf.networks[alias]
-    if (!network)
-      return
-    const chain: Chain = {
-      id: network.id,
-      name: network.name,
-      nativeCurrency: network.currency,
-      rpcUrls: {
-        default: { http: [network.rpc] },
-        public: { http: [network.rpc] },
-      },
-      ...(network.explorer
-        ? { blockExplorers: { default: network.explorer } }
-        : {}),
-      iconUrl: network?.icon,
-      testnet: network.testnet,
-    }
-    indexRows.push(`export const ${alias} = ${JSON.stringify(chain, null, 2)} as const\n`)
+    const chain: Chain = transformNetworkToChain(network)
+    indexRows.push(`export const ${alias} = { ...${JSON.stringify(chain)}, addresses: addresses[${network.id}] }as const\n`)
   }
   if (!indexRows.length)
     indexRows.push('export {}')
@@ -151,8 +138,7 @@ async function generateContractFactories(
     const existBytes = factoryFile.includes('_bytecode')
     const fileRows = [
       `import { ${name}__factory } from '${path.relative(dirname, typechainsPath)}'`,
-      `import { resolveAddress } from '${path.relative(dirname, path.resolve(generatedRoot, './utils'))}'`,
-      `import { resolveRunner } from '${path.relative(dirname, path.resolve(generatedRoot, './ethers'))}'`,
+      `import * as resolver from '${path.relative(dirname, path.resolve(generatedRoot, './resolver'))}'`,
       `import { ${name}, ${name}Interface } from '${input.import}'`,
       `import type { Runner } from '${path.relative(dirname, path.resolve(generatedRoot, './types'))}'`,
       existBytes && `import type { Signer } from 'ethers'`,
@@ -168,17 +154,17 @@ async function generateContractFactories(
       '  }',
       '',
       existBytes && '  static factory(signer?: Signer) {',
-      existBytes && `    const resolvedSigner = signer || resolveRunner('signer')`,
+      existBytes && `    const resolvedSigner = signer || resolver.runner('signer')`,
       existBytes && `    return new ${name}__factory(resolvedSigner as Signer)`,
       existBytes && '  }',
       existBytes && '',
       `  static attach(address: string, runner?: Runner): ${name} {`,
-      `    return ${name}__factory.connect(address, resolveRunner(runner))`,
+      `    return ${name}__factory.connect(address, resolver.runner(runner))`,
       '  }',
       '',
       `  static resolve(runner?: Runner, address?: string): ${name} {`,
-      `    const resolvedRunner = resolveRunner(runner)`,
-      `    const target = address || resolveAddress('${name}', resolvedRunner)`,
+      `    const resolvedRunner = resolver.runner(runner)`,
+      `    const target = address || resolver.address('${name}', resolvedRunner)`,
       `    return ${name}__factory.connect(target, resolvedRunner)`,
       `  }`,
       '}',

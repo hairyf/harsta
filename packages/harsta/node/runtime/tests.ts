@@ -1,14 +1,18 @@
 /* eslint-disable no-console */
-import { addresses, updateProvider, updateSigner } from '../runtime'
-import { deployer, environment } from '../node/features'
+import { deployer, environment } from '../features'
+import { transformNetworkToChain } from '../transform'
+import { addresses, chains, updateChain, updateProvider, updateSigner } from './runtime'
 import { forking } from './config'
 
 export async function initial() {
   await environment.initial(process.env.NETWORK!, forking)
-
   if (process.env.FORK && process.env.FORK !== 'undefined')
     await environment.env.network.provider.request({ method: 'hardhat_mine', params: [1, 1] })
 
+  updateChain(
+    chains[process.env.NETWORK! as keyof typeof chains]
+    || { ...transformNetworkToChain(environment.network), addresses: addresses[process.env.NETWORK!] },
+  )
   updateSigner(environment.signer)
   updateProvider(environment.provider)
 }
@@ -47,4 +51,4 @@ export async function fixture(tags: string[]) {
   }
 }
 
-export { waitForTrans } from '../node/utils/ethers'
+export { waitForTrans as wait } from '../utils/ethers'

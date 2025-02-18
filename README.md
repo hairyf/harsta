@@ -349,7 +349,7 @@ describe('storage contract', () => {
     await fixture(['Storage'])
   })
   it('test', async () => {
-    const storage = await contracts.Storage.resolve()
+    const storage = contracts.Storage.resolve()
     // ...
   })
 })

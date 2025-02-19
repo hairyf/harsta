@@ -12,7 +12,7 @@ I have been searching for a way to integrate Hardhat with other frameworks (such
 - [Common Harsta Config for Browser and Node.js](#config)
 - [Automatic deployment based on config](#deployments)
 - [Seamless Wagmi support](#wagmi)
-- [Rapid deploy tests based on hardhat-deploy](#tests)
+- [Rapid deploy tests](#tests)
 
 ## Installation
 
@@ -63,6 +63,7 @@ Additional third-party contracts used, which will be compiled into contract inst
   harsta test     Run integration tests
   harsta deploy   Deploy and save deployments
   harsta update   Update deployed upgradable contracts
+  harsta node     Starts a JSON-RPC server on top of Local Network
 ```
 
 To compile your contracts in `contracts/`:

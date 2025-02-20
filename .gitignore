@@ -28,3 +28,5 @@ packages/harsta/generated/instances
 /coverage.json
 .openzeppelin
 .harsta
+
+.env*

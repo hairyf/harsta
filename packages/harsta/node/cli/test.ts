@@ -1,6 +1,6 @@
 import type { Argv } from 'yargs'
 import { userRoot } from '../constants'
-import { exec, vitestBinRoot } from './utils'
+import { exec, getRuntimeRequiredNetwork, vitestBinRoot } from './utils'
 
 export function registerTestCommand(cli: Argv) {
   cli.command(
@@ -27,10 +27,11 @@ export function registerTestCommand(cli: Argv) {
       })
       .help(),
     async (args) => {
-      if (process.env.NETWORK !== 'hardhat' && process.env.FORK)
-        throw new Error(`${process.env.NETWORK} Not Support fork`)
+      const network = getRuntimeRequiredNetwork(args.network)
 
-      process.env.NETWORK = args.network
+      if (network !== 'hardhat' && process.env.FORK)
+        throw new Error(`${network} Not Support fork`)
+
       process.env.FORK = `${args.fork || ''}`
       process.env.FORK_BLOCK_NUMBER = `${args.forkBlockNumber || ''}`
 

@@ -1,5 +1,6 @@
 import type { Argv } from 'yargs'
 import { deployer, environment } from '../features'
+import { getRuntimeRequiredNetwork } from './utils'
 
 export function registerUpdateCommand(cli: Argv) {
   cli.command(
@@ -10,6 +11,11 @@ export function registerUpdateCommand(cli: Argv) {
         type: 'string',
         describe: 'contract name',
       })
+      .option('network', {
+        alias: 'n',
+        type: 'string',
+        describe: 'The harsta network used',
+      })
       .option('target', {
         type: 'string',
         required: true,
@@ -19,15 +25,11 @@ export function registerUpdateCommand(cli: Argv) {
         type: 'boolean',
         default: true,
       })
-      .option('network', {
-        alias: 'n',
-        type: 'string',
-        describe: 'The harsta network used',
-        required: true,
-      })
       .help(),
     async (args) => {
-      await environment.initial(args.network!)
+      const network = getRuntimeRequiredNetwork(args.network)
+
+      await environment.initial(network)
       await environment.env.run('compile')
 
       await deployer.upgradeDeploy(args.name!, args.target)

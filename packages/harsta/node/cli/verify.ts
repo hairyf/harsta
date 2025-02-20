@@ -1,5 +1,6 @@
 import type { Argv } from 'yargs'
 import { deployer, environment, verifier } from '../features'
+import { getRuntimeRequiredNetwork } from './utils'
 
 export function registerVerifyCommand(cli: Argv) {
   cli.command(
@@ -15,7 +16,6 @@ export function registerVerifyCommand(cli: Argv) {
         alias: 'n',
         type: 'string',
         describe: 'The harsta network used',
-        required: true,
       })
       .option('force', {
         type: 'boolean',
@@ -23,7 +23,9 @@ export function registerVerifyCommand(cli: Argv) {
       })
       .help(),
     async (args) => {
-      await environment.initial(args.network!)
+      const network = getRuntimeRequiredNetwork(args.network)
+
+      await environment.initial(network)
       const address = await resolveTargetAddress(args.target)
       const deployed = await deployer.getDeployed(args.target)
       await verifier.verify(address, {

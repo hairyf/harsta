@@ -2,6 +2,7 @@ import type { Argv } from 'yargs'
 import consola from 'consola'
 import { confirm } from '@clack/prompts'
 import { deployer, environment, verifier } from '../features'
+import { getRuntimeRequiredNetwork } from './utils'
 
 export function registerDeployCommand(cli: Argv) {
   cli.command(
@@ -12,7 +13,6 @@ export function registerDeployCommand(cli: Argv) {
         alias: 'n',
         type: 'string',
         describe: 'The harsta network used',
-        required: true,
       })
       .option('contracts', {
         type: 'array',
@@ -29,7 +29,9 @@ export function registerDeployCommand(cli: Argv) {
       })
       .help(),
     async (args) => {
-      await environment.initial(args.network!)
+      const network = getRuntimeRequiredNetwork(args.network)
+
+      await environment.initial(network)
       args.compile && await environment.env.run('compile')
 
       const deployments = deployer.parseConfigs(args.contracts)

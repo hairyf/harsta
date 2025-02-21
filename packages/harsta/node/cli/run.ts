@@ -13,7 +13,7 @@ export function registerRunCommand(cli: Argv) {
         default: 'hardhat',
       })
       .option('clean', {
-        deprecate: 'Clears the cache and deletes all artifacts',
+        describe: 'Clears the cache and deletes all artifacts',
         alias: 'c',
         type: 'boolean',
       })

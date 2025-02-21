@@ -15,11 +15,11 @@ export function registerTestCommand(cli: Argv) {
       })
       .option('fork', {
         type: 'string',
-        deprecate: 'The URL of the JSON-RPC server to fork from',
+        describe: 'The URL of the JSON-RPC server to fork from',
       })
       .option('watch', {
         type: 'boolean',
-        deprecate: 'Run all test suites but watch for changes and rerun tests when they change.',
+        describe: 'Run all test suites but watch for changes and rerun tests when they change.',
       })
       .option('forkBlockNumber', {
         type: 'number',

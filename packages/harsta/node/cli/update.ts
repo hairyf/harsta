@@ -19,7 +19,7 @@ export function registerUpdateCommand(cli: Argv) {
       .option('target', {
         type: 'string',
         required: true,
-        deprecate: 'next contract',
+        describe: 'next contract',
       })
       .option('compile', {
         type: 'boolean',

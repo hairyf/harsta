@@ -12,16 +12,16 @@ export function registerNodeCommand(cli: Argv) {
     args => args
       .option('hostname', {
         type: 'string',
-        deprecate: 'The host to which to bind to for new connections (Defaults to 127.0.0.1 running locally, and 0.0.0.0 in Docker)',
+        describe: 'The host to which to bind to for new connections (Defaults to 127.0.0.1 running locally, and 0.0.0.0 in Docker)',
       })
       .option('port', {
         type: 'number',
-        deprecate: 'The port on which to listen for new connections',
+        describe: 'The port on which to listen for new connections',
         default: 8545,
       })
       .option('fork', {
         type: 'string',
-        deprecate: 'The URL of the JSON-RPC server to fork from',
+        describe: 'The URL of the JSON-RPC server to fork from',
       })
       .option('forkBlockNumber', {
         type: 'number',

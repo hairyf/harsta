@@ -67,7 +67,7 @@ export function transformNetworkToChain(network: NetworkUserConfig, addresses?: 
   const chain: Chain = {
     id: network.id,
     name: network.name,
-    nativeCurrency: network.currency,
+    nativeCurrency: network.currency!,
     rpcUrls: {
       default: { http: [network.rpc].filter(Boolean) },
       public: { http: [network.rpc].filter(Boolean) },

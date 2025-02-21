@@ -1,5 +1,4 @@
 import type { Environment } from 'hardhat/internal/core/runtime-environment'
-import fs from 'fs-extra'
 import { userConf } from '../../constants'
 import { ensureDirectories } from './ensures'
 import { resolveFragmentsPaths } from './resolve'

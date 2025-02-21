@@ -13,7 +13,6 @@ import {
   generateTypes,
 } from './generator'
 import { buildDistributed } from './builder'
-import { searchHasExtFiles } from './utils'
 
 export interface CompileOptions {
   clean?: boolean

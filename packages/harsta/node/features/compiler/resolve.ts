@@ -37,7 +37,7 @@ export async function resolveUserAddresses() {
 export function resolveFragmentsPaths() {
   const generateRoot = path.resolve(packRoot, './generated')
   const fragmentsPaths = findDepthFilePaths(path.resolve(generateRoot, './fragments'))
-  const fragmentsExtendsPaths = findDepthFilePaths(path.resolve(userRoot, './config/fragments'))
+  const fragmentsExtendsPaths = findDepthFilePaths(path.resolve(userRoot, './config/externally'))
     .filter(p => !p.endsWith('index.ts'))
     .filter(p => !fragmentsPaths.some(ep => path.basename(p) === path.basename(ep)))
 

@@ -11,7 +11,7 @@ export interface NetworkUserConfig {
 
   icon?: string
 
-  currency: Currency
+  currency?: Currency
 
   verify?: Verify
 

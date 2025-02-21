@@ -80,6 +80,10 @@ export async function generateExtraTypeChain(dirpath: string) {
     outDir,
     allFiles,
   })
+
+  const indexPath = path.join(generatedRoot, 'typechains/index.ts')
+  if (!fs.existsSync(indexPath))
+    fs.writeFile(indexPath, `export * from './extends'`)
 }
 export async function generateTypes(paths: ContractFragment[]) {
   const types = [

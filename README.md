@@ -50,7 +50,7 @@ export default {
 }
 ```
 
-- `config/fragments/*.json`
+- `config/externally/*.json`
 
 Additional third-party contracts used, which will be compiled into contract instances.
 

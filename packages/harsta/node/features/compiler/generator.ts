@@ -1,11 +1,13 @@
 import path from 'pathe'
 import fs from 'fs-extra'
-import { generatedRoot, userConf } from '../../constants'
+import { glob, runTypeChain } from 'typechain'
+import { generatedRoot, userConf, userRoot } from '../../constants'
 import type { Chain } from '../../types'
 import { resolveUserPath } from '../../utils'
 import { transformNetworkToChain } from '../../transform'
 import type { ContractFragment } from './resolve'
 import { resolveUserAddresses } from './resolve'
+import { searchHasExtFiles } from './utils'
 
 export async function generateAddresses() {
   const packAddressesPath = path.resolve(generatedRoot, './addresses/index.ts')
@@ -37,12 +39,11 @@ export async function generateFragments(fragmentsPaths: ContractFragment[]) {
   !indexRows.length && indexRows.push('export {}')
   indexRows.push('')
   await fs.ensureDir(path.resolve(generatedRoot, './fragments'))
-  if (userConf.paths?.fragments) {
-    await fs.copy(
-      path.resolve(generatedRoot, './fragments'),
-      resolveUserPath(userConf.paths.fragments)!,
-    )
-  }
+  const fragmentsPath = userConf.paths?.fragments || './config/fragments'
+  await fs.copy(
+    path.resolve(generatedRoot, './fragments'),
+    resolveUserPath(fragmentsPath)!,
+  )
   await fs.writeFile(path.resolve(path.resolve(generatedRoot, './fragments'), './index.ts'), indexRows.join('\n'))
 }
 
@@ -67,7 +68,19 @@ export async function generateContractsExtends(fragmentsPaths: ContractFragment[
     path.resolve(generatedRoot, './typechains/extends'),
   )
 }
-
+export async function generateExtraTypeChain(dirpath: string) {
+  if (!searchHasExtFiles(path.join(userRoot, dirpath), '.json'))
+    return
+  const allFiles = glob(userRoot, [`${dirpath}/*.json`])
+  const outDir = path.resolve(generatedRoot, './typechains/extends')
+  await runTypeChain({
+    filesToProcess: allFiles,
+    target: 'ethers-v6',
+    cwd: userRoot,
+    outDir,
+    allFiles,
+  })
+}
 export async function generateTypes(paths: ContractFragment[]) {
   const types = [
     {

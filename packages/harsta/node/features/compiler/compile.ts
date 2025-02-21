@@ -1,7 +1,6 @@
-import path from 'pathe'
-import { glob, runTypeChain } from 'typechain'
 import type { Environment } from 'hardhat/internal/core/runtime-environment'
-import { generatedRoot, userConf, userRoot } from '../../constants'
+import fs from 'fs-extra'
+import { userConf } from '../../constants'
 import { ensureDirectories } from './ensures'
 import { resolveFragmentsPaths } from './resolve'
 import {
@@ -9,10 +8,12 @@ import {
   generateChains,
   generateContracts,
   generateContractsExtends,
+  generateExtraTypeChain,
   generateFragments,
   generateTypes,
 } from './generator'
 import { buildDistributed } from './builder'
+import { searchHasExtFiles } from './utils'
 
 export interface CompileOptions {
   clean?: boolean
@@ -27,19 +28,9 @@ export async function compile(env: Environment, options: CompileOptions = {}) {
 
   await env.run('export-abi')
 
-  const fragments = resolveFragmentsPaths()
+  await generateExtraTypeChain('./config/externally')
 
-  if (fragments.extends.length) {
-    const allFiles = glob(userRoot, ['./config/fragments/*.json'])
-    const outDir = path.resolve(generatedRoot, './typechains/extends')
-    await runTypeChain({
-      filesToProcess: allFiles,
-      target: 'ethers-v6',
-      cwd: userRoot,
-      outDir,
-      allFiles,
-    })
-  }
+  const fragments = resolveFragmentsPaths()
 
   await Promise.all([
     generateAddresses(),

@@ -1,24 +1,30 @@
 import path from 'pathe'
 import fs from 'fs-extra'
 import { glob, runTypeChain } from 'typechain'
-import { generatedRoot, userConf, userRoot } from '../../constants'
+import type { Environment } from 'hardhat/internal/core/runtime-environment'
 import type { Chain } from '../../types'
 import { resolveUserPath } from '../../utils'
 import { transformNetworkToChain } from '../../transform'
+import {
+  absolutePaths,
+  generatedRoot,
+  relativePaths,
+  userConf,
+  userRoot,
+} from '../../constants'
 import type { ContractFragment } from './resolve'
 import { resolveUserAddresses } from './resolve'
 import { searchHasExtFiles } from './utils'
 
 export async function generateAddresses() {
-  const packAddressesPath = path.resolve(generatedRoot, './addresses/index.ts')
   const addresses = await resolveUserAddresses()
-  await fs.ensureDir(path.dirname(packAddressesPath))
-  await fs.writeFile(packAddressesPath, addresses)
+  await fs.ensureDir(absolutePaths.generateAddresses)
+  await fs.writeFile(absolutePaths.generateAddressesIndexTS, addresses)
 }
 
 export async function generateChains() {
-  const chainsDir = path.resolve(generatedRoot, './chains')
-  await fs.ensureDir(chainsDir)
+  await fs.ensureDir(absolutePaths.generateChains)
+
   const indexRows: string[] = []
   indexRows.push(`import addresses from '../addresses'\n`)
   for (const alias in userConf.networks) {
@@ -28,7 +34,7 @@ export async function generateChains() {
   }
   if (!indexRows.length)
     indexRows.push('export {}')
-  await fs.writeFile(path.resolve(chainsDir, './index.ts'), indexRows.join('\n'))
+  await fs.writeFile(absolutePaths.generateChainsIndexTS, indexRows.join('\n'))
 }
 
 export async function generateFragments(fragmentsPaths: ContractFragment[]) {
@@ -38,41 +44,61 @@ export async function generateFragments(fragmentsPaths: ContractFragment[]) {
   }
   !indexRows.length && indexRows.push('export {}')
   indexRows.push('')
-  await fs.ensureDir(path.resolve(generatedRoot, './fragments'))
+  await fs.ensureDir(absolutePaths.generateContractsFragments)
   const fragmentsPath = userConf.paths?.fragments || './config/fragments'
   await fs.copy(
-    path.resolve(generatedRoot, './fragments'),
+    absolutePaths.generateFactoriesFragments,
     resolveUserPath(fragmentsPath)!,
   )
-  await fs.writeFile(path.resolve(path.resolve(generatedRoot, './fragments'), './index.ts'), indexRows.join('\n'))
+  await fs.writeFile(
+    path.resolve(absolutePaths.generateContractsFragments, './index.ts'),
+    indexRows.join('\n'),
+  )
+}
+
+export async function generateFactories(fragmentsPaths: ContractFragment[]) {
+  await generateConstructs(
+    fragmentsPaths,
+    absolutePaths.generateFactories,
+    absolutePaths.generateFactoriesTypechain,
+  )
 }
 
 export async function generateContracts(fragmentsPaths: ContractFragment[]) {
-  await generateContractFactories(
+  await generateConstructs(
     fragmentsPaths,
-    path.resolve(generatedRoot, './contracts'),
-    path.resolve(generatedRoot, './typechains'),
-    ['', `export * from './extends'`],
+    absolutePaths.generateContracts,
+    absolutePaths.generateContractsTypechain,
   )
 }
 
-export async function generateContractsExtends(fragmentsPaths: ContractFragment[]) {
-  if (!fragmentsPaths.length) {
-    await fs.ensureDir(path.resolve(generatedRoot, './contracts/extends'))
-    await fs.writeFile(path.resolve(generatedRoot, './contracts/extends/index.ts'), 'export {}\n')
-    return
+export async function generateTypechain(env: Environment) {
+  await env.run('export-abi')
+
+  if (!fs.existsSync(absolutePaths.generateFactoriesTypechainIndexTS)) {
+    await fs.ensureDir(absolutePaths.generateFactoriesTypechain)
+    await fs.ensureDir(absolutePaths.generateFactoriesFragments)
+    await fs.writeFile(absolutePaths.generateFactoriesTypechainIndexTS, 'export {}')
   }
-  await generateContractFactories(
-    fragmentsPaths,
-    path.resolve(generatedRoot, './contracts/extends'),
-    path.resolve(generatedRoot, './typechains/extends'),
+
+  await fs.remove(absolutePaths.generateContractsFragments)
+  await fs.ensureDir(absolutePaths.generateContractsFragments)
+
+  if (await searchHasExtFiles(absolutePaths.userFragments, '.json')) {
+    await fs.copy(
+      absolutePaths.userFragments,
+      path.join(absolutePaths.generateContractsFragments, './externally'),
+    )
+  }
+
+  await fs.copy(
+    absolutePaths.generateFactoriesFragments,
+    absolutePaths.generateContractsFragments,
   )
-}
-export async function generateExtraTypeChain(dirpath: string) {
-  if (!searchHasExtFiles(path.join(userRoot, dirpath), '.json'))
-    return
-  const allFiles = glob(userRoot, [`${dirpath}/*.json`])
-  const outDir = path.resolve(generatedRoot, './typechains/extends')
+
+  const allFiles = glob(generatedRoot, [`${relativePaths.generateContractsFragments}/**/*.json`])
+  const outDir = path.resolve(generatedRoot, relativePaths.generateContractsTypechain)
+
   await runTypeChain({
     filesToProcess: allFiles,
     target: 'ethers-v6',
@@ -80,12 +106,13 @@ export async function generateExtraTypeChain(dirpath: string) {
     outDir,
     allFiles,
   })
-
-  const indexPath = path.join(generatedRoot, 'typechains/index.ts')
-  if (!fs.existsSync(indexPath))
-    fs.writeFile(indexPath, `export * from './extends'`)
+  if (!fs.existsSync(absolutePaths.generateContractsTypechainIndexTS)) {
+    await fs.ensureDir(absolutePaths.generateContractsTypechain)
+    await fs.writeFile(absolutePaths.generateContractsTypechainIndexTS, 'export {}')
+  }
 }
-export async function generateTypes(paths: ContractFragment[]) {
+
+export async function generateOtherType(paths: ContractFragment[]) {
   const types = [
     {
       type: 'events',
@@ -139,15 +166,14 @@ export async function generateTypes(paths: ContractFragment[]) {
   await Promise.all(processes)
 }
 
-async function generateContractFactories(
+export async function generateConstructs(
   paths: ContractFragment[],
   outdir: string,
   typechainsPath: string,
-  suffixRows: string[] = [],
 ) {
   await fs.ensureDir(outdir)
 
-  const indexRows: string[] = []
+  const rows: string[] = []
 
   for (const { outfile, input } of paths) {
     const { name, dirname, file } = outfile
@@ -190,12 +216,12 @@ async function generateContractFactories(
     await fs.writeFile(file, fileRows.filter(Boolean).join('\n'))
     const exportFile = file.replace('.ts', '')
     const exportPath = path.relative(outdir, exportFile)
-    indexRows.push(`export { ${name}Factory as ${name} } from './${exportPath.replace(/\\/g, '/')}'`)
+    rows.push(`export { ${name}Factory as ${name} } from './${exportPath.replace(/\\/g, '/')}'`)
   }
 
-  indexRows.push(...suffixRows)
+  !rows.length && rows.push('export {}')
 
-  indexRows.push('')
+  rows.push('')
 
-  await fs.writeFile(path.resolve(outdir, './index.ts'), indexRows.join('\n'))
+  await fs.writeFile(path.resolve(outdir, './index.ts'), rows.join('\n'))
 }

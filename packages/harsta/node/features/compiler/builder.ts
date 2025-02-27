@@ -15,7 +15,7 @@ export async function buildDistributed(args: { clean?: boolean, output?: string 
 
   args.clean && await fs.remove(outdir)
 
-  exec(`node ${tsupBinRoot} --outDir ${outdir}`, { stdio: 'ignore', cwd: generatedRoot })
+  exec(`node ${tsupBinRoot} --outDir ${outdir} --silent`, { stdio: 'inherit', cwd: generatedRoot })
   exec(`node ${tscBinRoot} --outDir ${outdir}`, { cwd: generatedRoot })
 
   const log = path.resolve(outdir, '../').endsWith('@harsta/client') ? '@harsta/client' : outdir

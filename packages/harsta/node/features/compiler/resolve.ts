@@ -1,6 +1,6 @@
 import path from 'pathe'
 import fs from 'fs-extra'
-import { packRoot, userRoot } from '../../constants'
+import { absolutePaths, packRoot, relativePaths, userRoot } from '../../constants'
 import { findDepthFilePaths } from '../../utils'
 
 export interface ContractFragment {
@@ -36,31 +36,34 @@ export async function resolveUserAddresses() {
 
 export function resolveFragmentsPaths() {
   const generateRoot = path.resolve(packRoot, './generated')
-  const fragmentsPaths = findDepthFilePaths(path.resolve(generateRoot, './fragments'))
-  const fragmentsExtendsPaths = findDepthFilePaths(path.resolve(userRoot, './config/externally'))
-    .filter(p => !p.endsWith('index.ts'))
-    .filter(p => !fragmentsPaths.some(ep => path.basename(p) === path.basename(ep)))
+  const fragmentsFactoriesPaths = findDepthFilePaths(absolutePaths.generateFactoriesFragments)
+  const fragmentsContractsPaths = findDepthFilePaths(absolutePaths.generateContractsFragments)
 
   return {
-    sources: generateFragmentData(fragmentsPaths, generateRoot, './contracts') as ContractFragment[],
-    extends: generateFragmentData(fragmentsExtendsPaths, generateRoot, './contracts/extends', true) as ContractFragment[],
+    factories: generateFragmentData(
+      fragmentsFactoriesPaths,
+      generateRoot,
+      relativePaths.generateFactories,
+      relativePaths.generateFactoriesTypechain,
+    ) as ContractFragment[],
+    contracts: generateFragmentData(
+      fragmentsContractsPaths,
+      generateRoot,
+      relativePaths.generateContracts,
+      relativePaths.generateContractsTypechain,
+    ) as ContractFragment[],
   }
 }
 
-function generateFragmentData(fragments: string[], generateRoot: string, contractsDir: string, isExtended = false) {
+function generateFragmentData(fragments: string[], generateRoot: string, contractsDir: string, typechainsDir: string) {
   return fragments.map((fPath: string) => {
     const outDir = path.resolve(generateRoot, contractsDir)
-    const _outfile = outfile(fPath, outDir)
-    const typechainsPath = path.resolve(
-      generateRoot,
-      isExtended
-        ? './typechains/extends'
-        : './typechains',
-    )
+    const outfile_ = outfile(fPath, outDir)
+    const typechainsPath = path.resolve(generateRoot, typechainsDir)
     return {
       path: fPath,
-      input: input(fPath, typechainsPath, _outfile),
-      outfile: _outfile,
+      input: input(fPath, typechainsPath, outfile_),
+      outfile: outfile_,
     }
   })
 }

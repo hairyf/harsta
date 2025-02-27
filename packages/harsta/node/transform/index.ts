@@ -1,4 +1,3 @@
-import path from 'pathe'
 import type { ChainConfig } from '@nomicfoundation/hardhat-verify/types'
 import type { NetworkUserConfig as HardhatNetworkUserConfig, HardhatUserConfig } from 'hardhat/types'
 import type { Chain, HarstaUserConfig, NetworkUserConfig } from '../types'

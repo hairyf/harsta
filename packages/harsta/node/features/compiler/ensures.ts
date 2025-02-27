@@ -1,8 +1,6 @@
 import path from 'pathe'
 import fs from 'fs-extra'
 import { packRoot, userRoot } from '../../constants'
-import { resolveUserPath } from '../../utils'
-import type { HarstaUserConfig } from '../../types'
 
 export async function ensureDirectories() {
   const generateRoot = path.resolve(packRoot, './generated')

@@ -29,4 +29,5 @@ packages/harsta/generated/instances
 .openzeppelin
 .harsta
 
+.env
 .env*

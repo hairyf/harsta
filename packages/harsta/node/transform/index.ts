@@ -2,7 +2,7 @@ import path from 'pathe'
 import type { ChainConfig } from '@nomicfoundation/hardhat-verify/types'
 import type { NetworkUserConfig as HardhatNetworkUserConfig, HardhatUserConfig } from 'hardhat/types'
 import type { Chain, HarstaUserConfig, NetworkUserConfig } from '../types'
-import { packRoot, userRoot } from '../constants'
+import { absolutePaths } from '../constants/paths'
 
 export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfig): HardhatUserConfig & { harsta: HarstaUserConfig } {
   const networks: Record<string, HardhatNetworkUserConfig> = {}
@@ -44,18 +44,18 @@ export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfi
   const config: any = {
     sourcify: { enabled: false },
     ...harstaUserConfig,
+    etherscan,
     networks,
     paths: {
-      sources: path.resolve(packRoot, './contracts'),
-      deploy: path.resolve(packRoot, './deploy'),
-      tests: path.resolve(userRoot, './test'),
-      cache: path.resolve(userRoot, './.harsta/cache'),
-      artifacts: path.resolve(userRoot, './.harsta/artifacts'),
-      deployments: path.resolve(userRoot, './.harsta/deployments'),
+      sources: absolutePaths.packSources,
+      deploy: absolutePaths.packDeploy,
+      tests: absolutePaths.userTest,
+      cache: absolutePaths.harstaCache,
+      artifacts: absolutePaths.harstaArtifacts,
+      deployments: absolutePaths.harstaDeployments,
     },
-    etherscan,
-    typechain: { outDir: path.resolve(packRoot, './generated/typechains') },
-    abiExporter: { path: path.resolve(packRoot, './generated/fragments') },
+    typechain: { outDir: absolutePaths.generateFactoriesTypechain },
+    abiExporter: { path: absolutePaths.generateFactoriesFragments },
   }
 
   config.harsta = harstaUserConfig

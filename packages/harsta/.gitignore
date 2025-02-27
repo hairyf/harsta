@@ -1,5 +1,4 @@
 node_modules
-.env
 
 # Hardhat files
 /cache
@@ -7,20 +6,23 @@ node_modules
 /contracts
 
 # TypeChain files
-generated/typechains
-generated/typechains-extends
+generated/_typechain-factories
+generated/_typechain-contracts
+
+# Fragments files
+generated/_fragments-contracts
+generated/_fragments-factories
+
+# Types files
 generated/interfaces
-generated/fragments
+
+# Constructs files
+generated/factories
+generated/contracts
+
+# config files
 generated/addresses
 generated/chains
-generated/contracts
-generated/contracts-extends
-
-/deploy
-/tmp
-/deployments
-
-/abi
 
 # solidity-coverage files
 /coverage

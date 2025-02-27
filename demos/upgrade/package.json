@@ -5,7 +5,7 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "build": "harsta compile ",
+    "build": "harsta compile --clean",
     "deploy": "harsta deploy --network geneva --verify",
     "test": "harsta test --network hardhat",
     "verify": "harsta verify --network geneva --target ERC20WithTransparent",

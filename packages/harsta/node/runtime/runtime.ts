@@ -1,7 +1,4 @@
 import {
-  Events,
-  Instances,
-  Interfaces,
   addresses as _addresses,
   chain,
   chains,
@@ -12,7 +9,7 @@ import {
   resolver,
   runner,
   signer,
-  typechains,
+  typechain,
   updateChain,
   updateProvider,
   updateRunner,
@@ -25,9 +22,6 @@ export const addresses = _addresses as
   Record<string, Record<string, string>>
 
 export {
-  Events,
-  Instances,
-  Interfaces,
   contracts,
   factories,
   fragments,
@@ -37,7 +31,7 @@ export {
   resolver,
   runner,
   signer,
-  typechains,
+  typechain,
   updateProvider,
   updateChain,
   updateRunner,

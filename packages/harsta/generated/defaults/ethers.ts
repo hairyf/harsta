@@ -11,7 +11,9 @@ function resolveDefaultProvider() {
   )
 }
 
-export const { proxy: provider, update: updateProvider } = proxy<Provider>(resolveDefaultProvider())
+export const defaultProvider = resolveDefaultProvider()
+
+export const { proxy: provider, update: updateProvider } = proxy<Provider>(defaultProvider)
 
 export const { proxy: runner, update: updateRunner } = proxy<Runner>()
 

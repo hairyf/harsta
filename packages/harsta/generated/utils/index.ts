@@ -1,10 +1,11 @@
 import type { Chain } from '../types'
 
 export function proxy<T extends object>(initObject?: T) {
-  let target: any = { proxyUpdated: false }
+  initObject && Reflect.set(initObject, 'proxyUpdated', true)
+  let target: any = initObject || { proxyUpdated: false }
   const proxy = new Proxy<any>({}, {
     get: (_, p) => {
-      return target?.[p] === 'function'
+      return typeof target?.[p] === 'function'
         ? target?.[p].bind(target)
         : target?.[p]
     },
@@ -13,16 +14,10 @@ export function proxy<T extends object>(initObject?: T) {
       return true
     },
   }) as T
-
   function update(object: T) {
-    if (!object)
-      throw new Error('proxy update called on non-object')
     Reflect.set(object, 'proxyUpdated', true)
     target = object
   }
-
-  initObject && update(initObject)
-
   return {
     proxy,
     update,
@@ -46,10 +41,10 @@ export function getter<T extends object>(get: () => T) {
   return proxy
 }
 
-proxy.resolve = <T extends object>(target: T): T | undefined => {
-  return Reflect.get(target, 'proxyUpdated') ? target : undefined
-}
-
 export function isChain(value: any): value is Chain {
   return Boolean(value.name || value.rpcUrls || value.id)
+}
+
+proxy.resolve = <T extends object>(target: T): T | undefined => {
+  return Reflect.get(target, 'proxyUpdated') ? target : undefined
 }

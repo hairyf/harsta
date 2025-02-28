@@ -108,7 +108,6 @@
     "@types/tunnel": "^0.0.6",
     "@types/yargs": "^17.0.32",
     "rimraf": "^6.0.1",
-    "typescript": "^5.2.2",
-    "viem": "2.x"
+    "typescript": "^5.2.2"
   }
 }

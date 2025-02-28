@@ -3,7 +3,6 @@ import fs from 'fs-extra'
 import { glob, runTypeChain } from 'typechain'
 import type { Environment } from 'hardhat/internal/core/runtime-environment'
 import type { Chain } from '../../types'
-import { resolveUserPath } from '../../utils'
 import { transformNetworkToChain } from '../../transform'
 import {
   absolutePaths,
@@ -112,60 +111,6 @@ export async function generateTypechain(env: Environment) {
     await fs.ensureDir(absolutePaths.generateContractsTypechain)
     await fs.writeFile(absolutePaths.generateContractsTypechainIndexTS, 'export {}')
   }
-}
-
-export async function generateOtherType(paths: ContractFragment[]) {
-  const types = [
-    {
-      type: 'events',
-      filter: (mod: string) => mod.endsWith('Event'),
-      outfile: './events/index.ts',
-    },
-    {
-      type: 'interfaces',
-      filter: (mod: string) => mod.endsWith('Interface'),
-      outfile: './interfaces/index.ts',
-    },
-    {
-      type: 'instances',
-      filter: (mod: string, name: string) => mod === name,
-      outfile: './instances/index.ts',
-    },
-  ]
-
-  const processes = types.map(async (config) => {
-    const outfile = path.resolve(generatedRoot, config.outfile)
-    const dirname = path.dirname(outfile)
-
-    await fs.remove(dirname)
-    await fs.ensureDir(dirname)
-
-    function resolve({ input, outfile: { name } }: typeof paths[number]) {
-      const exports = input.exports.filter(mod => config.filter(mod, name)) || []
-      const importPath = `${path.relative(dirname, input.typechains)}/${input.relative}`
-      return `export type { ${exports.join(', ')} } from '${importPath}'`
-    }
-    function resolveDefaultRows(rows: string[]) {
-      !rows.length && rows.push('export {}')
-    }
-    if (config.type !== 'events') {
-      const rows = paths.map(resolve)
-      resolveDefaultRows(rows)
-      await fs.writeFile(outfile, rows.join('\n'))
-      return
-    }
-    for (const p of paths) {
-      const outfile = path.resolve(dirname, `${p.outfile.name}.ts`)
-      await fs.writeFile(outfile, resolve(p))
-    }
-    const indexRows = paths
-      .map(p => p.outfile.name)
-      .map(name => `export * as ${name} from './${name}'`)
-    resolveDefaultRows(indexRows)
-    await fs.writeFile(outfile, indexRows.join('\n'))
-  })
-
-  await Promise.all(processes)
 }
 
 export async function generateConstructs(

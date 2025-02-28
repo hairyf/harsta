@@ -13,9 +13,6 @@ generated/_typechain-contracts
 generated/_fragments-contracts
 generated/_fragments-factories
 
-# Types files
-generated/interfaces
-
 # Constructs files
 generated/factories
 generated/contracts

@@ -7,7 +7,6 @@ import {
   generateContracts,
   generateFactories,
   generateFragments,
-  generateOtherType,
   generateTypechain,
 } from './generator'
 import { buildDistributed } from './builder'
@@ -30,7 +29,6 @@ export async function compile(env: Environment, options: CompileOptions = {}) {
     generateFactories(fragments.factories),
     generateContracts(fragments.contracts),
     generateFragments(fragments.contracts),
-    generateOtherType(fragments.contracts),
   ])
 
   await buildDistributed(options)

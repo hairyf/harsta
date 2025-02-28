@@ -13,8 +13,9 @@ export default defineConfig((options) => {
     dts: false,
     format: ['cjs', 'esm'],
     splitting: true,
-    minify: !options.watch,
+    minify: false,
     external: [
+      /react/,
       ...Object.keys(pkg.devDependencies || {}),
       ...Object.keys(pkg.dependencies || {}),
     ],

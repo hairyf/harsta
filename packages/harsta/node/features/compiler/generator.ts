@@ -44,12 +44,13 @@ export async function generateFragments(fragmentsPaths: ContractFragment[]) {
   }
   !indexRows.length && indexRows.push('export {}')
   indexRows.push('')
+
   await fs.ensureDir(absolutePaths.generateContractsFragments)
-  const fragmentsPath = userConf.paths?.fragments || './config/fragments'
   await fs.copy(
     absolutePaths.generateFactoriesFragments,
-    resolveUserPath(fragmentsPath)!,
+    absolutePaths.harstaFragments,
   )
+
   await fs.writeFile(
     path.resolve(absolutePaths.generateContractsFragments, './index.ts'),
     indexRows.join('\n'),
@@ -100,6 +101,7 @@ export async function generateTypechain(env: Environment) {
   const outDir = path.resolve(generatedRoot, relativePaths.generateContractsTypechain)
 
   await runTypeChain({
+    inputDir: absolutePaths.generateContractsFragments,
     filesToProcess: allFiles,
     target: 'ethers-v6',
     cwd: userRoot,

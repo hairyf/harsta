@@ -10,6 +10,7 @@ export const relativePaths = {
   harstaCache: './.harsta/cache',
   harstaArtifacts: './.harsta/artifacts',
   harstaDeployments: './.harsta/deployments',
+  harstaFragments: './config/fragments',
 
   packDeploy: './deploy',
   packSources: './contracts',
@@ -42,6 +43,7 @@ export const absolutePaths = {
   harstaCache: path.resolve(userRoot, relativePaths.harstaCache),
   harstaArtifacts: path.resolve(userRoot, relativePaths.harstaArtifacts),
   harstaDeployments: path.resolve(userRoot, relativePaths.harstaDeployments),
+  harstaFragments: path.resolve(userRoot, relativePaths.harstaFragments),
 
   packDeploy: path.resolve(packRoot, relativePaths.packDeploy),
   packSources: path.resolve(packRoot, relativePaths.packSources),

@@ -1,10 +1,10 @@
 import { userConf } from '../../constants'
-import type { DeploymentConfig } from '../../types'
+import type { UserDeploymentConfig } from '../../types'
 import { network } from '../environment'
 import { environment } from '../imports'
 import { getAddresses } from './storage'
 
-export async function parseArgs(config: DeploymentConfig) {
+export async function parseArgs(config: UserDeploymentConfig) {
   const context = {
     addresses: await getAddresses(),
     ...environment,

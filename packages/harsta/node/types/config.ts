@@ -1,6 +1,6 @@
 import type { HardhatUserConfig } from 'hardhat/config'
 import type { NetworkUserConfig } from './network'
-import type { DeploymentConfig } from './deployment'
+import type { UserDeploymentConfig } from './deployment'
 
 export interface HarstaPathsConfig {
   fragments?: string
@@ -12,7 +12,7 @@ export interface HarstaProxyConfig {
   port: number
 }
 export interface HarstaUserConfig extends Omit<HardhatUserConfig, 'namedAccounts' | 'networks' | 'etherscan' | 'verify' | 'paths'> {
-  deployments?: Record<string, DeploymentConfig>
+  deployments?: Record<string, UserDeploymentConfig>
   networks?: Record<string, NetworkUserConfig>
   paths?: HarstaPathsConfig
   proxy?: HarstaProxyConfig

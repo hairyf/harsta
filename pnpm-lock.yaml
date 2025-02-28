@@ -78,53 +78,6 @@ importers:
         specifier: ^5.2.2
         version: 5.5.3
 
-  packages/create:
-    dependencies:
-      defu:
-        specifier: ^6.1.4
-        version: 6.1.4
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.2.0
-      kolorist:
-        specifier: ^1.8.0
-        version: 1.8.0
-      minimist:
-        specifier: ^1.2.8
-        version: 1.2.8
-      prompts:
-        specifier: ^2.4.2
-        version: 2.4.2
-    devDependencies:
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
-      '@types/minimist':
-        specifier: ^1.2.5
-        version: 1.2.5
-      '@types/prompts':
-        specifier: ^2.4.9
-        version: 2.4.9
-
-  packages/create/template:
-    dependencies:
-      '@openzeppelin/contracts-upgradeable':
-        specifier: ^5.0.2
-        version: 5.0.2(@openzeppelin/contracts@5.0.2)
-      ethers:
-        specifier: ^6.13.1
-        version: 6.13.5
-    devDependencies:
-      harsta:
-        specifier: latest
-        version: link:../../harsta
-      typescript:
-        specifier: ^5.5.3
-        version: 5.5.3
-      vitest:
-        specifier: ^2.0.4
-        version: 2.0.4(@types/node@20.14.10)
-
   packages/harsta:
     dependencies:
       '@clack/prompts':
@@ -5239,10 +5192,6 @@ packages:
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
     dev: false
 
-  /@types/minimist@1.2.5:
-    resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
-    dev: true
-
   /@types/mocha@10.0.7:
     resolution: {integrity: sha512-GN8yJ1mNTcFcah/wKEFIJckJx9iJLoMSzWcfRRuxz/Jk+U6KQNnml+etbtxFK8lPjzOw3zp4Ha/kjSst9fsHYw==}
     dev: false
@@ -5292,13 +5241,6 @@ packages:
   /@types/prettier@2.7.3:
     resolution: {integrity: sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==}
     dev: false
-
-  /@types/prompts@2.4.9:
-    resolution: {integrity: sha512-qTxFi6Buiu8+50/+3DGIWLHM6QuWsEKugJnnP6iv2Mc4ncxE4A/OJkjuVOA+5X0X1S/nq5VJRa8Lu+nwcvbrKA==}
-    dependencies:
-      '@types/node': 20.14.10
-      kleur: 3.0.3
-    dev: true
 
   /@types/prop-types@15.7.12:
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}

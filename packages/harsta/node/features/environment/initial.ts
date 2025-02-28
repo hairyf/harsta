@@ -11,6 +11,7 @@ import {
   updateManager,
   updateNetwork,
   updateProvider,
+  updateRunner,
   updateSigner,
 } from './defaults'
 import { createManager } from './manager'
@@ -49,4 +50,5 @@ export async function initial(network: string, forking?: ProviderForkingConfig) 
   Reflect.set(signer, 'chainId', config.id)
 
   updateSigner(signer as unknown as Signer)
+  updateRunner(signer as unknown as Signer)
 }

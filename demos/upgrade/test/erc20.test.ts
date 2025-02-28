@@ -1,7 +1,7 @@
 import { Wallet } from 'ethers'
 import { contracts, signer } from 'harsta/runtime'
 import { fixture, initial, wait } from 'harsta/tests'
-import { describe, expect, it } from 'vitest'
+import { describe, expect } from 'vitest'
 
 await initial()
 await fixture(['ERC20', 'ERC20WithTransparent', 'ERC20WithUUPS'])

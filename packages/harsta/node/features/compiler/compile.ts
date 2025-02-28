@@ -18,9 +18,7 @@ export interface CompileOptions {
 }
 
 export async function compile(env: Environment, options: CompileOptions = {}) {
-  await ensureDirectories()
-
-  options.clean && await env.run('clean')
+  await ensureDirectories(env, options.clean)
 
   await generateTypechain(env)
 

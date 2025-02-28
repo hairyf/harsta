@@ -15,8 +15,10 @@ export async function getAddresses() {
     return fs.readJSON(jsonFile).then(mod => mod)
 }
 
-export async function getAddress(name: string): Promise<string | undefined> {
-  return getAddresses().then(mod => mod?.[network.id]?.[name])
+export async function getAddress(nameOrAddress: string): Promise<string | undefined> {
+  if (nameOrAddress.startsWith('0x'))
+    return nameOrAddress
+  return getAddresses().then(mod => mod?.[network.id]?.[nameOrAddress])
 }
 
 export async function setAddress(name: string, address: string) {

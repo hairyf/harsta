@@ -4,7 +4,7 @@ export type HarstaRuntimeEnvironment = { addresses: Record<string, Record<string
 
 export type DeploymentArgs = any[] | ((env: HarstaRuntimeEnvironment) => Promise<any[]> | any[])
 
-export interface DeploymentConfig {
+export interface UserDeploymentConfig {
   /**
    * Specify the chain scope for contract deployment
    */

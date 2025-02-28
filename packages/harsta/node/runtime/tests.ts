@@ -34,7 +34,7 @@ export async function fixture(tags: string[]) {
       return
 
     if (config.update) {
-      await deployer.upgradeDeploy(config.name, config.target)
+      await deployer.upgrade(config.name, config.target)
       const deployed = await deployer.getDeployed(config.name)
       console.log(``)
       console.log(`fixture deployed ${config.name} - ${deployed.address}`)
@@ -51,4 +51,4 @@ export async function fixture(tags: string[]) {
   }
 }
 
-export { waitForTrans as wait } from '../utils/ethers'
+export { wait } from '../utils/ethers'

@@ -1,11 +1,11 @@
 import { UpgradesError } from '@openzeppelin/upgrades-core'
 import type { Interface } from 'ethers'
-import type { DeploymentConfig } from '../../types'
+import type { UserDeploymentConfig } from '../../types'
 
 export function getInitializerData(
   contractInterface: Interface,
   args: unknown[],
-  { initializer }: DeploymentConfig = {},
+  { initializer }: UserDeploymentConfig = {},
 ): string {
   if (initializer === false) {
     return '0x'

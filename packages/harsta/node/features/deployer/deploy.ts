@@ -1,12 +1,12 @@
-import { bold, cyan, dim, gray, green, strikethrough, white, yellow } from 'kolorist'
+import { bold, cyan, dim, gray, green, white, yellow } from 'kolorist'
 import consola from 'consola'
 import { userConf } from '../../constants'
 import { environment } from '../imports'
-import { waitForCallTrans, waitForDeplTrans } from './wait'
+import { waitForDeplTrans } from './wait'
 import { parseArgs } from './parse'
-import { getDeployed, setAddress, setDeployed } from './storage'
+import { setAddress, setDeployed } from './storage'
 import { getInitializerData } from './initializer'
-import { callUpgrade, getUpgradeFactoryArgs, getUpgradeFactoryInstance } from './upgrade'
+import { getUpgradeFactory, getUpgradeFactoryArgs } from './factories'
 import { resolveGeneratedFactory } from './resolver'
 
 export async function deploy(name: string) {
@@ -85,7 +85,7 @@ export async function deployUpgrade(name: string) {
 
   const proxy = await waitForDeplTrans(
     [
-      await getUpgradeFactoryInstance(kind, environment.signer),
+      await getUpgradeFactory(kind, environment.signer),
       await getUpgradeFactoryArgs(kind, implement.address, data, environment.signer, config),
     ],
     (transaction) => {
@@ -131,53 +131,4 @@ export async function deployUpgrade(name: string) {
   })
 
   return proxy.address
-}
-
-export async function upgradeDeploy(name: string, target: string) {
-  const options = await getDeployed(name)
-
-  if (!options)
-    throw new Error(`${name} not been deployed, please deploy first`)
-
-  const Factory = resolveGeneratedFactory(name, target)
-
-  const implement = await waitForDeplTrans(
-    [new Factory(environment.signer)],
-    (transaction) => {
-      consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
-      consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)
-      consola.log(`${green(bold('kIND'))}       ${white('>')}     ${white(options.kind)}`)
-      consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(implement)')}`)
-      consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
-      consola.log(`---------------------------------------------------------`)
-    },
-  )
-
-  const updated = await waitForCallTrans(
-    [callUpgrade, [options.address, implement, environment.signer]],
-    (transaction) => {
-      consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(upgradeTo)')}`)
-      consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
-      consola.log(`---------------------------------------------------------`)
-    },
-    () => {
-      consola.log(`${dim('Implement')}  ${white('>')}     ${strikethrough(gray(options.impl))}`)
-      consola.log(`                 ${cyan(implement.address)} ←`)
-      consola.log(`${dim('Proxy')}      ${white('>')}     ${cyan(options.address)}`)
-    },
-  )
-
-  const artifact = await environment.getArtifact(target)
-
-  options.impl = implement
-  options.history.push({
-    impl: implement.address,
-    receipts: {
-      impl: implement.receipt,
-      call: updated.receipt,
-    },
-    artifact,
-  })
-
-  await setDeployed(name, options)
 }

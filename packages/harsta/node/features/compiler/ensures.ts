@@ -1,18 +1,21 @@
 import path from 'pathe'
 import fs from 'fs-extra'
+import type { Environment } from 'hardhat/internal/core/runtime-environment'
 import { packRoot, userRoot } from '../../constants'
 
-export async function ensureDirectories() {
+export async function ensureDirectories(env: Environment, clean?: boolean) {
   const generateRoot = path.resolve(packRoot, './generated')
 
+  clean && await env.run('clean')
+
   await Promise.all([
-    fs.remove(path.resolve(generateRoot, './_fragments-factories')),
-    fs.remove(path.resolve(generateRoot, './_fragments-contracts')),
-    fs.remove(path.resolve(generateRoot, './_typechain-contracts')),
-    fs.remove(path.resolve(generateRoot, './_typechain-factories')),
-    fs.remove(path.resolve(generateRoot, './contracts')),
-    fs.remove(path.resolve(generateRoot, './factories')),
-    fs.remove(path.resolve(packRoot, './contracts')),
+    clean && fs.remove(path.resolve(generateRoot, './_fragments-factories')),
+    clean && fs.remove(path.resolve(generateRoot, './_fragments-contracts')),
+    clean && fs.remove(path.resolve(generateRoot, './_typechain-contracts')),
+    clean && fs.remove(path.resolve(generateRoot, './_typechain-factories')),
+    clean && fs.remove(path.resolve(generateRoot, './contracts')),
+    clean && fs.remove(path.resolve(generateRoot, './factories')),
+    clean && fs.remove(path.resolve(packRoot, './contracts')),
   ])
 
   await fs.ensureDir(path.resolve(userRoot, './contracts'))

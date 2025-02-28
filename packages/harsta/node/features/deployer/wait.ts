@@ -1,5 +1,5 @@
 import type { ContractFactory, ContractTransactionResponse, TransactionReceipt } from 'ethers'
-import { waitForTrans } from '../../utils'
+import { wait } from '../../utils'
 
 export async function waitForDeplTrans(
   [factory, args]: [ContractFactory, unknown[]] | [ContractFactory],
@@ -14,7 +14,7 @@ export async function waitForDeplTrans(
 
   confirming?.(transaction, args || [])
 
-  const receipt = await waitForTrans(transaction)
+  const receipt = await wait(transaction)
 
   if (!receipt)
     throw new Error('Error: transaction confirm failed')
@@ -41,7 +41,7 @@ export async function waitForCallTrans(
 
   confirming?.(transaction, args || [])
 
-  const receipt = await waitForTrans(transaction)
+  const receipt = await wait(transaction)
 
   if (!receipt)
     throw new Error('Error: transaction confirm failed')

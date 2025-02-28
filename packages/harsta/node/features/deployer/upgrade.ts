@@ -1,127 +1,56 @@
-import { BeaconProxyUnsupportedError, InitialOwnerUnsupportedKindError, getAdminAddress, getCode, getUpgradeInterfaceVersion, isEmptySlot } from '@openzeppelin/upgrades-core'
-import type { ContractFactory, Signer, TransactionResponse } from 'ethers'
+import { bold, cyan, dim, gray, green, strikethrough, white, yellow } from 'kolorist'
 import consola from 'consola'
-import type { DeploymentConfig } from '../../types'
-import { ethereumProvider } from '../environment'
-import { getERC1967Proxy, getTransparentUpgradeableProxyFactory } from './factories'
+import { environment } from '../imports'
+import { waitForCallTrans, waitForDeplTrans } from './wait'
+import { getDeployed, setDeployed } from './storage'
+import { callUpgrade } from './upgrade-call'
+import { resolveGeneratedFactory } from './resolver'
 
-import {
-  attachITransparentUpgradeableProxyV4,
-  attachITransparentUpgradeableProxyV5,
-  attachProxyAdminV4,
-  attachProxyAdminV5,
-} from './attach'
+export async function upgrade(name: string, target: string) {
+  const options = await getDeployed(name)
 
-export async function getUpgradeFactoryInstance(kind: string, signer: Signer) {
-  let factory: ContractFactory | undefined
+  if (!options)
+    throw new Error(`${name} not been deployed, please deploy first`)
 
-  switch (kind) {
-    case 'beacon': {
-      throw new BeaconProxyUnsupportedError()
-    }
-    case 'uups': {
-      factory = await getERC1967Proxy(signer)
-      break
-    }
-    case 'transparent': {
-      factory = await getTransparentUpgradeableProxyFactory(signer)
-      break
-    }
-  }
+  const Factory = resolveGeneratedFactory(name, target)
 
-  if (!factory)
-    throw new Error('Error: Not found proxy factory ')
+  const implement = await waitForDeplTrans(
+    [new Factory(environment.signer)],
+    (transaction) => {
+      consola.log(`${green(bold('TARGET'))}     ${white('>')}     ${white(`${name}:${target}.sol`)}`)
+      consola.log(`${green(bold('NETWORK'))}    ${white('>')}     ${white(environment.network.id)} ${gray(environment.network.alias)}`)
+      consola.log(`${green(bold('kIND'))}       ${white('>')}     ${white(options.kind)}`)
+      consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(implement)')}`)
+      consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
+      consola.log(`---------------------------------------------------------`)
+    },
+  )
 
-  return factory
-}
+  const updated = await waitForCallTrans(
+    [callUpgrade, [options.address, implement, environment.signer]],
+    (transaction) => {
+      consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(upgradeTo)')}`)
+      consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)
+      consola.log(`---------------------------------------------------------`)
+    },
+    () => {
+      consola.log(`${dim('Implement')}  ${white('>')}     ${strikethrough(gray(options.impl))}`)
+      consola.log(`                 ${cyan(implement.address)} ←`)
+      consola.log(`${dim('Proxy')}      ${white('>')}     ${cyan(options.address)}`)
+    },
+  )
 
-export async function getUpgradeFactoryArgs(
-  kind: string,
-  implement: string,
-  data: string,
-  signer: Signer,
-  options: DeploymentConfig = {},
-) {
-  const deployer = await signer.getAddress()
-  const owner = options.owner || deployer
+  const artifact = await environment.getArtifact(target)
 
-  let args: string[] = []
-  switch (kind) {
-    case 'beacon': {
-      throw new BeaconProxyUnsupportedError()
-    }
-    case 'uups': {
-      if (options.owner)
-        throw new InitialOwnerUnsupportedKindError(kind)
-      args = [implement, data]
-      break
-    }
-    case 'transparent': {
-      args = [implement, owner, data]
-      break
-    }
-  }
+  options.impl = implement
+  options.history.push({
+    impl: implement.address,
+    receipts: {
+      impl: implement.receipt,
+      call: updated.receipt,
+    },
+    artifact,
+  })
 
-  return args
-}
-
-export async function callUpgrade(address: string, implement: string, signer: Signer, call?: string) {
-  const adminAddress = await getAdminAddress(ethereumProvider, address)
-  const adminBytecode = await getCode(ethereumProvider, adminAddress)
-
-  const overrides = [] as any[]
-  let callback: (implement: string, call?: string) => Promise<TransactionResponse>
-
-  if (isEmptySlot(adminAddress) || adminBytecode === '0x') {
-    // No admin contract: use ITransparentUpgradeableProxy to get proxiable interface
-    const upgradeInterfaceVersion = await getUpgradeInterfaceVersion(ethereumProvider, address)
-    switch (upgradeInterfaceVersion) {
-      case '5.0.0': {
-        const proxy = await attachITransparentUpgradeableProxyV5(address, signer)
-        callback = (implement, call) => proxy.upgradeToAndCall(implement, call ?? '0x', ...overrides)
-        break
-      }
-      default: {
-        if (upgradeInterfaceVersion !== undefined) {
-          // Log as debug if the interface version is an unknown string.
-          // Do not throw an error because this could be caused by a fallback function.
-          consola.warn(
-            `Unknown UPGRADE_INTERFACE_VERSION ${upgradeInterfaceVersion} for proxy at ${address}. Expected 5.0.0`,
-          )
-        }
-        const proxy = await attachITransparentUpgradeableProxyV4(address, signer)
-        callback = (implement, call) =>
-          call ? proxy.upgradeToAndCall(implement, call) : proxy.upgradeTo(implement, ...overrides)
-        break
-      }
-    }
-  }
-  else {
-    // Admin contract: redirect upgrade call through it
-    const upgradeInterfaceVersion = await getUpgradeInterfaceVersion(ethereumProvider, adminAddress)
-    switch (upgradeInterfaceVersion) {
-      case '5.0.0': {
-        const admin = await attachProxyAdminV5(adminAddress, signer)
-        callback = (implement, call) => admin.upgradeAndCall(address, implement, call ?? '0x', ...overrides)
-        break
-      }
-      default: {
-        if (upgradeInterfaceVersion !== undefined) {
-          // Log as debug if the interface version is an unknown string.
-          // Do not throw an error because this could be caused by a fallback function.
-          consola.warn(
-            `Unknown UPGRADE_INTERFACE_VERSION ${upgradeInterfaceVersion} for proxy admin at ${adminAddress}. Expected 5.0.0`,
-          )
-        }
-        const admin = await attachProxyAdminV4(adminAddress, signer)
-        callback = (implement, call) =>
-          call
-            ? admin.upgradeAndCall(address, implement, call, ...overrides)
-            : admin.upgrade(address, implement, ...overrides)
-        break
-      }
-    }
-  }
-
-  return callback(implement, call)
+  await setDeployed(name, options)
 }

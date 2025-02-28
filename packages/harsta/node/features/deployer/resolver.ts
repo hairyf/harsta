@@ -1,9 +1,9 @@
 /* eslint-disable ts/no-require-imports */
 import path from 'pathe'
-import { packRoot } from '../../constants'
+import { packRoot, relativePaths } from '../../constants'
 
 export function resolveGeneratedFactory(name: string, target: string) {
-  const factories = resolvePackageFile('./generated/typechains/index.ts')
+  const factories = resolvePackageFile(`./generated/${relativePaths.generateFactoriesTypechainIndexTS}`)
   const Factory = factories[`${target}__factory`]
 
   if (!Factory)

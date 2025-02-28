@@ -1,7 +1,5 @@
 import type { Argv } from 'yargs'
-import consola from 'consola'
-import { confirm } from '@clack/prompts'
-import { deployer, environment, verifier } from '../features'
+import { deployer, environment } from '../features'
 import { getRuntimeRequiredNetwork } from './utils'
 
 export function registerDeployCommand(cli: Argv) {
@@ -36,39 +34,7 @@ export function registerDeployCommand(cli: Argv) {
 
       const deployments = deployer.parseConfigs(args.contracts)
 
-      if (!deployments.length) {
-        consola.warn('Lack of deployable contracts in the harsta.config, please fill in the deployments field')
-        return
-      }
-
-      consola.log('')
-
-      for (const deployment of deployments) {
-        if (!args.contracts && deployer.exists(deployment.name))
-          continue
-
-        if (deployer.exists(deployment.name)) {
-          const message = `${deployment.name} been deployed, are sure to overwrite the deployment?`
-          if (!await confirm({ message }))
-            continue
-        }
-
-        const address = deployment.kind
-          ? await deployer.deployUpgrade(deployment.name)
-          : await deployer.deploy(deployment.name)
-
-        consola.log('')
-
-        if (!args.verify)
-          return
-
-        const deployed = await deployer.getDeployed(deployment.name)
-        const options: verifier.VerifyOptions = {
-          arguments: (!deployed.kind && deployed.args) || undefined,
-          force: true,
-        }
-        await verifier.verify(address, options)
-      }
+      await deployer.deployMultiple(deployments, args)
     },
   )
 }

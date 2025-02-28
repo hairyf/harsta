@@ -37,6 +37,7 @@ export function registerNodeCommand(cli: Argv) {
 
       if (args.fork && !args.fork.startsWith('http'))
         args.fork = userConf.networks?.[args.fork].rpc
+
       const adapterProvider = await network.createProvider(config, 'hardhat', args, userConf.proxy)
       const server = await network.createServer(adapterProvider, args)
       const watcher = await network.createWatcher(config, adapterProvider)

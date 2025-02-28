@@ -17,6 +17,6 @@ export function applyFixed(provider: Provider) {
   }
 }
 
-export function waitForTrans(trans: ContractTransactionResponse | TransactionResponse) {
+export function wait(trans: ContractTransactionResponse | TransactionResponse) {
   return trans.getTransaction().then(trans => trans?.wait())
 }

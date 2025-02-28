@@ -26,21 +26,16 @@ export function registerVerifyCommand(cli: Argv) {
       const network = getRuntimeRequiredNetwork(args.network)
 
       await environment.initial(network)
-      const address = await resolveTargetAddress(args.target)
       const deployed = await deployer.getDeployed(args.target)
+      const address = await deployer.getAddress(args.target)
+
+      if (!address)
+        throw new Error(`The contract(${args.target}) has not been deployed and manual verification is not currently supported`)
+
       await verifier.verify(address, {
         arguments: (args.force && !deployed.kind && deployed.args) || undefined,
         force: args.force,
       })
     },
   )
-}
-
-async function resolveTargetAddress(target: string) {
-  if (target.startsWith('0x'))
-    return target
-  const deployment = await deployer.getDeployed(target)
-  if (!deployment)
-    throw new Error(`The contract(${target}) has not been deployed and manual verification is not currently supported`)
-  return deployment.address
 }

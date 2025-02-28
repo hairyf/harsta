@@ -32,7 +32,7 @@ export function registerUpdateCommand(cli: Argv) {
       await environment.initial(network)
       await environment.env.run('compile')
 
-      await deployer.upgradeDeploy(args.name!, args.target)
+      await deployer.upgrade(args.name!, args.target)
     },
   )
 }

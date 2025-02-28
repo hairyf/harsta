@@ -16,6 +16,7 @@ export default defineConfig(() => {
     minify: false,
     external: [
       /react/,
+      /wagmi/,
       ...Object.keys(pkg.devDependencies || {}),
       ...Object.keys(pkg.dependencies || {}),
     ],

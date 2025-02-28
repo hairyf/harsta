@@ -14,7 +14,11 @@ export function proxy<T extends object>(initObject?: T) {
       return true
     },
   }) as T
-  function update(object: T) {
+  function update(object?: T) {
+    if (!object) {
+      target = undefined
+      return
+    }
     Reflect.set(object, 'proxyUpdated', true)
     target = object
   }

@@ -35,7 +35,7 @@ export function loadConfigAndTasks(
 export function loadEnvArguments(network?: string) {
   return {
     ...getEnvHardhatArguments(HARDHAT_PARAM_DEFINITIONS, process.env),
-    config: path.resolve(packRoot, 'hardhat.config.ts'),
+    config: path.resolve(packRoot, 'hardhat.config.js'),
     network,
   }
 }

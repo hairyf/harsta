@@ -31,7 +31,7 @@ export function registerNodeCommand(cli: Argv) {
     async (args) => {
       process.env.NETWORK = 'hardhat'
       const config = resolveConfig(
-        path.resolve(packRoot, 'hardhat.config.ts'),
+        path.resolve(packRoot, 'hardhat.config.js'),
         transformHarstaConfigToHardhat(userConf),
       )
 

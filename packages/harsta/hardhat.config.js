@@ -1,7 +1,10 @@
-/* eslint-disable ts/no-require-imports */
-require('@nomicfoundation/hardhat-toolbox')
+require('@nomicfoundation/hardhat-verify')
 require('@openzeppelin/hardhat-upgrades')
+
 require('hardhat-abi-exporter')
+
+require('@typechain/hardhat')
+require('@typechain/ethers-v6')
 
 const { userConf } = require('./dist/constants')
 const { transformHarstaConfigToHardhat } = require('./dist/transform')

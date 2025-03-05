@@ -55,7 +55,7 @@
     "wagmi": "2.x"
   },
   "dependencies": {
-    "ethers": "^6"
+    "ethers": "^6.13.5"
   },
   "devDependencies": {
     "@types/react": "^18.3.18",

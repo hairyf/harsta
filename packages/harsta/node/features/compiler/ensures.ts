@@ -17,11 +17,17 @@ export async function ensureDirectories(env: Environment, clean?: boolean) {
     clean && fs.remove(path.resolve(generateRoot, './factories')),
     clean && fs.remove(path.resolve(packRoot, './contracts')),
   ])
+  const isExistsUserContracts = fs.existsSync(path.resolve(userRoot, './contracts'))
 
-  fs.existsSync(path.resolve(userRoot, './contracts')) && await fs.copy(
-    path.resolve(userRoot, './contracts'),
-    path.resolve(packRoot, './contracts'),
-  )
-  await fs.ensureDir(path.resolve(userRoot, './.harsta'))
-  await fs.ensureDir(path.resolve(packRoot, './contracts'))
+  if (isExistsUserContracts)
+    await fs.copy(path.resolve(userRoot, './contracts'), path.resolve(packRoot, './contracts'))
+
+  await Promise.all([
+    fs.ensureDir(path.resolve(generateRoot, './_fragments-factories')),
+    fs.ensureDir(path.resolve(generateRoot, './_fragments-contracts')),
+    fs.ensureDir(path.resolve(generateRoot, './_typechain-contracts')),
+    fs.ensureDir(path.resolve(generateRoot, './_typechain-factories')),
+    fs.ensureDir(path.resolve(generateRoot, './contracts')),
+    fs.ensureDir(path.resolve(generateRoot, './factories')),
+  ])
 }

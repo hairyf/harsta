@@ -2,7 +2,7 @@ import path from 'pathe'
 import { generatedRoot, packRoot, userRoot } from './root'
 
 export const relativePaths = {
-  userFragments: './config/externally',
+  userFragments: './config/fragments',
 
   userTest: './test',
   userSources: './contracts',
@@ -10,7 +10,7 @@ export const relativePaths = {
   harstaCache: './.harsta/cache',
   harstaArtifacts: './.harsta/artifacts',
   harstaDeployments: './.harsta/deployments',
-  harstaFragments: './config/fragments',
+  harstaFragments: '/.harsta/exports',
 
   packDeploy: './deploy',
   packSources: './contracts',

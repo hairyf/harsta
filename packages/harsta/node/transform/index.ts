@@ -1,4 +1,3 @@
-import type { ChainConfig } from '@nomicfoundation/hardhat-verify/types'
 import type { NetworkUserConfig as HardhatNetworkUserConfig, HardhatUserConfig } from 'hardhat/types'
 import type { Chain, HarstaUserConfig, NetworkUserConfig } from '../types'
 import { absolutePaths } from '../constants/paths'
@@ -8,7 +7,7 @@ export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfi
 
   const etherscan = {
     apiKey: {} as Record<string, string>,
-    customChains: [] as ChainConfig[],
+    customChains: [] as any[],
   }
 
   for (const alias in harstaUserConfig.networks) {

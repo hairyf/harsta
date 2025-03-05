@@ -1,8 +1,10 @@
 /* eslint-disable no-console */
-import type { LibraryToAddress } from '@nomicfoundation/hardhat-verify/internal/solc/artifacts'
 import { environment } from '../imports'
 import { fixedLinkingErrorLogger } from './fixed'
 
+export  type LibraryToAddress = {
+  [x: string]: string;
+}
 export interface VerifyOptions {
   libraries?: LibraryToAddress
   arguments?: any[]

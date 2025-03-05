@@ -23,15 +23,11 @@ const currency = {
 
 const config = defineConfig({
   solidity: {
+    settings: { evmVersion: 'shanghai' },
     version: '0.8.24',
-    settings: {
-      evmVersion: 'shanghai',
-    },
   },
-  defaultNetwork: 'geneva',
   namedAccounts: {
     deployer: { default: 0 },
-    owner: { default: 0 },
     verifier: { default: 1 },
   },
   networks: {

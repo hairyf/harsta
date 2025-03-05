@@ -18,10 +18,9 @@ export async function ensureDirectories(env: Environment, clean?: boolean) {
     clean && fs.remove(path.resolve(packRoot, './contracts')),
   ])
 
-  await fs.ensureDir(path.resolve(userRoot, './contracts'))
-
-  await fs.copy(
+  fs.existsSync(path.resolve(userRoot, './contracts')) && await fs.copy(
     path.resolve(userRoot, './contracts'),
     path.resolve(packRoot, './contracts'),
   )
+  await fs.ensureDir(path.resolve(packRoot, './contracts'))
 }

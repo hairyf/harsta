@@ -55,11 +55,10 @@
     "wagmi": "2.x"
   },
   "dependencies": {
-    "ethers": "^6.8.1"
+    "ethers": "^6.13.5"
   },
   "devDependencies": {
-    "@types/react": "^18.3.3",
-    "hardhat": "^2.19.0",
-    "typescript": "^5.2.2"
+    "@types/react": "^18.3.18",
+    "typescript": "^5.8.2"
   }
 }

@@ -1,6 +1,5 @@
-/* eslint-disable ts/ban-ts-comment */
-import { HardhatEthersProvider } from '@nomicfoundation/hardhat-ethers/internal/hardhat-ethers-provider'
-import { JsonRpcApiProvider, type Signer } from 'ethers'
+import { BrowserProvider, JsonRpcApiProvider, Network, type Signer } from 'ethers'
+
 import { userConf } from '../../constants'
 import type { ProviderForkingConfig } from '../network/provider'
 import { applyAgent, applyFixed } from '../../utils'
@@ -29,13 +28,16 @@ export async function initial(network: string, forking?: ProviderForkingConfig) 
 
   const ethereumProvider = environment.network.provider
 
+  // eslint-disable-next-line ts/ban-ts-comment
   // @ts-expect-error
   await environment.network.provider.init?.()
+  const provider = new BrowserProvider(
+    environment.network.provider,
+    new Network(network, config.id),
+    { staticNetwork: true },
+  )
 
-  const provider = new HardhatEthersProvider(environment.network.provider, network)
   const manager = createManager(environment)
-
-  Reflect.set(provider, 'chainId', config.id)
 
   updateNetwork({ ...config, alias: network })
   updateProvider(provider)

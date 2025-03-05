@@ -1,6 +1,7 @@
 import { confirm } from '@clack/prompts'
 import consola from 'consola'
 import { verifier } from '../imports'
+import { network } from '../environment'
 import { exists } from './exists'
 import { deploy, deployUpgrade } from './deploy'
 import { getDeployed } from './storage'
@@ -34,13 +35,13 @@ export async function deployMultiple(deployments: any[], options: Options = {}) 
 
     consola.log('')
 
-    if (!options.verify)
-      return
+    if (!options.verify || network.name === 'hardhat')
+      continue
 
     const deployed = await getDeployed(deployment.name)
 
     await verifier.verify(address, {
-      arguments: (!deployed.kind && deployed.args) || undefined,
+      arguments: (!deployed?.kind && deployed.args) || undefined,
       force: true,
     })
   }

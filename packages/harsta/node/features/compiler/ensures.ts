@@ -22,5 +22,6 @@ export async function ensureDirectories(env: Environment, clean?: boolean) {
     path.resolve(userRoot, './contracts'),
     path.resolve(packRoot, './contracts'),
   )
+  await fs.ensureDir(path.resolve(userRoot, './.harsta'))
   await fs.ensureDir(path.resolve(packRoot, './contracts'))
 }

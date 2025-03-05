@@ -1,7 +1,7 @@
 import path from 'pathe'
 import fs from 'fs-extra'
 import { loadFile, writeFile } from 'magicast'
-import { userRoot } from '../../constants'
+import { absolutePaths, userRoot } from '../../constants'
 import { network } from '../environment'
 
 export async function getAddresses() {
@@ -42,7 +42,7 @@ export async function setAddress(name: string, address: string) {
 }
 
 export async function getDeployed(name: string) {
-  const dirPath = path.resolve(`${userRoot}/config/deployments`, network.alias)
+  const dirPath = path.resolve(absolutePaths.harstaDeployments, network.alias)
   const filePath = path.resolve(dirPath, `${name}.json`)
   if (!fs.existsSync(filePath)) {
     return
@@ -52,7 +52,7 @@ export async function getDeployed(name: string) {
 }
 
 export async function setDeployed(name: string, deployed: any) {
-  const dirPath = path.resolve(`${userRoot}/config/deployments`, network.alias)
+  const dirPath = path.resolve(absolutePaths.harstaDeployments, network.alias)
   const filePath = path.resolve(dirPath, `${name}.json`)
   await fs.ensureDir(dirPath)
   await fs.writeJSON(filePath, deployed, { spaces: 2 })

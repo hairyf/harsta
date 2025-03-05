@@ -27,6 +27,7 @@ const config = defineConfig({
     version: '0.8.24',
   },
   namedAccounts: {
+    owner: { default: 0 },
     deployer: { default: 0 },
     verifier: { default: 1 },
   },

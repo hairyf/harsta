@@ -71,20 +71,17 @@
     "node": "^18.0.0 || >=20.0.0"
   },
   "scripts": {
-    "build": "rimraf dist && tsup --splitting",
+    "build": "tsup --splitting",
     "dev": "tsup --splitting --watch",
     "prepublishOnly": "npm run build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@clack/prompts": "^0.10.0",
-    "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "@nomicfoundation/hardhat-verify": "^2.0.8",
     "@openzeppelin/hardhat-upgrades": "^3.0.1",
     "@openzeppelin/upgrades-core": "^1.42.1",
     "consola": "^3.2.3",
-    "dotenv": "^16.4.5",
     "ethers": "^6.13.1",
     "fs-extra": "^11.2.0",
     "hardhat": "^2.22.6",
@@ -98,7 +95,7 @@
     "tsup": "^8.1.0",
     "tunnel": "^0.0.6",
     "typechain": "^8.3.2",
-    "unstorage": "^1.10.2",
+    "typescript": "^5.2.2",
     "vitest": "^2.0.4",
     "yargs": "^17.7.2"
   },
@@ -106,8 +103,6 @@
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.0.0",
     "@types/tunnel": "^0.0.6",
-    "@types/yargs": "^17.0.32",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.2.2"
+    "@types/yargs": "^17.0.32"
   }
 }

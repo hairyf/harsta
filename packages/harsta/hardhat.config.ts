@@ -2,7 +2,6 @@
 require('@nomicfoundation/hardhat-toolbox')
 require('@openzeppelin/hardhat-upgrades')
 require('hardhat-abi-exporter')
-require('hardhat-deploy')
 
 const { userConf } = require('./dist/constants')
 const { transformHarstaConfigToHardhat } = require('./dist/transform')

@@ -37,7 +37,7 @@ export async function fixture(tags: string[]) {
       await deployer.upgrade(config.name, config.target)
       const deployed = await deployer.getDeployed(config.name)
       console.log(``)
-      console.log(`fixture deployed ${config.name} - ${deployed.address}`)
+      console.log(`fixture upgraded ${config.name} - ${deployed.address}`)
       return
     }
 

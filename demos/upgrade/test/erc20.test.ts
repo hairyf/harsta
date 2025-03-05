@@ -1,5 +1,5 @@
 import { Wallet } from 'ethers'
-import { contracts, signer } from 'harsta/runtime'
+import { contracts, provider, signer } from 'harsta/runtime'
 import { fixture, initial, wait } from 'harsta/tests'
 import { describe, expect } from 'vitest'
 
@@ -7,6 +7,11 @@ await initial()
 await fixture(['ERC20', 'ERC20WithTransparent', 'ERC20WithUUPS'])
 
 describe('erc20 transparent and erc20 uups', () => {
+  it('provider get block number', async () => {
+    const blockNumber = await provider.getBlockNumber()
+    expect(blockNumber).toBeTypeOf('number')
+  })
+
   it('mint to random account and', async () => {
     const account = Wallet.createRandom()
 

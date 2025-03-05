@@ -14,12 +14,12 @@
   },
   "dependencies": {
     "@harsta/client": "workspace:^",
-    "@openzeppelin/contracts": "^5.0.2",
-    "@openzeppelin/contracts-upgradeable": "^5.0.2",
-    "ethers": "^6.13.1"
+    "@openzeppelin/contracts": "^5.2.0",
+    "@openzeppelin/contracts-upgradeable": "^5.2.0",
+    "ethers": "^6.13.5"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "harsta": "workspace:^"
   }
 }

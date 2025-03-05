@@ -15,7 +15,7 @@ export function printHardhatNetworkAccounts(config: HardhatConfig) {
   const networkConfig = config.networks[HARDHAT_NETWORK_NAME]
   const isDefaultConfig
     = !Array.isArray(networkConfig.accounts)
-    && networkConfig.accounts.mnemonic === HARDHAT_NETWORK_MNEMONIC
+      && networkConfig.accounts.mnemonic === HARDHAT_NETWORK_MNEMONIC
 
   consola.log('Accounts')
   consola.log('========')

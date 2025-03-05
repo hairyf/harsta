@@ -2,8 +2,8 @@
 import { environment } from '../imports'
 import { fixedLinkingErrorLogger } from './fixed'
 
-export  type LibraryToAddress = {
-  [x: string]: string;
+export interface LibraryToAddress {
+  [x: string]: string
 }
 export interface VerifyOptions {
   libraries?: LibraryToAddress

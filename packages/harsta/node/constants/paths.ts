@@ -10,7 +10,7 @@ export const relativePaths = {
   harstaCache: './.harsta/cache',
   harstaArtifacts: './.harsta/artifacts',
   harstaDeployments: './.harsta/deployments',
-  harstaFragments: '/.harsta/exports',
+  harstaFragments: './.harsta/exports',
 
   packDeploy: './deploy',
   packSources: './contracts',

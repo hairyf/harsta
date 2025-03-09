@@ -23,11 +23,11 @@ $ pnpm harsta create
 
 # OR
 
-$ pnpm install hardhat harsta @harsta/client
+$ pnpm install harsta @harsta/client
 
 # OR
 
-$ pnpm install hardhat harsta
+$ pnpm install harsta
 ```
 
 > Note: `@harsta/client` is optional. If installed, `harsta compile` will automatically be bundled into `@harsta/client`.
@@ -38,7 +38,7 @@ $ pnpm install hardhat harsta
 
 The location of contract source files and tests, similar to Hardhat.
 
-- `config/addresses.ts`
+- `config/addresses.ts | config/addresses.json`
 
 This file contains all contract addresses used in the project. You can customize this file, and it will be automatically updated after contract updates/deployments.
 
@@ -50,7 +50,7 @@ export default {
 }
 ```
 
-- `config/externally/*.json`
+- `config/fragments/*.json`
 
 Additional third-party contracts used, which will be compiled into contract instances.
 

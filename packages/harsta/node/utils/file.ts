@@ -1,8 +1,41 @@
 import fs from 'node:fs'
 import path from 'pathe'
 
-export function findDepthFilePaths(directory: string) {
-  function _findDepthFilePaths(directory: string, paths: string[] = []) {
+export function resolveFileConflicts(paths: string[]): string[] {
+  const fileGroups = new Map<string, string[]>()
+
+  for (const filePath of paths) {
+    const fileName = path.basename(filePath)
+    if (!fileGroups.has(fileName)) {
+      fileGroups.set(fileName, [])
+    }
+    fileGroups.get(fileName)!.push(filePath)
+  }
+
+  const newPaths: string[] = []
+
+  for (const [fileName, pathsWithSameName] of fileGroups.entries()) {
+    if (pathsWithSameName.length === 1) {
+      newPaths.push(pathsWithSameName[0])
+      continue
+    }
+    const externallyPaths = pathsWithSameName.filter(p => p.startsWith('externally/'))
+    if (externallyPaths.length === 0) {
+      newPaths.push(pathsWithSameName[0])
+      continue
+    }
+    if (externallyPaths.length > 1) {
+      const lastedPath = externallyPaths.at(-1)?.replace('externally/', 'fragments/')
+      console.warn(`Warning: Multiple files with the same name '${fileName}' found in externally directory. Using the lasted one: ${lastedPath}`)
+    }
+    newPaths.push(externallyPaths.at(-1)!)
+  }
+
+  return newPaths
+}
+
+export function findsFilePaths(directory: string) {
+  function _findsFilePaths(directory: string, paths: string[] = []) {
     try {
       const files = fs.readdirSync(directory)
 
@@ -11,7 +44,7 @@ export function findDepthFilePaths(directory: string) {
         const fileStat = fs.statSync(filePath)
 
         if (fileStat.isDirectory()) {
-          _findDepthFilePaths(filePath, paths)
+          _findsFilePaths(filePath, paths)
         }
         else {
           paths.push(filePath)
@@ -23,11 +56,10 @@ export function findDepthFilePaths(directory: string) {
       return []
     }
   }
-  const paths = _findDepthFilePaths(directory)
-  return paths.map(p => path.relative(directory, p).replace(/\\/g, '/'))
+  return _findsFilePaths(directory).map(p => path.relative(directory, p))
 }
 
-export function findFuzzyDepthFilePaths(directory: string, keyword: string) {
+export function findsFuzzFilePaths(directory: string, keyword: string) {
   const files = fs.readdirSync(directory)
   let foundFiles: string[] = []
   files.forEach((file) => {
@@ -35,7 +67,7 @@ export function findFuzzyDepthFilePaths(directory: string, keyword: string) {
     const fileStat = fs.statSync(filePath)
 
     if (fileStat.isDirectory()) {
-      const nestedFiles = findFuzzyDepthFilePaths(filePath, keyword)
+      const nestedFiles = findsFuzzFilePaths(filePath, keyword)
       foundFiles = foundFiles.concat(nestedFiles)
     }
     else {

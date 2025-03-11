@@ -1,7 +1,7 @@
 import path from 'pathe'
 import fs from 'fs-extra'
 import { absolutePaths, packRoot, relativePaths, userRoot } from '../../constants'
-import { findDepthFilePaths } from '../../utils'
+import { findsFilePaths, resolveFileConflicts } from '../../utils'
 
 export interface ContractFragment {
   path: string
@@ -36,8 +36,8 @@ export async function resolveUserAddresses() {
 
 export function resolveFragmentsPaths() {
   const generateRoot = path.resolve(packRoot, './generated')
-  const fragmentsFactoriesPaths = findDepthFilePaths(absolutePaths.generateFactoriesFragments)
-  const fragmentsContractsPaths = findDepthFilePaths(absolutePaths.generateContractsFragments)
+  const fragmentsFactoriesPaths = resolveFileConflicts(findsFilePaths(absolutePaths.generateFactoriesFragments))
+  const fragmentsContractsPaths = resolveFileConflicts(findsFilePaths(absolutePaths.generateContractsFragments))
 
   return {
     factories: generateFragmentData(

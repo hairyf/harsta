@@ -1,0 +1,17 @@
+{
+  "name": "demo-basic",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "harsta compile"
+  },
+  "dependencies": {
+    "@harsta/client": "workspace:^",
+    "@openzeppelin/contracts": "^5.2.0",
+    "ethers": "^6.13.5"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7",
+    "harsta": "workspace:^"
+  }
+}

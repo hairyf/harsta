@@ -1,25 +1,6 @@
-import type { Deploy } from 'harsta'
 import { defineConfig } from 'harsta'
 import { Wallet } from 'ethers'
-
 import 'dotenv/config'
-
-const deploy: Deploy = {
-  accounts: [
-    process.env.OWNER_PRIVATE_KEY || Wallet.createRandom().privateKey,
-    process.env.VERIFIER_PRIVATE_KEY || Wallet.createRandom().privateKey,
-  ],
-  saveDeployments: true,
-  allowUnlimitedContractSize: true,
-  gas: 'auto',
-  gasPrice: 'auto',
-}
-
-const currency = {
-  decimals: 18,
-  name: 'MXC Token',
-  symbol: 'MXC',
-}
 
 const config = defineConfig({
   solidity: {
@@ -47,24 +28,18 @@ const config = defineConfig({
         name: 'etherscan',
         url: 'https://geneva-explorer.moonchain.com',
       },
-      deploy,
+      deploy: {
+        accounts: [
+          process.env.OWNER_PRIVATE_KEY || Wallet.createRandom().privateKey,
+          process.env.VERIFIER_PRIVATE_KEY || Wallet.createRandom().privateKey,
+        ],
+        saveDeployments: true,
+        allowUnlimitedContractSize: true,
+        gas: 'auto',
+        gasPrice: 'auto',
+      },
       verify: {
         uri: 'https://geneva-explorer-v1.moonchain.com',
-      },
-    },
-    moonchain: {
-      name: 'Moonchain',
-      rpc: 'https://rpc.mxc.com',
-      id: 18686,
-      icon: 'https://raw.githubusercontent.com/MXCzkEVM/metadata/main/logo-circle.svg',
-      currency,
-      explorer: {
-        name: 'etherscan',
-        url: 'https://explorer.moonchain.com',
-      },
-      deploy,
-      verify: {
-        uri: 'https://explorer-v1.moonchain.com',
       },
     },
   },

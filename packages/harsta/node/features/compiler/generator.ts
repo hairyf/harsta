@@ -24,8 +24,8 @@ export async function generateAddresses() {
 export async function generateChains() {
   await fs.ensureDir(absolutePaths.generateChains)
 
+  const indexRowsPrefix = [`import addresses from '../addresses'\n`]
   const indexRows: string[] = []
-  indexRows.push(`import addresses from '../addresses'\n`)
   for (const alias in userConf.networks) {
     const network = userConf.networks[alias]
     const chain: Chain = transformNetworkToChain(network)
@@ -33,6 +33,9 @@ export async function generateChains() {
   }
   if (!indexRows.length)
     indexRows.push('export {}')
+
+  indexRows.unshift(...indexRowsPrefix)
+
   await fs.writeFile(absolutePaths.generateChainsIndexTS, indexRows.join('\n'))
 }
 

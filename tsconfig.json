@@ -8,7 +8,9 @@
     /* Bundler mode */
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-
+    "types": [
+      "vitest/globals"
+    ],
     /* Linting */
     "strict": true,
     "noFallthroughCasesInSwitch": true,

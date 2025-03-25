@@ -64,7 +64,7 @@ async function main() {
     root,
     {
       filter: src => !src.endsWith('package.json')
-      && !src.endsWith('node_modules'),
+        && !src.endsWith('node_modules'),
     },
   )
 

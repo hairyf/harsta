@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "harsta compile --clean",
-    "deploy": "harsta deploy --network geneva --verify",
+    "deploy": "harsta deploy --network hardhat --verify",
     "test": "harsta test --network hardhat",
     "verify": "harsta verify --network geneva --target ERC20WithTransparent",
     "update:transparent": "harsta update --network geneva ERC20WithTransparent --target ERC20WithTransparentV2",
@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@harsta/client": "workspace:^",
-    "@openzeppelin/contracts": "^5.2.0",
-    "@openzeppelin/contracts-upgradeable": "^5.2.0",
+    "@openzeppelin/contracts": "^5.3.0",
+    "@openzeppelin/contracts-upgradeable": "^5.3.0",
     "ethers": "^6.13.5"
   },
   "devDependencies": {
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.5.0",
     "harsta": "workspace:^"
   }
 }

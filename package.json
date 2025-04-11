@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.10.6",
   "private": true,
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.8.0",
   "description": "TODO",
   "license": "MIT",
   "keywords": [
@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.3",
-    "@types/node": "^20.17.23",
+    "@types/node": "^20.17.30",
     "bumpp": "^9.11.1",
-    "eslint": "^9.21.0",
+    "eslint": "^9.24.0",
     "unbuild": "^3.5.0",
-    "vitest": "^3.0.9"
+    "vitest": "^3.1.1"
   }
 }

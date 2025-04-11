@@ -9,12 +9,12 @@
     "test": "harsta test"
   },
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "^5.2.0",
+    "@openzeppelin/contracts-upgradeable": "^5.3.0",
     "ethers": "^6.13.5"
   },
   "devDependencies": {
     "harsta": "latest",
-    "typescript": "^5.5.3",
-    "vitest": "^3.0.7"
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
   }
 }

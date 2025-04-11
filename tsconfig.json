@@ -22,6 +22,7 @@
   },
   "exclude": [
     "demos",
-    "packages/create/template"
+    "packages/create/template",
+    "packages/harsta/generated"
   ]
 }

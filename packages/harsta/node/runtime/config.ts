@@ -11,9 +11,9 @@ if (process.env.FORK && process.env.FORK !== 'undefined') {
     const hardhatChainId = hardhatConf.networks[process.env.NETWORK!].chainId!
     const forkChainId = userConf.networks?.[process.env.FORK_CHAIN].id
     const forkChainRPC = userConf.networks?.[process.env.FORK_CHAIN].rpc
-    // @ts-expect-error
+    // @ts-ignore
     addresses[hardhatChainId] = addresses[hardhatChainId] ?? {}
-    // @ts-expect-error
+    // @ts-ignore
     Object.assign(addresses[hardhatChainId], addresses[forkChainId])
     forking.fork = forkChainRPC
   }

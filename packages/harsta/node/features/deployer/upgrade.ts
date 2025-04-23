@@ -25,9 +25,8 @@ export async function upgrade(name: string, target: string) {
       consola.log(`---------------------------------------------------------`)
     },
   )
-
   const updated = await waitForCallTrans(
-    [callUpgrade, [options.address, implement, environment.signer]],
+    [callUpgrade, [options.address, implement.address, environment.signer]],
     (transaction) => {
       consola.log(`${dim('Hash')}       ${white('>')}     ${yellow(transaction.hash)}${gray('(upgradeTo)')}`)
       consola.log(`${dim('From')}       ${white('>')}     ${gray(transaction.from)}`)

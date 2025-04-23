@@ -129,7 +129,7 @@ importers:
     devDependencies:
       harsta:
         specifier: latest
-        version: 0.10.4(@nomicfoundation/hardhat-ethers@3.0.8(ethers@6.13.5(bufferutil@4.0.8)(utf-8-validate@5.0.10))(hardhat@2.22.6(bufferutil@4.0.8)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.8.3))(typescript@5.8.3)(utf-8-validate@5.0.10)))(@types/debug@4.1.12)(@types/node@22.7.5)(bufferutil@4.0.8)(postcss@8.5.3)(terser@5.31.4)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.8.3))(typescript@5.8.3)(utf-8-validate@5.0.10)
+        version: 0.10.6(@nomicfoundation/hardhat-ethers@3.0.8(ethers@6.13.5(bufferutil@4.0.8)(utf-8-validate@5.0.10))(hardhat@2.22.6(bufferutil@4.0.8)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.8.3))(typescript@5.8.3)(utf-8-validate@5.0.10)))(@types/debug@4.1.12)(@types/node@22.7.5)(bufferutil@4.0.8)(postcss@8.5.3)(terser@5.31.4)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.8.3))(typescript@5.8.3)(utf-8-validate@5.0.10)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -4782,8 +4782,8 @@ packages:
       typescript:
         optional: true
 
-  harsta@0.10.4:
-    resolution: {integrity: sha512-OdSjqW5hogMHvamgjGy8Yk00zqPivbZ3C4thVddnoYL3SlXK1Gxntg9T1y6OM1BBD6XXUVjvViZX0ky8ZRBx/g==}
+  harsta@0.10.6:
+    resolution: {integrity: sha512-sd+BjoQ/T4/JIdOTtFkuHTXmHp6uqvYMp9Yo9pEWJPowxieaYBsCmyGFKtV1LbVuYgKZJZpLZh4sTpHGGzAUhw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
@@ -14111,7 +14111,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  harsta@0.10.4(@nomicfoundation/hardhat-ethers@3.0.8(ethers@6.13.5(bufferutil@4.0.8)(utf-8-validate@5.0.10))(hardhat@2.22.6(bufferutil@4.0.8)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.8.3))(typescript@5.8.3)(utf-8-validate@5.0.10)))(@types/debug@4.1.12)(@types/node@22.7.5)(bufferutil@4.0.8)(postcss@8.5.3)(terser@5.31.4)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.8.3))(typescript@5.8.3)(utf-8-validate@5.0.10):
+  harsta@0.10.6(@nomicfoundation/hardhat-ethers@3.0.8(ethers@6.13.5(bufferutil@4.0.8)(utf-8-validate@5.0.10))(hardhat@2.22.6(bufferutil@4.0.8)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.8.3))(typescript@5.8.3)(utf-8-validate@5.0.10)))(@types/debug@4.1.12)(@types/node@22.7.5)(bufferutil@4.0.8)(postcss@8.5.3)(terser@5.31.4)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.8.3))(typescript@5.8.3)(utf-8-validate@5.0.10):
     dependencies:
       '@clack/prompts': 0.10.1
       '@nomicfoundation/hardhat-verify': 2.0.13(hardhat@2.22.6(bufferutil@4.0.8)(ts-node@10.9.2(@types/node@22.7.5)(typescript@5.8.3))(typescript@5.8.3)(utf-8-validate@5.0.10))

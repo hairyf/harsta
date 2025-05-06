@@ -18,32 +18,6 @@
       "types": "./build/index.d.ts",
       "import": "./build/index.mjs",
       "require": "./build/index.js"
-    },
-    "./wagmi": {
-      "types": "./build/wagmi/index.d.ts",
-      "import": "./build/wagmi/index.mjs",
-      "require": "./build/wagmi/index.js"
-    },
-    "./chains": {
-      "types": "./build/chains/index.d.ts",
-      "import": "./build/chains/index.mjs",
-      "require": "./build/chains/index.js"
-    },
-    "./contracts": {
-      "types": "./build/contracts/index.d.ts",
-      "import": "./build/contracts/index.mjs",
-      "require": "./build/contracts/index.js"
-    },
-    "./factories": {
-      "types": "./build/factories/index.d.ts",
-      "import": "./build/factories/index.mjs",
-      "require": "./build/factories/index.js"
-    },
-    "./typechain/*": "./build/_typechain-contracts/*",
-    "./typechain": {
-      "types": "./build/_typechain-contracts/index.d.ts",
-      "import": "./build/_typechain-contracts/index.mjs",
-      "require": "./build/_typechain-contracts/index.js"
     }
   },
   "main": "./build/index.js",

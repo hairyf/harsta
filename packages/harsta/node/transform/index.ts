@@ -1,9 +1,10 @@
 import type { NetworkUserConfig as HardhatNetworkUserConfig, HardhatUserConfig } from 'hardhat/types'
 import type { Chain, HarstaUserConfig, NetworkUserConfig } from '../types'
-import { absolutePaths } from '../constants/paths'
+import { absolutePaths, relativePaths } from '../constants/paths'
 
 export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfig): HardhatUserConfig & { harsta: HarstaUserConfig } {
   const networks: Record<string, HardhatNetworkUserConfig> = {}
+  relativePaths.userSources = harstaUserConfig.paths?.sources || relativePaths.userSources
 
   const etherscan = {
     apiKey: {} as Record<string, string>,

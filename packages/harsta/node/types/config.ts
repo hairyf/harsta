@@ -3,7 +3,7 @@ import type { NetworkUserConfig } from './network'
 import type { UserDeploymentConfig } from './deployment'
 
 export interface HarstaPathsConfig {
-  fragments?: string
+  sources?: string
 }
 
 export interface HarstaProxyConfig {

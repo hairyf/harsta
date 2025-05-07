@@ -35,34 +35,76 @@ export const relativePaths = {
 }
 
 export const absolutePaths = {
-  userFragments: path.resolve(userRoot, relativePaths.userFragments),
+  get userFragments() {
+    return path.resolve(userRoot, relativePaths.userFragments)
+  },
 
-  userTest: path.resolve(userRoot, relativePaths.userTest),
-  userSources: path.resolve(userRoot, relativePaths.userSources),
+  get userTest() {
+    return path.resolve(userRoot, relativePaths.userTest)
+  },
+  get userSources() {
+    return path.resolve(userRoot, relativePaths.userSources)
+  },
 
-  harstaCache: path.resolve(userRoot, relativePaths.harstaCache),
-  harstaArtifacts: path.resolve(userRoot, relativePaths.harstaArtifacts),
-  harstaDeployments: path.resolve(userRoot, relativePaths.harstaDeployments),
-  harstaFragments: path.resolve(userRoot, relativePaths.harstaFragments),
+  get harstaCache() {
+    return path.resolve(userRoot, relativePaths.harstaCache)
+  },
+  get harstaArtifacts() {
+    return path.resolve(userRoot, relativePaths.harstaArtifacts)
+  },
+  get harstaDeployments() {
+    return path.resolve(userRoot, relativePaths.harstaDeployments)
+  },
+  get harstaFragments() {
+    return path.resolve(userRoot, relativePaths.harstaFragments)
+  },
 
-  packDeploy: path.resolve(packRoot, relativePaths.packDeploy),
-  packSources: path.resolve(packRoot, relativePaths.packSources),
+  get packDeploy() {
+    return path.resolve(packRoot, relativePaths.packDeploy)
+  },
+  get packSources() {
+    return path.resolve(packRoot, relativePaths.packSources)
+  },
 
-  generateFactories: path.resolve(generatedRoot, relativePaths.generateFactories),
-  generateContracts: path.resolve(generatedRoot, relativePaths.generateContracts),
+  get generateFactories() {
+    return path.resolve(generatedRoot, relativePaths.generateFactories)
+  },
+  get generateContracts() {
+    return path.resolve(generatedRoot, relativePaths.generateContracts)
+  },
 
-  generateFactoriesTypechain: path.resolve(generatedRoot, relativePaths.generateFactoriesTypechain),
-  generateContractsTypechain: path.resolve(generatedRoot, relativePaths.generateContractsTypechain),
+  get generateFactoriesTypechain() {
+    return path.resolve(generatedRoot, relativePaths.generateFactoriesTypechain)
+  },
+  get generateContractsTypechain() {
+    return path.resolve(generatedRoot, relativePaths.generateContractsTypechain)
+  },
 
-  generateFactoriesTypechainIndexTS: path.resolve(generatedRoot, relativePaths.generateFactoriesTypechainIndexTS),
-  generateContractsTypechainIndexTS: path.resolve(generatedRoot, relativePaths.generateContractsTypechainIndexTS),
+  get generateFactoriesTypechainIndexTS() {
+    return path.resolve(generatedRoot, relativePaths.generateFactoriesTypechainIndexTS)
+  },
+  get generateContractsTypechainIndexTS() {
+    return path.resolve(generatedRoot, relativePaths.generateContractsTypechainIndexTS)
+  },
 
-  generateFactoriesFragments: path.resolve(generatedRoot, relativePaths.generateFactoriesFragments),
-  generateContractsFragments: path.resolve(generatedRoot, relativePaths.generateContractsFragments),
+  get generateFactoriesFragments() {
+    return path.resolve(generatedRoot, relativePaths.generateFactoriesFragments)
+  },
+  get generateContractsFragments() {
+    return path.resolve(generatedRoot, relativePaths.generateContractsFragments)
+  },
 
-  generateChains: path.resolve(generatedRoot, relativePaths.generateChains),
-  generateChainsIndexTS: path.resolve(generatedRoot, relativePaths.generateChainsIndexTS),
+  get generateChains() {
+    return path.resolve(generatedRoot, relativePaths.generateChains)
+  },
+  get generateChainsIndexTS() {
+    return path.resolve(generatedRoot, relativePaths.generateChainsIndexTS)
+  },
 
-  generateAddresses: path.resolve(generatedRoot, relativePaths.generateAddresses),
-  generateAddressesIndexTS: path.resolve(generatedRoot, relativePaths.generateAddressesIndexTS),
+  get generateAddresses() {
+    return path.resolve(generatedRoot, relativePaths.generateAddresses)
+  },
+  get generateAddressesIndexTS() {
+    return path.resolve(generatedRoot, relativePaths.generateAddressesIndexTS)
+  },
 }

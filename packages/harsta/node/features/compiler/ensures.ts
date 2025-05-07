@@ -1,7 +1,7 @@
 import path from 'pathe'
 import fs from 'fs-extra'
 import type { Environment } from 'hardhat/internal/core/runtime-environment'
-import { packRoot, userRoot } from '../../constants'
+import { absolutePaths, packRoot } from '../../constants'
 
 export async function ensureDirectories(env: Environment, clean?: boolean) {
   const generateRoot = path.resolve(packRoot, './generated')
@@ -15,12 +15,13 @@ export async function ensureDirectories(env: Environment, clean?: boolean) {
     clean && fs.remove(path.resolve(generateRoot, './_typechain-factories')),
     clean && fs.remove(path.resolve(generateRoot, './contracts')),
     clean && fs.remove(path.resolve(generateRoot, './factories')),
-    clean && fs.remove(path.resolve(packRoot, './contracts')),
+    clean && fs.remove(absolutePaths.packSources),
   ])
-  const isExistsUserContracts = fs.existsSync(path.resolve(userRoot, './contracts'))
+
+  const isExistsUserContracts = fs.existsSync(absolutePaths.userSources)
 
   if (isExistsUserContracts)
-    await fs.copy(path.resolve(userRoot, './contracts'), path.resolve(packRoot, './contracts'))
+    await fs.copy(absolutePaths.userSources, absolutePaths.packSources)
 
   await Promise.all([
     fs.ensureDir(path.resolve(generateRoot, './_fragments-factories')),

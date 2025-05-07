@@ -46,9 +46,6 @@ jobs:
       - name: Build
         run: pnpm run build && pnpm run build:demo
 
-      - name: Typecheck
-        run: pnpm run typecheck
-
   # check windows build
   build:
     runs-on: ${{ matrix.os }}

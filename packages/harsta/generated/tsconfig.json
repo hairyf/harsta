@@ -12,8 +12,6 @@
     "skipLibCheck": true
   },
   "include": [
-    "mod-wagmi.d.ts",
-    "mod-react.d.ts",
     "**/*.ts"
   ],
   "exclude": [

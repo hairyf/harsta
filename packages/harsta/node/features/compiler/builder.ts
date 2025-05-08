@@ -3,7 +3,7 @@ import { dim } from 'kolorist'
 import fs from 'fs-extra'
 import consola from 'consola'
 import { clientRoot, generatedRoot, userRoot } from '../../constants'
-import { tscBinRoot, tsdownBinRoot } from './roots'
+import { tscBinRoot, tsupBinRoot } from './roots'
 import { exec } from './child_process'
 
 export async function buildDistributed(args: { clean?: boolean, output?: string }) {
@@ -15,7 +15,7 @@ export async function buildDistributed(args: { clean?: boolean, output?: string 
 
   args.clean && await fs.remove(outdir)
 
-  exec(`node ${tsdownBinRoot} --outDir ${outdir} --silent`, { stdio: 'inherit', cwd: generatedRoot })
+  exec(`node ${tsupBinRoot} --outDir ${outdir} --silent`, { stdio: 'inherit', cwd: generatedRoot })
   exec(`node ${tscBinRoot} --outDir ${outdir}`, { cwd: generatedRoot })
 
   const log = path.resolve(outdir, '../').endsWith('@harsta/client') ? '@harsta/client' : outdir

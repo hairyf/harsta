@@ -2,7 +2,9 @@ import path from 'pathe'
 import { generatedRoot, packRoot, userRoot } from './root'
 
 export const relativePaths = {
-  userFragments: './config/fragments',
+  userConfig: './config',
+  userFragments: '',
+  userAddresses: '',
 
   userTest: './test',
   userSources: './contracts',
@@ -10,7 +12,7 @@ export const relativePaths = {
   harstaCache: './.harsta/cache',
   harstaArtifacts: './.harsta/artifacts',
   harstaDeployments: './.harsta/deployments',
-  harstaFragments: './.harsta/exports',
+  harstaExports: './.harsta/exports',
 
   packDeploy: './deploy',
   packSources: './contracts',
@@ -35,8 +37,19 @@ export const relativePaths = {
 }
 
 export const absolutePaths = {
+  get userConfig() {
+    return path.resolve(userRoot, relativePaths.userConfig)
+  },
+
   get userFragments() {
-    return path.resolve(userRoot, relativePaths.userFragments)
+    return relativePaths.userFragments
+      ? path.resolve(userRoot, relativePaths.userFragments)
+      : path.resolve(userRoot, `${relativePaths.userConfig}/fragments`)
+  },
+  get userAddresses() {
+    return relativePaths.userAddresses
+      ? path.resolve(userRoot, relativePaths.userAddresses)
+      : path.resolve(userRoot, `${relativePaths.userConfig}/addresses`)
   },
 
   get userTest() {
@@ -55,8 +68,8 @@ export const absolutePaths = {
   get harstaDeployments() {
     return path.resolve(userRoot, relativePaths.harstaDeployments)
   },
-  get harstaFragments() {
-    return path.resolve(userRoot, relativePaths.harstaFragments)
+  get harstaExports() {
+    return path.resolve(userRoot, relativePaths.harstaExports)
   },
 
   get packDeploy() {

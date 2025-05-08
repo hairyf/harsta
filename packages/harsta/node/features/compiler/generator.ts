@@ -50,7 +50,7 @@ export async function generateFragments(fragmentsPaths: ContractFragment[]) {
   await fs.ensureDir(absolutePaths.generateContractsFragments)
   await fs.copy(
     absolutePaths.generateFactoriesFragments,
-    absolutePaths.harstaFragments,
+    absolutePaths.harstaExports,
   )
 
   await fs.writeFile(

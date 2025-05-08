@@ -5,6 +5,8 @@ import { absolutePaths, relativePaths } from '../constants/paths'
 export function transformHarstaConfigToHardhat(harstaUserConfig: HarstaUserConfig): HardhatUserConfig & { harsta: HarstaUserConfig } {
   const networks: Record<string, HardhatNetworkUserConfig> = {}
   relativePaths.userSources = harstaUserConfig.paths?.sources || relativePaths.userSources
+  relativePaths.userConfig = harstaUserConfig.paths?.config || relativePaths.userConfig
+  relativePaths.harstaExports = harstaUserConfig.paths?.exports || relativePaths.harstaExports
 
   const etherscan = {
     apiKey: {} as Record<string, string>,

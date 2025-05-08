@@ -3,6 +3,8 @@ import { defineConfig } from 'harsta'
 const config = defineConfig({
   paths: {
     sources: './src/contracts',
+    exports: './exports',
+    config: './src/config',
   },
   solidity: {
     settings: { evmVersion: 'shanghai' },

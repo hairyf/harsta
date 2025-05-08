@@ -5,8 +5,8 @@ import { absolutePaths, userRoot } from '../../constants'
 import { network } from '../environment'
 
 export async function getAddresses() {
-  const addrFile = path.resolve(userRoot, './config/addresses.ts')
-  const jsonFile = path.resolve(userRoot, './config/addresses.json')
+  const addrFile = `${absolutePaths.userAddresses}.ts`
+  const jsonFile = `${absolutePaths.userAddresses}.json`
 
   if (fs.existsSync(addrFile))
     return loadFile(addrFile).then(mod => mod.exports.default)
@@ -22,8 +22,8 @@ export async function getAddress(nameOrAddress: string): Promise<string | undefi
 }
 
 export async function setAddress(name: string, address: string) {
-  const addrFile = path.resolve(userRoot, './config/addresses.ts')
-  const jsonFile = path.resolve(userRoot, './config/addresses.json')
+  const addrFile = `${absolutePaths.userAddresses}.ts`
+  const jsonFile = `${absolutePaths.userAddresses}.json`
 
   if (fs.existsSync(addrFile)) {
     const mod = await loadFile(addrFile)

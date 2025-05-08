@@ -3,7 +3,24 @@ import type { NetworkUserConfig } from './network'
 import type { UserDeploymentConfig } from './deployment'
 
 export interface HarstaPathsConfig {
+  /**
+   * contracts directory
+   *
+   * @default 'contracts'
+   */
   sources?: string
+  /**
+   * addresses and external fragments directory
+   *
+   * @default 'config'
+   */
+  config?: string
+  /**
+   * contracts exports abi files path
+   *
+   * @default '.harsta/exports'
+   */
+  exports?: string
 }
 
 export interface HarstaProxyConfig {

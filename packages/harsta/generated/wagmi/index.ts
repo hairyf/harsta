@@ -2,11 +2,12 @@
 import { useEffect } from 'react'
 import { useAccount, useChainId } from 'wagmi'
 import { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Network } from 'ethers'
+
 import { chain, updateProvider, updateSigner } from '../defaults'
 import * as chains from '../chains'
 import type { Chain } from '../types'
 
-export function SubscribeWagmiConfig() {
+export function SubscribeWagmiConfig(props: { children?: React.ReactNode }) {
   const account = useAccount()
   const chainId = useChainId()
   useEffect(
@@ -40,5 +41,5 @@ export function SubscribeWagmiConfig() {
     },
     [chainId],
   )
-  return null
+  return (props.children || null) as React.ReactNode
 }

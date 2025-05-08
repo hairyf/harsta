@@ -39,11 +39,11 @@
       "import": "./build/factories/index.mjs",
       "require": "./build/factories/index.js"
     },
-    "./typechain/*": "./build/_typechain-contracts/*",
+    "./typechain/*": "./build/typechains/contracts/*",
     "./typechain": {
-      "types": "./build/_typechain-contracts/index.d.ts",
-      "import": "./build/_typechain-contracts/index.mjs",
-      "require": "./build/_typechain-contracts/index.js"
+      "types": "./build/typechains/contracts/index.d.ts",
+      "import": "./build/typechains/contracts/index.mjs",
+      "require": "./build/typechains/contracts/index.js"
     }
   },
   "main": "./build/index.js",

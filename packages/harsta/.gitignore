@@ -6,12 +6,12 @@ node_modules
 /contracts
 
 # TypeChain files
-generated/_typechain-factories
-generated/_typechain-contracts
+generated/typechains
+generated/typechains
 
 # Fragments files
-generated/_fragments-contracts
-generated/_fragments-factories
+generated/Fragments
+generated/fragments
 
 # Constructs files
 generated/factories

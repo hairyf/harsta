@@ -4,17 +4,15 @@ import type { Environment } from 'hardhat/internal/core/runtime-environment'
 import { absolutePaths, packRoot } from '../../constants'
 
 export async function ensureDirectories(env: Environment, clean?: boolean) {
-  const generateRoot = path.resolve(packRoot, './generated')
-
   clean && await env.run('clean')
 
   await Promise.all([
-    clean && fs.remove(path.resolve(generateRoot, './_fragments-factories')),
-    clean && fs.remove(path.resolve(generateRoot, './_fragments-contracts')),
-    clean && fs.remove(path.resolve(generateRoot, './_typechain-contracts')),
-    clean && fs.remove(path.resolve(generateRoot, './_typechain-factories')),
-    clean && fs.remove(path.resolve(generateRoot, './contracts')),
-    clean && fs.remove(path.resolve(generateRoot, './factories')),
+    clean && fs.remove(absolutePaths.generateFactoriesFragments),
+    clean && fs.remove(absolutePaths.generateContractsFragments),
+    clean && fs.remove(absolutePaths.generateFactoriesTypechain),
+    clean && fs.remove(absolutePaths.generateContractsTypechain),
+    clean && fs.remove(absolutePaths.generateFactories),
+    clean && fs.remove(absolutePaths.generateContracts),
     clean && fs.remove(absolutePaths.packSources),
   ])
 
@@ -24,11 +22,11 @@ export async function ensureDirectories(env: Environment, clean?: boolean) {
     await fs.copy(absolutePaths.userSources, absolutePaths.packSources)
 
   await Promise.all([
-    fs.ensureDir(path.resolve(generateRoot, './_fragments-factories')),
-    fs.ensureDir(path.resolve(generateRoot, './_fragments-contracts')),
-    fs.ensureDir(path.resolve(generateRoot, './_typechain-contracts')),
-    fs.ensureDir(path.resolve(generateRoot, './_typechain-factories')),
-    fs.ensureDir(path.resolve(generateRoot, './contracts')),
-    fs.ensureDir(path.resolve(generateRoot, './factories')),
+    fs.ensureDir(absolutePaths.generateFactoriesFragments),
+    fs.ensureDir(absolutePaths.generateContractsFragments),
+    fs.ensureDir(absolutePaths.generateFactoriesTypechain),
+    fs.ensureDir(absolutePaths.generateContractsTypechain),
+    fs.ensureDir(absolutePaths.generateFactories),
+    fs.ensureDir(absolutePaths.generateContracts),
   ])
 }

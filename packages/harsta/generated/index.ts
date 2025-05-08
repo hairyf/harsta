@@ -1,5 +1,5 @@
-export * as typechain from './_typechain-contracts'
-export * as fragments from './_fragments-contracts'
+export * as typechain from './typechains/contracts'
+export * as fragments from './fragments/contracts'
 export * as factories from './factories'
 export * as contracts from './contracts'
 export * as chains from './chains'

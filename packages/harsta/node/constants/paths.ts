@@ -20,14 +20,14 @@ export const relativePaths = {
   generateFactories: './factories',
   generateContracts: './contracts',
 
-  generateFactoriesTypechain: './_typechain-factories',
-  generateContractsTypechain: './_typechain-contracts',
+  generateFactoriesTypechain: './typechains/factories',
+  generateContractsTypechain: './typechains/contracts',
 
-  generateFactoriesTypechainIndexTS: './_typechain-factories/index.ts',
-  generateContractsTypechainIndexTS: './_typechain-contracts/index.ts',
+  generateFactoriesTypechainIndexTS: './typechains/factories/index.ts',
+  generateContractsTypechainIndexTS: './typechains/contracts/index.ts',
 
-  generateFactoriesFragments: './_fragments-factories',
-  generateContractsFragments: './_fragments-contracts',
+  generateFactoriesFragments: './fragments/factories',
+  generateContractsFragments: './fragments/contracts',
 
   generateChains: './chains',
   generateChainsIndexTS: './chains/index.ts',

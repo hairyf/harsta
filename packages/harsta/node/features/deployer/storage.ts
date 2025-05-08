@@ -1,7 +1,7 @@
 import path from 'pathe'
 import fs from 'fs-extra'
 import { loadFile, writeFile } from 'magicast'
-import { absolutePaths, userRoot } from '../../constants'
+import { absolutePaths } from '../../constants'
 import { network } from '../environment'
 
 export async function getAddresses() {

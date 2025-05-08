@@ -1,6 +1,6 @@
 import path from 'pathe'
 import fs from 'fs-extra'
-import { absolutePaths, packRoot, relativePaths, userRoot } from '../../constants'
+import { absolutePaths, packRoot, relativePaths } from '../../constants'
 import { findsFilePaths, resolveFileConflicts } from '../../utils'
 
 export interface ContractFragment {

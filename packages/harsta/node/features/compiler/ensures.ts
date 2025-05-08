@@ -1,7 +1,6 @@
-import path from 'pathe'
 import fs from 'fs-extra'
 import type { Environment } from 'hardhat/internal/core/runtime-environment'
-import { absolutePaths, packRoot } from '../../constants'
+import { absolutePaths } from '../../constants'
 
 export async function ensureDirectories(env: Environment, clean?: boolean) {
   clean && await env.run('clean')

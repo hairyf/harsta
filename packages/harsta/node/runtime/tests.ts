@@ -30,9 +30,6 @@ export async function fixture(tags: string[]) {
   addresses[environment.network.id] = addresses[environment.network.id] ?? {}
 
   for (const config of configs) {
-    if (addresses[environment.network.id][config.name])
-      return
-
     if (config.update) {
       await deployer.upgrade(config.name, config.target)
       const deployed = await deployer.getDeployed(config.name)
